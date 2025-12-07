@@ -1,80 +1,97 @@
 import 'package:flutter/material.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:porrapp_frontend/websocketmanager.dart';
 
 class WebSocketTestPage extends StatefulWidget {
+  const WebSocketTestPage({super.key});
+
   @override
-  _WebSocketTestPageState createState() => _WebSocketTestPageState();
+  State<WebSocketTestPage> createState() => _ChatPageState();
 }
 
-class _WebSocketTestPageState extends State<WebSocketTestPage> {
-  late WebSocketChannel channel;
-  String receivedMsg = "";
+class _ChatPageState extends State<WebSocketTestPage> {
+  late WebSocketManager ws;
+  final TextEditingController _controller = TextEditingController();
+  final List<String> messages = [];
 
   @override
   void initState() {
     super.initState();
 
-    channel = WebSocketChannel.connect(
-      Uri.parse("ws://192.168.1.14:8000/ws/chat/general/"),
-    );
+    ws = WebSocketManager("ws://192.168.1.14:8000/ws/chat/general/");
+    ws.connect();
 
-    channel.stream.listen((message) {
-      print("Mensaje recibido: $message");
+    ws.messages.listen((msg) {
       setState(() {
-        receivedMsg = message;
+        messages.add(msg);
       });
     });
   }
 
+  void sendMessage() {
+    final text = _controller.text.trim();
+    if (text.isEmpty) return;
+
+    final jsonMsg = {"message": "$text"};
+    ws.sendJson(jsonMsg);
+
+    _controller.clear();
+  }
+
   @override
   void dispose() {
-    channel.sink.close();
+    ws.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController();
-
     return Scaffold(
-      appBar: AppBar(title: const Text("WebSocket Test")),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
+      appBar: AppBar(
+        title: Row(
           children: [
-            // Status connection
-            Row(
+            Icon(
+              ws.isConnected ? Icons.circle : Icons.circle_outlined,
+              color: ws.isConnected ? Colors.green : Colors.red,
+              size: 14,
+            ),
+            const SizedBox(width: 8),
+            Text(ws.isConnected ? "Conectado" : "Desconectado"),
+          ],
+        ),
+      ),
+
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: messages.length,
+              itemBuilder: (_, i) {
+                return ListTile(title: Text(messages[i]));
+              },
+            ),
+          ),
+
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+            color: Colors.grey[200],
+            child: Row(
               children: [
-                const Text("Estado de la conexión: "),
-                Icon(
-                  channel.closeCode == null ? Icons.check_circle : Icons.error,
-                  color: channel.closeCode == null ? Colors.green : Colors.red,
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    decoration: const InputDecoration(
+                      hintText: "Escribe un mensaje",
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.send),
+                  onPressed: sendMessage,
                 ),
               ],
             ),
-            Text("Último mensaje recibido:"),
-            Text(
-              receivedMsg,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 20),
-
-            TextField(
-              controller: controller,
-              decoration: const InputDecoration(labelText: "Mensaje a enviar"),
-            ),
-
-            const SizedBox(height: 20),
-
-            ElevatedButton(
-              child: const Text("Enviar"),
-              onPressed: () {
-                channel.sink.add(controller.text);
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
