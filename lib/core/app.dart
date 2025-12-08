@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:porrapp_frontend/core/bloc_providers.dart';
+
+import 'package:porrapp_frontend/core/design/colors.design.dart';
 import 'package:porrapp_frontend/core/env/env.dart';
 import 'package:porrapp_frontend/core/injection.dart';
-import 'package:porrapp_frontend/websocketpage.dart';
+import 'package:porrapp_frontend/core/router/router.dart';
 
 Future<void> bootstrap({required String env}) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,12 +25,15 @@ class PorraApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: envConfig.appName,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    return MultiBlocProvider(
+      providers: blocProviders(),
+      child: MaterialApp.router(
+        routerConfig: appRouter,
+        title: envConfig.appName,
+        theme: ThemeData(useMaterial3: true, colorScheme: lightScheme()),
+        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkScheme()),
+        themeMode: ThemeMode.system,
       ),
-      home: WebSocketTestPage(),
     );
   }
 }

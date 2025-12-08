@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:porrapp_frontend/websocketmanager.dart';
 
 class WebSocketTestPage extends StatefulWidget {
+  static const String routeName = "websocket_test";
+
   const WebSocketTestPage({super.key});
 
   @override
