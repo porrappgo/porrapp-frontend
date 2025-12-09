@@ -1,17 +1,17 @@
 import 'dart:convert';
 
-TokenResponse tokenResponseFromJson(String str) =>
-    TokenResponse.fromJson(json.decode(str));
+AuthTokenModel authTokenModelFromJson(String str) =>
+    AuthTokenModel.fromJson(json.decode(str));
 
-String tokenResponseToJson(TokenResponse data) => json.encode(data.toJson());
+String authTokenModelToJson(AuthTokenModel data) => json.encode(data.toJson());
 
-class TokenResponse {
+class AuthTokenModel {
   String token;
 
-  TokenResponse({required this.token});
+  AuthTokenModel({required this.token});
 
-  factory TokenResponse.fromJson(Map<String, dynamic> json) =>
-      TokenResponse(token: json["token"]);
+  factory AuthTokenModel.fromJson(Map<String, dynamic> json) =>
+      AuthTokenModel(token: json["token"]);
 
   Map<String, dynamic> toJson() => {"token": token};
 }

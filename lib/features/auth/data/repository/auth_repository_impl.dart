@@ -6,13 +6,13 @@ class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl();
 
   @override
-  Future<Resource<TokenResponse>> getToken(String account, String phone) {
+  Future<Resource<AuthTokenModel>> getToken(String account, String phone) {
     // TODO: implement getToken
     throw UnimplementedError();
   }
 
   @override
-  Future<Resource<AuthResponse>> login() {
+  Future<Resource<AuthModel>> login() {
     // TODO: implement login
     throw UnimplementedError();
   }

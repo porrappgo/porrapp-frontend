@@ -1,18 +1,17 @@
 import 'dart:convert';
 
-AuthResponse authResponseFromJson(String str) =>
-    AuthResponse.fromJson(json.decode(str));
+AuthModel authModelFromJson(String str) => AuthModel.fromJson(json.decode(str));
 
-String authResponseToJson(AuthResponse data) => json.encode(data.toJson());
+String authModelToJson(AuthModel data) => json.encode(data.toJson());
 
-class AuthResponse {
-  String account;
-  String phone;
+class AuthModel {
+  String email;
+  String password;
 
-  AuthResponse({required this.account, required this.phone});
+  AuthModel({required this.email, required this.password});
 
-  factory AuthResponse.fromJson(Map<String, dynamic> json) =>
-      AuthResponse(account: json["account"], phone: json["phone"]);
+  factory AuthModel.fromJson(Map<String, dynamic> json) =>
+      AuthModel(email: json["email"], password: json["password"]);
 
-  Map<String, dynamic> toJson() => {"account": account, "phone": phone};
+  Map<String, dynamic> toJson() => {"email": email, "password": password};
 }
