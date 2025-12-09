@@ -42,7 +42,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onAuthSaveUserSession(
     AuthSaveUserSession event,
     Emitter<AuthState> emit,
-  ) {}
+  ) async {
+    var response = state.response as Success<AuthTokenModel>;
+
+    print('AuthBloc - Saving user session with token: ${response.data.token}');
+    await authUseCases.saveUserSession.run(
+      state.email.value,
+      response.data.token,
+    );
+  }
 
   void _onEmailChanged(EmailChanged event, Emitter<AuthState> emit) {
     print('AuthBloc - Email changed: ${event.email.value}');

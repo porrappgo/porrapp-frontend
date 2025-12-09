@@ -5,7 +5,7 @@ class SaveUserUsecase {
 
   SaveUserUsecase(this.repository);
 
-  run(String account, String phone, String token) async {
-    return await repository.saveUserSession(account, phone, token);
+  run(String email, String token) async {
+    return await repository.saveUserSession(email, token);
   }
 }

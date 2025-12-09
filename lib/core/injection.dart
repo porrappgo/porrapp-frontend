@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 import 'package:porrapp_frontend/core/env/env.dart';
+import 'package:porrapp_frontend/core/secure/secure_storage.dart';
 import 'package:porrapp_frontend/features/auth/data/datasource/remote/auth_service.dart';
 import 'package:porrapp_frontend/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:porrapp_frontend/features/auth/domain/repository/auth_repository.dart';
@@ -24,12 +26,24 @@ Future<void> configureDependencies(Env envConfig) async {
       ),
     ),
   );
+
+  // Secure Storage
+  locator.registerLazySingleton<FlutterSecureStorage>(
+    () => const FlutterSecureStorage(),
+  );
+  locator.registerLazySingleton<ISecureStorageService>(
+    () => SecureStorage(locator<FlutterSecureStorage>()),
+  );
+
   // Services
   locator.registerLazySingleton<AuthService>(() => AuthService(locator()));
 
   // Repositories
   locator.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(locator<AuthService>()),
+    () => AuthRepositoryImpl(
+      locator<AuthService>(),
+      locator<ISecureStorageService>(),
+    ),
   );
 
   // Use Cases
