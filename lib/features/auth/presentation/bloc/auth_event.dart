@@ -20,6 +20,10 @@ class AuthFormReset extends AuthEvent {
   const AuthFormReset();
 }
 
+class AuthResetResource extends AuthEvent {
+  const AuthResetResource();
+}
+
 class AuthSaveUserSession extends AuthEvent {
   final AuthTokenModel response;
 
@@ -29,22 +33,22 @@ class AuthSaveUserSession extends AuthEvent {
   List<Object?> get props => [response];
 }
 
-class AccountChanged extends AuthEvent {
-  final BlocFormItem account;
+class EmailChanged extends AuthEvent {
+  final BlocFormItem email;
 
-  const AccountChanged({required this.account});
+  const EmailChanged({required this.email});
 
   @override
-  List<Object?> get props => [account];
+  List<Object?> get props => [email];
 }
 
-class PhoneChanged extends AuthEvent {
-  final BlocFormItem phone;
+class PasswordChanged extends AuthEvent {
+  final BlocFormItem password;
 
-  const PhoneChanged({required this.phone});
+  const PasswordChanged({required this.password});
 
   @override
-  List<Object?> get props => [phone];
+  List<Object?> get props => [password];
 }
 
 class AuthSubmitted extends AuthEvent {

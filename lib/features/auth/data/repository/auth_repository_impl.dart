@@ -1,14 +1,20 @@
 import 'package:porrapp_frontend/core/util/resource.dart';
+import 'package:porrapp_frontend/features/auth/data/datasource/remote/auth_service.dart';
 import 'package:porrapp_frontend/features/auth/domain/model/model.dart';
 import 'package:porrapp_frontend/features/auth/domain/repository/auth_repository.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
-  AuthRepositoryImpl();
+  final AuthService _authService;
+
+  AuthRepositoryImpl(this._authService);
 
   @override
-  Future<Resource<AuthTokenModel>> getToken(String account, String phone) {
-    // TODO: implement getToken
-    throw UnimplementedError();
+  Future<Resource<AuthTokenModel>> getToken(
+    String account,
+    String phone,
+  ) async {
+    /// Fetch user data
+    return await _authService.getToken(account, phone);
   }
 
   @override
