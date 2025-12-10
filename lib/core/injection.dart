@@ -9,6 +9,9 @@ import 'package:porrapp_frontend/features/auth/data/datasource/remote/auth_servi
 import 'package:porrapp_frontend/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:porrapp_frontend/features/auth/domain/repository/auth_repository.dart';
 import 'package:porrapp_frontend/features/auth/domain/usecases/usecases.dart';
+import 'package:porrapp_frontend/features/competitions/data/datasource/remote/competition_service.dart';
+import 'package:porrapp_frontend/features/competitions/data/repository/competition_repository_impl.dart';
+import 'package:porrapp_frontend/features/competitions/domain/repository/competition_repository.dart';
 import 'package:porrapp_frontend/features/competitions/domain/usecases/usecases.dart';
 import 'package:porrapp_frontend/features/splash/domain/usecases/usecases.dart';
 
@@ -37,11 +40,21 @@ Future<void> configureDependencies(Env envConfig) async {
 
   // Services
   locator.registerLazySingleton<AuthService>(() => AuthService(locator()));
+  locator.registerLazySingleton<CompetitionService>(
+    () => CompetitionService(locator()),
+  );
 
   // Repositories
   locator.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
       locator<AuthService>(),
+      locator<ISecureStorageService>(),
+    ),
+  );
+
+  locator.registerLazySingleton<CompetitionRepository>(
+    () => CompetitionRepositoryImpl(
+      locator<CompetitionService>(),
       locator<ISecureStorageService>(),
     ),
   );

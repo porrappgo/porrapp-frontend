@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:porrapp_frontend/features/auth/presentation/auth_page.dart';
+import 'package:porrapp_frontend/features/competitions/presentation/competition_page.dart';
 import 'package:porrapp_frontend/features/splash/presentation/bloc/bloc.dart';
-import 'package:porrapp_frontend/websocketpage.dart';
 
 class SplashPage extends StatelessWidget {
   static const String routeName = 'splash';
@@ -29,7 +29,7 @@ class SplashPage extends StatelessWidget {
             if (!isLoading && !isLoggedIn) {
               context.go('/${AuthPage.routeName}');
             } else if (!isLoading && isLoggedIn) {
-              context.go('/${WebSocketTestPage.routeName}');
+              context.go('/${CompetitionPage.routeName}');
             }
           },
           child: BlocBuilder<SplashBloc, SplashState>(

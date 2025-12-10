@@ -11,11 +11,11 @@ String competitionModelToJson(List<CompetitionModel> data) =>
 class CompetitionModel {
   int id;
   String name;
-  int year;
-  String hostCountry;
-  String logo;
-  DateTime createdAt;
-  DateTime updatedAt;
+  int? year;
+  String? hostCountry;
+  String? logo;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   CompetitionModel({
     required this.id,
@@ -34,8 +34,12 @@ class CompetitionModel {
         year: json["year"],
         hostCountry: json["host_country"],
         logo: json["logo"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -44,7 +48,7 @@ class CompetitionModel {
     "year": year,
     "host_country": hostCountry,
     "logo": logo,
-    "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
+    "created_at": createdAt?.toIso8601String(),
+    "updated_at": updatedAt?.toIso8601String(),
   };
 }

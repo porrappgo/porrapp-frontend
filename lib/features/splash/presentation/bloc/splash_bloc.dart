@@ -20,8 +20,10 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       print("SplashBloc: SplashIsLoggedInEvent triggered");
       emit(state.copyWith(isLoading: true));
       Resource<AuthModel> isLoggedIn = await isLoggedInUseCase.isLoggedIn.run();
-      print("SplashBloc: isLoggedIn: $isLoggedIn");
-      emit(state.copyWith(isLoggedIn: isLoggedIn != "null", isLoading: false));
+      print(
+        "SplashBloc: isLoggedIn: $isLoggedIn and type: ${isLoggedIn is Success}",
+      );
+      emit(state.copyWith(isLoggedIn: isLoggedIn is Success, isLoading: false));
     } catch (e) {
       print("SplashBloc: Error in _onSplashIsLoggedInEvent: $e");
       emit(state.copyWith(isLoading: false, errorMessage: e.toString()));

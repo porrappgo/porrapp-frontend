@@ -1,4 +1,4 @@
-import 'package:porrapp_frontend/core/components/components.dart';
+import 'package:porrapp_frontend/core/constants/constants.dart';
 import 'package:porrapp_frontend/core/secure/secure_storage.dart';
 import 'package:porrapp_frontend/core/util/resource.dart';
 import 'package:porrapp_frontend/features/auth/data/datasource/remote/auth_service.dart';
@@ -20,6 +20,7 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<Resource<AuthModel>> login() async {
     var token = await _secureStorage.read(SecureStorageConstants.token);
+    print('Retrieved token from secure storage in check login: $token');
     if (token == null) {
       return Error('No token found');
     }

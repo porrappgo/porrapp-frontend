@@ -2,6 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:porrapp_frontend/core/injection.dart';
 import 'package:porrapp_frontend/features/auth/domain/usecases/usecases.dart';
 import 'package:porrapp_frontend/features/auth/presentation/bloc/bloc.dart';
+import 'package:porrapp_frontend/features/competitions/domain/usecases/usecases.dart';
+import 'package:porrapp_frontend/features/competitions/presentation/bloc/bloc.dart';
 import 'package:porrapp_frontend/features/splash/domain/usecases/usecases.dart';
 import 'package:porrapp_frontend/features/splash/presentation/bloc/bloc.dart';
 
@@ -16,5 +18,12 @@ List<BlocProvider> blocProviders() => [
   // AuthBloc provider
   BlocProvider<AuthBloc>(
     create: (context) => AuthBloc(locator<AuthUseCases>()),
+  ),
+
+  // CompetitionBloc provider
+  BlocProvider<CompetitionBloc>(
+    create: (context) =>
+        CompetitionBloc(locator<CompetitionUsecases>())
+          ..add(LoadCompetitionsEvent()),
   ),
 ];

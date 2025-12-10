@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:porrapp_frontend/features/auth/presentation/auth_page.dart';
+import 'package:porrapp_frontend/features/competitions/presentation/competition_page.dart';
 import 'package:porrapp_frontend/features/splash/presentation/splash_page.dart';
 import 'package:porrapp_frontend/websocketpage.dart';
 
@@ -15,6 +16,11 @@ final appRouter = GoRouter(
       name: AuthPage.routeName,
       path: '/${AuthPage.routeName}',
       builder: (context, state) => const AuthPage(),
+    ),
+    GoRoute(
+      name: CompetitionPage.routeName,
+      path: '/${CompetitionPage.routeName}',
+      builder: (context, state) => const CompetitionPage(),
     ),
     GoRoute(
       name: WebSocketTestPage.routeName,

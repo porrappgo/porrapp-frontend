@@ -7,7 +7,7 @@ import 'package:porrapp_frontend/core/components/components.dart';
 import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/auth/domain/model/model.dart';
 import 'package:porrapp_frontend/features/auth/presentation/bloc/bloc.dart';
-import 'package:porrapp_frontend/websocketpage.dart';
+import 'package:porrapp_frontend/features/competitions/presentation/competition_page.dart';
 
 class AuthPage extends StatefulWidget {
   static const String routeName = 'auth';
@@ -35,7 +35,7 @@ class _AuthPageState extends State<AuthPage> {
             /// If login is successful, save the user session
             print('Saving user session...');
             authBloc?.add(AuthSaveUserSession(response: responseState.data));
-            context.go('/${WebSocketTestPage.routeName}');
+            context.go('/${CompetitionPage.routeName}');
           } else if (responseState is Error<AuthTokenModel>) {
             /// Show an error message if login fails
             Fluttertoast.showToast(
