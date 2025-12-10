@@ -12,7 +12,7 @@ class CompetitionService {
       print('Attempting to get all competitions with token: $token');
 
       final response = await _dio.get(
-        '/competition/competition',
+        '/competition/',
         options: Options(headers: {"Authorization": "Token $token"}),
       );
 
