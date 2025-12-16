@@ -15,13 +15,23 @@ class CompetitionBloc extends Bloc<CompetitionEvent, CompetitionState> {
     Emitter<CompetitionState> emit,
   ) async {
     try {
-      print('Loading competitions...');
-      emit(state.copyWith(response: Loading()));
+      print('Loading leagues and groups...');
+      emit(state.copyWith(leagues: Loading()));
       final competitions = await competitionUsecases.getCompetitions.run();
-      emit(state.copyWith(response: competitions));
+      emit(state.copyWith(leagues: competitions));
+
+      if (competitions is Success) {
+        for (var competition in competitions.data) {
+          print('Fetching groups for competition ID: ${competition.id}');
+          final groups = await competitionUsecases.getGroups.run(
+            competition.id,
+          );
+          emit(state.copyWith(leagues: competitions, groups: groups));
+        }
+      }
     } catch (e) {
-      print('Error loading competitions: $e');
-      emit(state.copyWith(response: Error('Failed to load competitions')));
+      print('Error loading leagues and groups: $e');
+      emit(state.copyWith(leagues: Error('Failed to load competitions')));
     }
   }
 }

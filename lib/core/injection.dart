@@ -74,7 +74,11 @@ Future<void> configureDependencies(Env envConfig) async {
   );
 
   locator.registerLazySingleton<CompetitionUsecases>(
-    () =>
-        CompetitionUsecases(getCompetitions: GetCompetitionsUseCase(locator())),
+    () => CompetitionUsecases(
+      getCompetitions: GetCompetitionsUseCase(locator()),
+      getGroupsStandings: GetGroupsStandingsUseCase(locator()),
+      getGroups: GetGroupsUseCase(locator()),
+      getTeams: GetTeamsUseCase(locator()),
+    ),
   );
 }
