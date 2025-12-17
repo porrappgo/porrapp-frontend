@@ -44,15 +44,24 @@ class CompetitionRepositoryImpl extends CompetitionRepository {
   @override
   Future<Resource<List<GroupStandingModel>>> getGroupsStandingByGroupsIds(
     List<int> groupIds,
-  ) {
-    // TODO: implement getGroupsStandingByGroupsIds
-    throw UnimplementedError();
+  ) async {
+    print('Fetching group standings for group IDs: $groupIds');
+    var token = await _getToken();
+    if (token == null) {
+      return Error('No token found');
+    }
+
+    return await _competitionService.getGroupStandings(token, groupIds);
   }
 
   @override
-  Future<Resource<List<TeamModel>>> getTeams() {
-    // TODO: implement getTeams
-    throw UnimplementedError();
+  Future<Resource<List<TeamModel>>> getTeams() async {
+    var token = await _getToken();
+    if (token == null) {
+      return Error('No token found');
+    }
+
+    return await _competitionService.getTeams(token);
   }
 
   Future<String?> _getToken() async {

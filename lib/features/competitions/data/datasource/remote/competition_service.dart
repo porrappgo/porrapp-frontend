@@ -72,10 +72,13 @@ class CompetitionService {
   ) async {
     /** Fetch group standings for specific group IDs from the remote API using the provided token. */
     try {
+      final groupIdsParam = groupIds.join(',');
       final response = await _dio.get(
-        '/competition/group-standings/$groupIds/',
+        '/competition/group-standings/$groupIdsParam/',
         options: Options(headers: {"Authorization": "Token $token"}),
       );
+
+      print('Group standings response status: ${response.realUri}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         print('Groups standing response data: ${response.data}');

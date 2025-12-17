@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:porrapp_frontend/core/util/util.dart';
+import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
 import 'package:porrapp_frontend/features/competitions/domain/usecases/usecases.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/bloc/bloc.dart';
 
@@ -23,15 +24,63 @@ class CompetitionBloc extends Bloc<CompetitionEvent, CompetitionState> {
       if (competitions is Success) {
         for (var competition in competitions.data) {
           print('Fetching groups for competition ID: ${competition.id}');
+
+          // Fetch groups for each competition
           final groups = await competitionUsecases.getGroups.run(
             competition.id,
           );
-          emit(state.copyWith(leagues: competitions, groups: groups));
+
+          // Fetch group standings and associated teams
+          final groupsIds = groups is Success<List<GroupModel>>
+              ? groups.data.map((g) => g.id).toList()
+              : List<int>.empty();
+
+          print('Group IDs to fetch standings for: $groupsIds');
+
+          // Run both operations in parallel for better performance
+          final results = await Future.wait([
+            _loadGroupStandings(groupsIds),
+            _loadTeams(),
+          ]);
+
+          final groupStandings = results[0];
+          final teams = results[1];
+
+          emit(
+            state.copyWith(
+              leagues: competitions,
+              groups: groups,
+              groupStandings: groupStandings,
+              teams: teams,
+            ),
+          );
         }
       }
     } catch (e) {
       print('Error loading leagues and groups: $e');
       emit(state.copyWith(leagues: Error('Failed to load competitions')));
+    }
+  }
+
+  Future<Resource<List<GroupStandingModel>>> _loadGroupStandings(
+    List<int> groupIds,
+  ) async {
+    try {
+      print('Loading group standings for group IDs: $groupIds');
+      return await competitionUsecases.getGroupsStandings.run(groupIds);
+    } catch (e) {
+      print('Error loading group standings: $e');
+      return Error('Failed to load group standings');
+    }
+  }
+
+  Future<Resource<List<TeamModel>>> _loadTeams() async {
+    try {
+      print('Loading teams...');
+      return await competitionUsecases.getTeams.run();
+    } catch (e) {
+      print('Error loading teams: $e');
+      return Error('Failed to load teams');
     }
   }
 }

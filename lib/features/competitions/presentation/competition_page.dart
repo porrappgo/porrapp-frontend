@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:porrapp_frontend/core/util/util.dart';
-import 'package:porrapp_frontend/features/competitions/domain/models/competition_model.dart';
+import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/bloc/bloc.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/group_standings_page.dart';
 
@@ -58,9 +58,17 @@ class CompetitionPage extends StatelessWidget {
                     );
                     return;
                   }
-                  context.go(
+
+                  final CompetitionsModel competitionsModel = CompetitionsModel(
+                    competion: competition,
+                    groups: (state.groups as Success).data,
+                    groupStandings: (state.groupStandings as Success).data,
+                    teams: (state.teams as Success).data,
+                  );
+
+                  context.push(
                     '/${GroupStandingsPage.routeName}',
-                    extra: (state.groups as Success).data,
+                    extra: competitionsModel,
                   );
                 },
               );

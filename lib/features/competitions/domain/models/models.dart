@@ -3,3 +3,4 @@ export 'match_model.dart';
 export 'team_model.dart';
 export 'group_model.dart';
 export 'group_standings_model.dart';
+export 'competitions_model.dart';
