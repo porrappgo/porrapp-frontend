@@ -124,4 +124,31 @@ class CompetitionService {
       return Error('An error occurred during getting teams: ${e.toString()}');
     }
   }
+
+  Future<Resource<List<MatchModel>>> getMatches(String token) async {
+    /**
+     * Fetch all matches from the remote API using the provided token.
+     */
+    try {
+      final response = await _dio.get(
+        '/competition/matches/',
+        options: Options(headers: {"Authorization": "Token $token"}),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('Matches response data: ${response.data}');
+        List<dynamic> data = response.data;
+        List<MatchModel> matches = data
+            .map((item) => MatchModel.fromJson(item))
+            .toList();
+        return Success<List<MatchModel>>(matches);
+      } else {
+        return Error(response.data);
+      }
+    } catch (e) {
+      // Handle error
+      print('Error during getting matches: $e');
+      return Error('An error occurred during getting matches: ${e.toString()}');
+    }
+  }
 }

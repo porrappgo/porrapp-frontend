@@ -3,10 +3,7 @@ import 'package:porrapp_frontend/core/secure/secure_storage.dart';
 import 'package:porrapp_frontend/core/util/resource.dart';
 
 import 'package:porrapp_frontend/features/competitions/data/datasource/remote/competition_service.dart';
-import 'package:porrapp_frontend/features/competitions/domain/models/competition_model.dart';
-import 'package:porrapp_frontend/features/competitions/domain/models/group_model.dart';
-import 'package:porrapp_frontend/features/competitions/domain/models/group_standings_model.dart';
-import 'package:porrapp_frontend/features/competitions/domain/models/team_model.dart';
+import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
 import 'package:porrapp_frontend/features/competitions/domain/repository/competition_repository.dart';
 
 class CompetitionRepositoryImpl extends CompetitionRepository {
@@ -62,6 +59,16 @@ class CompetitionRepositoryImpl extends CompetitionRepository {
     }
 
     return await _competitionService.getTeams(token);
+  }
+
+  @override
+  Future<Resource<List<MatchModel>>> getMatches() async {
+    var token = await _getToken();
+    if (token == null) {
+      return Error('No token found');
+    }
+
+    return await _competitionService.getMatches(token);
   }
 
   Future<String?> _getToken() async {

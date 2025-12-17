@@ -5,11 +5,13 @@ class CompetitionUsecases {
   GetGroupsStandingsUseCase getGroupsStandings;
   GetGroupsUseCase getGroups;
   GetTeamsUseCase getTeams;
+  GetMatchesUseCase getMatches;
 
   CompetitionUsecases({
     required this.getCompetitions,
     required this.getGroupsStandings,
     required this.getGroups,
     required this.getTeams,
+    required this.getMatches,
   });
 }

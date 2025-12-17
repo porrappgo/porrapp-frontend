@@ -17,4 +17,7 @@ abstract class CompetitionRepository {
 
   // Get teams
   Future<Resource<List<TeamModel>>> getTeams();
+
+  // Get matches.
+  Future<Resource<List<MatchModel>>> getMatches();
 }

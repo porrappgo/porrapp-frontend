@@ -5,7 +5,6 @@ import 'package:porrapp_frontend/features/competitions/presentation/competition_
 import 'package:porrapp_frontend/features/competitions/presentation/group_standings_page.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/matches_page.dart';
 import 'package:porrapp_frontend/features/splash/presentation/splash_page.dart';
-import 'package:porrapp_frontend/websocketpage.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/${SplashPage.routeName}',
@@ -24,11 +23,6 @@ final appRouter = GoRouter(
       name: CompetitionPage.routeName,
       path: '/${CompetitionPage.routeName}',
       builder: (context, state) => const CompetitionPage(),
-    ),
-    GoRoute(
-      name: WebSocketTestPage.routeName,
-      path: '/${WebSocketTestPage.routeName}',
-      builder: (context, state) => const WebSocketTestPage(),
     ),
     GoRoute(
       name: GroupStandingsPage.routeName,

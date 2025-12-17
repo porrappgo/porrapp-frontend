@@ -13,3 +13,10 @@ class LoadCompetitionsEvent extends CompetitionEvent {
   @override
   List<Object> get props => [];
 }
+
+class LoadMatchesEvent extends CompetitionEvent {
+  const LoadMatchesEvent();
+
+  @override
+  List<Object> get props => [];
+}

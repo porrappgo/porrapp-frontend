@@ -9,6 +9,7 @@ class CompetitionBloc extends Bloc<CompetitionEvent, CompetitionState> {
 
   CompetitionBloc(this.competitionUsecases) : super(const CompetitionState()) {
     on<LoadCompetitionsEvent>(_onLoadCompetitionsEvent);
+    on<LoadMatchesEvent>(_onLoadMatchesEvent);
   }
 
   void _onLoadCompetitionsEvent(
@@ -59,6 +60,21 @@ class CompetitionBloc extends Bloc<CompetitionEvent, CompetitionState> {
     } catch (e) {
       print('Error loading leagues and groups: $e');
       emit(state.copyWith(leagues: Error('Failed to load competitions')));
+    }
+  }
+
+  void _onLoadMatchesEvent(
+    LoadMatchesEvent event,
+    Emitter<CompetitionState> emit,
+  ) async {
+    try {
+      print('Loading matches...');
+      emit(state.copyWith(matches: Loading()));
+      final matches = await competitionUsecases.getMatches.run();
+      emit(state.copyWith(matches: matches));
+    } catch (e) {
+      print('Error loading matches: $e');
+      emit(state.copyWith(matches: Error('Failed to load matches')));
     }
   }
 

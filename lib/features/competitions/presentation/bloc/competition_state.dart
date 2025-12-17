@@ -6,12 +6,14 @@ class CompetitionState extends Equatable {
   final Resource? groups;
   final Resource? groupStandings;
   final Resource? teams;
+  final Resource? matches;
 
   const CompetitionState({
     this.leagues,
     this.groups,
     this.groupStandings,
     this.teams,
+    this.matches,
   });
 
   CompetitionState copyWith({
@@ -19,15 +21,17 @@ class CompetitionState extends Equatable {
     Resource? groups,
     Resource? groupStandings,
     Resource? teams,
+    Resource? matches,
   }) {
     return CompetitionState(
       leagues: leagues ?? this.leagues,
       groups: groups ?? this.groups,
       groupStandings: groupStandings ?? this.groupStandings,
       teams: teams ?? this.teams,
+      matches: matches ?? this.matches,
     );
   }
 
   @override
-  List<Object?> get props => [leagues, groups, groupStandings];
+  List<Object?> get props => [leagues, groups, groupStandings, teams, matches];
 }

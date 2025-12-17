@@ -3,3 +3,4 @@ export 'get_competitions.dart';
 export 'get_teams.dart';
 export 'get_groups.dart';
 export 'get_groups_standings.dart';
+export 'get_matches.dart';

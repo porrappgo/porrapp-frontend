@@ -79,6 +79,7 @@ Future<void> configureDependencies(Env envConfig) async {
       getGroupsStandings: GetGroupsStandingsUseCase(locator()),
       getGroups: GetGroupsUseCase(locator()),
       getTeams: GetTeamsUseCase(locator()),
+      getMatches: GetMatchesUseCase(locator()),
     ),
   );
 }
