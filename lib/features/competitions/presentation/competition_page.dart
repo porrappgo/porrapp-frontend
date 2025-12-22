@@ -87,7 +87,10 @@ class CompetitionPage extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 child: FloatingActionButton(
                   onPressed: () {
-                    context.push('/${RoomsPage.routeName}');
+                    context.push(
+                      '/${RoomsPage.routeName}',
+                      extra: (state.leagues as Success).data[0].id,
+                    );
                   },
                   child: Icon(Icons.meeting_room),
                 ),

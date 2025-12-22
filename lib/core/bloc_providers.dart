@@ -4,6 +4,8 @@ import 'package:porrapp_frontend/features/auth/domain/usecases/usecases.dart';
 import 'package:porrapp_frontend/features/auth/presentation/bloc/bloc.dart';
 import 'package:porrapp_frontend/features/competitions/domain/usecases/usecases.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/bloc/bloc.dart';
+import 'package:porrapp_frontend/features/prediction/domain/usecases/usecases.dart';
+import 'package:porrapp_frontend/features/prediction/presentation/bloc/bloc.dart';
 import 'package:porrapp_frontend/features/splash/domain/usecases/usecases.dart';
 import 'package:porrapp_frontend/features/splash/presentation/bloc/bloc.dart';
 
@@ -25,5 +27,9 @@ List<BlocProvider> blocProviders() => [
     create: (context) =>
         CompetitionBloc(locator<CompetitionUsecases>())
           ..add(LoadCompetitionsEvent()),
+  ),
+
+  BlocProvider<RoomBloc>(
+    create: (context) => RoomBloc(locator<PredictionUseCases>()),
   ),
 ];

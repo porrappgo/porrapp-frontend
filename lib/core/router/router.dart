@@ -44,7 +44,10 @@ final appRouter = GoRouter(
     GoRoute(
       name: RoomsPage.routeName,
       path: '/${RoomsPage.routeName}',
-      builder: (context, state) => const RoomsPage(),
+      builder: (context, state) {
+        final competitionId = state.extra as int;
+        return RoomsPage(competitionId: competitionId);
+      },
     ),
   ],
 );
