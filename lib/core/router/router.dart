@@ -4,6 +4,7 @@ import 'package:porrapp_frontend/features/competitions/domain/models/models.dart
 import 'package:porrapp_frontend/features/competitions/presentation/competition_page.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/group_standings_page.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/matches_page.dart';
+import 'package:porrapp_frontend/features/prediction/presentation/rooms_page.dart';
 import 'package:porrapp_frontend/features/splash/presentation/splash_page.dart';
 
 final appRouter = GoRouter(
@@ -39,6 +40,11 @@ final appRouter = GoRouter(
         final competitions = state.extra as CompetitionsModel;
         return MatchesPage(competitions: competitions);
       },
+    ),
+    GoRoute(
+      name: RoomsPage.routeName,
+      path: '/${RoomsPage.routeName}',
+      builder: (context, state) => const RoomsPage(),
     ),
   ],
 );

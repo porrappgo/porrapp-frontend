@@ -13,6 +13,10 @@ import 'package:porrapp_frontend/features/competitions/data/datasource/remote/co
 import 'package:porrapp_frontend/features/competitions/data/repository/competition_repository_impl.dart';
 import 'package:porrapp_frontend/features/competitions/domain/repository/competition_repository.dart';
 import 'package:porrapp_frontend/features/competitions/domain/usecases/usecases.dart';
+import 'package:porrapp_frontend/features/prediction/data/datasource/remote/prediction_service.dart';
+import 'package:porrapp_frontend/features/prediction/data/repository/prediction_repository_impl.dart';
+import 'package:porrapp_frontend/features/prediction/domain/repository/prediction_repository.dart';
+import 'package:porrapp_frontend/features/prediction/domain/usecases/usecases.dart';
 import 'package:porrapp_frontend/features/splash/domain/usecases/usecases.dart';
 
 final locator = GetIt.instance;
@@ -43,6 +47,9 @@ Future<void> configureDependencies(Env envConfig) async {
   locator.registerLazySingleton<CompetitionService>(
     () => CompetitionService(locator()),
   );
+  locator.registerLazySingleton<PredictionService>(
+    () => PredictionService(locator()),
+  );
 
   // Repositories
   locator.registerLazySingleton<AuthRepository>(
@@ -51,10 +58,15 @@ Future<void> configureDependencies(Env envConfig) async {
       locator<ISecureStorageService>(),
     ),
   );
-
   locator.registerLazySingleton<CompetitionRepository>(
     () => CompetitionRepositoryImpl(
       locator<CompetitionService>(),
+      locator<ISecureStorageService>(),
+    ),
+  );
+  locator.registerLazySingleton<PredictionRepository>(
+    () => PredictionRepositoryImpl(
+      locator<PredictionService>(),
       locator<ISecureStorageService>(),
     ),
   );
@@ -67,6 +79,9 @@ Future<void> configureDependencies(Env envConfig) async {
       saveUserSession: SaveUserUsecase(locator()),
       logout: LogoutUseCase(locator()),
     ),
+  );
+  locator.registerLazySingleton<PredictionUseCases>(
+    () => PredictionUseCases(createRoomUseCase: CreateRoomUseCase(locator())),
   );
 
   locator.registerLazySingleton<SplashUsecases>(
