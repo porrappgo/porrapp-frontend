@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:porrapp_frontend/core/bloc_providers.dart';
 
-import 'package:porrapp_frontend/core/design/colors.design.dart';
+import 'package:porrapp_frontend/core/design/theme.dart';
 import 'package:porrapp_frontend/core/env/env.dart';
 import 'package:porrapp_frontend/core/injection.dart';
 import 'package:porrapp_frontend/core/router/router.dart';
@@ -30,8 +30,8 @@ class PorraApp extends StatelessWidget {
       child: MaterialApp.router(
         routerConfig: appRouter,
         title: envConfig.appName,
-        theme: ThemeData(useMaterial3: true, colorScheme: lightScheme()),
-        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkScheme()),
+        theme: MaterialTheme(TextTheme()).light(),
+        darkTheme: MaterialTheme(TextTheme()).dark(),
         themeMode: ThemeMode.system,
       ),
     );
