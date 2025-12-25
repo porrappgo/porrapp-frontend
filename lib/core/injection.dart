@@ -81,7 +81,10 @@ Future<void> configureDependencies(Env envConfig) async {
     ),
   );
   locator.registerLazySingleton<PredictionUseCases>(
-    () => PredictionUseCases(createRoomUseCase: CreateRoomUseCase(locator())),
+    () => PredictionUseCases(
+      createRoomUseCase: CreateRoomUseCase(locator()),
+      listRoomsUsecase: ListRoomsUsecase(locator()),
+    ),
   );
 
   locator.registerLazySingleton<SplashUsecases>(

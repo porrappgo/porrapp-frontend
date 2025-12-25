@@ -9,6 +9,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
 
   RoomBloc(this.predictionUseCases) : super(const RoomState()) {
     on<CreateRoomEvent>(_onCreateRoomEvent);
+    on<LoadRoomsEvent>(_onLoadRoomsEvent);
   }
 
   void _onCreateRoomEvent(
@@ -25,6 +26,18 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
       emit(state.copyWith(room: resource));
     } catch (e) {
       emit(state.copyWith(room: Error('Failed to create room')));
+    }
+  }
+
+  void _onLoadRoomsEvent(LoadRoomsEvent event, Emitter<RoomState> emit) async {
+    try {
+      emit(state.copyWith(room: Loading()));
+
+      final resource = await predictionUseCases.listRoomsUsecase.run();
+
+      emit(state.copyWith(room: resource));
+    } catch (e) {
+      emit(state.copyWith(room: Error('Failed to load rooms')));
     }
   }
 }

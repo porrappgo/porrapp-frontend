@@ -16,3 +16,10 @@ class CreateRoomEvent extends RoomEvent {
   @override
   List<Object> get props => [roomName];
 }
+
+class LoadRoomsEvent extends RoomEvent {
+  const LoadRoomsEvent();
+
+  @override
+  List<Object> get props => [];
+}

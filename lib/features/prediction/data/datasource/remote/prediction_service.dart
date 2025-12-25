@@ -14,7 +14,7 @@ class PredictionService {
     try {
       print('Creating room with data: ${room.toJson()}');
       final response = await _dio.post(
-        '/prediction/room/create/',
+        '/prediction/rooms/create/',
         data: room.toJson(),
         options: Options(headers: {"Authorization": "Token $token"}),
       );
@@ -29,6 +29,31 @@ class PredictionService {
       // Handle error
       print('Error during creating room: $e');
       return Error('An error occurred during creating room: ${e.toString()}');
+    }
+  }
+
+  Future<Resource<List<RoomModel>>> listRooms(String token) async {
+    /**
+     * List all prediction rooms using the remote API with the provided token.
+     */
+    try {
+      final response = await _dio.get(
+        '/prediction/rooms/',
+        options: Options(headers: {"Authorization": "Token $token"}),
+      );
+
+      if (response.statusCode == 200) {
+        List<RoomModel> rooms = (response.data as List)
+            .map((roomJson) => RoomModel.fromJson(roomJson))
+            .toList();
+        return Success<List<RoomModel>>(rooms);
+      } else {
+        return Error(response.data);
+      }
+    } catch (e) {
+      // Handle error
+      print('Error during listing rooms: $e');
+      return Error('An error occurred during listing rooms: ${e.toString()}');
     }
   }
 }

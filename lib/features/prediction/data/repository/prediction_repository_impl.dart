@@ -26,6 +26,20 @@ class PredictionRepositoryImpl extends PredictionRepository {
     return await _predictionService.createRoom(token, room);
   }
 
+  @override
+  Future<Resource<List<RoomModel>>> listRooms() {
+    /**
+     * Retrieve the token from secure storage
+     * and list all prediction rooms using the prediction service.
+     */
+    return _getToken().then((token) {
+      if (token == null) {
+        return Future.value(Error('No token found'));
+      }
+      return _predictionService.listRooms(token);
+    });
+  }
+
   Future<String?> _getToken() async {
     return await _secureStorage.read(SecureStorageConstants.token);
   }
