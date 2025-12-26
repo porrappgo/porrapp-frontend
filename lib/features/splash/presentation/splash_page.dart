@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:porrapp_frontend/features/auth/presentation/auth_page.dart';
+import 'package:porrapp_frontend/features/auth/presentation/login_page.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/competition_page.dart';
 import 'package:porrapp_frontend/features/splash/presentation/bloc/bloc.dart';
 
@@ -27,7 +27,7 @@ class SplashPage extends StatelessWidget {
             );
 
             if (!isLoading && !isLoggedIn) {
-              context.go('/${AuthPage.routeName}');
+              context.go('/${LoginPage.routeName}');
             } else if (!isLoading && isLoggedIn) {
               context.go('/${CompetitionPage.routeName}');
             }

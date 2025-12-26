@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:porrapp_frontend/features/auth/presentation/auth_page.dart';
+import 'package:porrapp_frontend/features/auth/presentation/login_page.dart';
 import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/competition_page.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/group_standings_page.dart';
@@ -14,6 +15,11 @@ final appRouter = GoRouter(
       name: SplashPage.routeName,
       path: '/${SplashPage.routeName}',
       builder: (context, state) => const SplashPage(),
+    ),
+    GoRoute(
+      name: LoginPage.routeName,
+      path: '/${LoginPage.routeName}',
+      builder: (context, state) => const LoginPage(),
     ),
     GoRoute(
       name: AuthPage.routeName,

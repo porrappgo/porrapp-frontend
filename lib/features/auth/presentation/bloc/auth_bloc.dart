@@ -58,7 +58,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       state.copyWith(
         email: BlocFormItem(
           value: event.email.value,
-          error: event.email.value.isNotEmpty ? null : 'Enter a valid email',
+          error: _validateEmail(event.email.value),
         ),
         formKey: formKey,
       ),
@@ -106,4 +106,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onAuthLogout(AuthLogout event, Emitter<AuthState> emit) async {}
+
+  String? _validateEmail(String email) {
+    // Add email validation logic if needed
+    if (email.isEmpty) {
+      return 'Email cannot be empty';
+    }
+    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email)) {
+      return 'Invalid email format';
+    }
+    return null;
+  }
 }
