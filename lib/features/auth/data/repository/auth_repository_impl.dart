@@ -12,22 +12,9 @@ class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl(this._authService, this._secureStorage);
 
   @override
-  Future<Resource<AuthTokenModel>> getToken(String email, String phone) async {
-    /// Fetch user data
-    return await _authService.getToken(email, phone);
-  }
-
-  @override
   Future<Resource<AuthModel>> login() async {
-    var token = await _secureStorage.read(SecureStorageConstants.token);
-    print('Retrieved token from secure storage in check login: $token');
-    if (token == null) {
-      return Error('No token found');
-    }
-
-    /// Check network connectivity
     /// Fetch user data
-    return await _authService.login(token);
+    return await _authService.login();
   }
 
   @override
@@ -37,18 +24,27 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<bool> saveUserSession(String email, String token) async {
-    await Future.wait([_saveUserInSecureStorage(email, token)]);
+  Future<bool> saveUserSession(
+    String email,
+    String access,
+    String? refresh,
+  ) async {
+    await Future.wait([_saveUserTokenInSecureStorage(email, access, refresh)]);
     print('User session saved successfully.');
     return true;
   }
 
   /// Save user data in secure storage.
-  Future<void> _saveUserInSecureStorage(String email, String token) async {
+  Future<void> _saveUserTokenInSecureStorage(
+    String email,
+    String access,
+    String? refresh,
+  ) async {
     await Future.wait([
-      // Save user data in secure storage.
       _secureStorage.write(SecureStorageConstants.email, email),
-      _secureStorage.write(SecureStorageConstants.token, token),
+      _secureStorage.write(SecureStorageConstants.tokenAccess, access),
+      if (refresh != null)
+        _secureStorage.write(SecureStorageConstants.tokenRefresh, refresh),
 
       /// Save user data in local database.
       //_saveUserInLocal(email, phone),

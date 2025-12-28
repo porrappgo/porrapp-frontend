@@ -41,6 +41,6 @@ class PredictionRepositoryImpl extends PredictionRepository {
   }
 
   Future<String?> _getToken() async {
-    return await _secureStorage.read(SecureStorageConstants.token);
+    return await _secureStorage.read(SecureStorageConstants.tokenAccess);
   }
 }

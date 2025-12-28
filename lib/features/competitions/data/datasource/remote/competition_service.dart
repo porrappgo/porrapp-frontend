@@ -7,15 +7,12 @@ class CompetitionService {
 
   CompetitionService(this._dio);
 
-  Future<Resource<List<CompetitionModel>>> getAll(String token) async {
+  Future<Resource<List<CompetitionModel>>> getAll() async {
     /**
      * Fetch all competitions from the remote API using the provided token.
      */
     try {
-      final response = await _dio.get(
-        '/competition/',
-        options: Options(headers: {"Authorization": "Token $token"}),
-      );
+      final response = await _dio.get('/competition/');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         print('Competitions response data: ${response.data}');
@@ -36,18 +33,12 @@ class CompetitionService {
     }
   }
 
-  Future<Resource<List<GroupModel>>> getGroups(
-    String token,
-    int competitionId,
-  ) async {
+  Future<Resource<List<GroupModel>>> getGroups(int competitionId) async {
     /**
      * Fetch groups for a specific competition from the remote API using the provided token.
      */
     try {
-      final response = await _dio.get(
-        '/competition/groups/$competitionId/',
-        options: Options(headers: {"Authorization": "Token $token"}),
-      );
+      final response = await _dio.get('/competition/groups/$competitionId/');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         print('Groups response data: ${response.data}');
@@ -67,7 +58,6 @@ class CompetitionService {
   }
 
   Future<Resource<List<GroupStandingModel>>> getGroupStandings(
-    String token,
     List<int> groupIds,
   ) async {
     /** Fetch group standings for specific group IDs from the remote API using the provided token. */
@@ -75,7 +65,6 @@ class CompetitionService {
       final groupIdsParam = groupIds.join(',');
       final response = await _dio.get(
         '/competition/group-standings/$groupIdsParam/',
-        options: Options(headers: {"Authorization": "Token $token"}),
       );
 
       print('Group standings response status: ${response.realUri}');
@@ -98,15 +87,12 @@ class CompetitionService {
     }
   }
 
-  Future<Resource<List<TeamModel>>> getTeams(String token) async {
+  Future<Resource<List<TeamModel>>> getTeams() async {
     /**
      * Fetch all teams from the remote API using the provided token.
      */
     try {
-      final response = await _dio.get(
-        '/competition/teams/',
-        options: Options(headers: {"Authorization": "Token $token"}),
-      );
+      final response = await _dio.get('/competition/teams/');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         print('Teams response data: ${response.data}');
@@ -125,15 +111,12 @@ class CompetitionService {
     }
   }
 
-  Future<Resource<List<MatchModel>>> getMatches(String token) async {
+  Future<Resource<List<MatchModel>>> getMatches() async {
     /**
      * Fetch all matches from the remote API using the provided token.
      */
     try {
-      final response = await _dio.get(
-        '/competition/matches/',
-        options: Options(headers: {"Authorization": "Token $token"}),
-      );
+      final response = await _dio.get('/competition/matches/');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         print('Matches response data: ${response.data}');

@@ -1,7 +1,7 @@
-import 'package:porrapp_frontend/features/auth/domain/repository/auth_repository.dart';
+import 'package:porrapp_frontend/features/auth/domain/repository/token_refresher_repository.dart';
 
 class GetTokenUseCase {
-  AuthRepository repository;
+  TokenRefresherRepository repository;
 
   GetTokenUseCase(this.repository);
 

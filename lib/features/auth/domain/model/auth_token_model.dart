@@ -6,12 +6,13 @@ AuthTokenModel authTokenModelFromJson(String str) =>
 String authTokenModelToJson(AuthTokenModel data) => json.encode(data.toJson());
 
 class AuthTokenModel {
-  String token;
+  String access;
+  String? refresh;
 
-  AuthTokenModel({required this.token});
+  AuthTokenModel({required this.access, this.refresh});
 
   factory AuthTokenModel.fromJson(Map<String, dynamic> json) =>
-      AuthTokenModel(token: json["token"]);
+      AuthTokenModel(access: json["access"], refresh: json["refresh"]);
 
-  Map<String, dynamic> toJson() => {"token": token};
+  Map<String, dynamic> toJson() => {"access": access, "refresh": refresh};
 }

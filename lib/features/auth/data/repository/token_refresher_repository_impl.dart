@@ -1,0 +1,44 @@
+import 'package:porrapp_frontend/core/constants/constants.dart';
+import 'package:porrapp_frontend/core/secure/secure_storage.dart';
+import 'package:porrapp_frontend/core/util/resource.dart';
+import 'package:porrapp_frontend/features/auth/data/datasource/remote/token_service.dart';
+import 'package:porrapp_frontend/features/auth/domain/model/model.dart';
+import 'package:porrapp_frontend/features/auth/domain/repository/token_refresher_repository.dart';
+
+class TokenRefresherRepositoryImpl implements TokenRefresherRepository {
+  final TokenService _tokenService;
+  final ISecureStorageService _secureStorage;
+
+  TokenRefresherRepositoryImpl(this._tokenService, this._secureStorage);
+
+  @override
+  Future<Resource<String>?> refreshAccessToken() async {
+    final refresh = await _secureStorage.read(
+      SecureStorageConstants.tokenRefresh,
+    );
+
+    if (refresh == null) return null;
+
+    final response = await _tokenService.refreshToken(refresh);
+
+    if (response is Success<AuthTokenModel>) {
+      String tokenAccess = response.data.access;
+      await _saveUpdateUserTokenInSecureStorage(tokenAccess);
+      return Success(tokenAccess);
+    }
+
+    return null;
+  }
+
+  @override
+  Future<Resource<AuthTokenModel>> getToken(String email, String phone) {
+    return _tokenService.getToken(email, phone);
+  }
+
+  /// Update user token in secure storage.
+  Future<void> _saveUpdateUserTokenInSecureStorage(String tokenAccess) async {
+    await Future.wait([
+      _secureStorage.write(SecureStorageConstants.tokenAccess, tokenAccess),
+    ]);
+  }
+}

@@ -45,10 +45,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     var response = state.response as Success<AuthTokenModel>;
 
-    print('AuthBloc - Saving user session with token: ${response.data.token}');
+    print('AuthBloc - Saving user session with token: ${response.data.access}');
     await authUseCases.saveUserSession.run(
       state.email.value,
-      response.data.token,
+      response.data.access,
+      response.data.refresh,
     );
   }
 
