@@ -6,6 +6,7 @@ import 'package:porrapp_frontend/core/components/components.dart';
 import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/auth/domain/model/model.dart';
 import 'package:porrapp_frontend/features/auth/presentation/bloc/bloc.dart';
+import 'package:porrapp_frontend/features/auth/presentation/register_page.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/competition_page.dart';
 
 class LoginContent extends StatefulWidget {
@@ -31,6 +32,7 @@ class _LoginContentState extends State<LoginContent> {
           /// If login is successful, save the user session
           authBloc?.add(AuthSaveUserSession(response: responseState.data));
           context.go('/${CompetitionPage.routeName}');
+          authBloc?.add(const AuthResetResource());
         } else if (responseState is Error<AuthTokenModel>) {
           /// Show an error message if login fails
           Fluttertoast.showToast(
@@ -110,6 +112,22 @@ class _LoginContentState extends State<LoginContent> {
                     isLoading: state.response is LoadingPage,
                     isDisabled: state.response is LoadingPage,
                     text: 'Log In',
+                  ),
+
+                  SizedBox(height: 16.0),
+
+                  // Link to registration page.
+                  GestureDetector(
+                    onTap: () {
+                      context.go('/${RegisterPage.routeName}');
+                    },
+                    child: Text(
+                      "Don't have an account? Register",
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
                   ),
                 ],
               ),

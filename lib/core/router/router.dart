@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:porrapp_frontend/features/auth/presentation/auth_page.dart';
 import 'package:porrapp_frontend/features/auth/presentation/login_page.dart';
+import 'package:porrapp_frontend/features/auth/presentation/register_page.dart';
 import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/competition_page.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/group_standings_page.dart';
@@ -20,6 +21,10 @@ final appRouter = GoRouter(
       name: LoginPage.routeName,
       path: '/${LoginPage.routeName}',
       builder: (context, state) => const LoginPage(),
+    ),
+    GoRoute(
+      path: '/${RegisterPage.routeName}',
+      builder: (context, state) => const RegisterPage(),
     ),
     GoRoute(
       name: AuthPage.routeName,

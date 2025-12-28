@@ -25,7 +25,7 @@ List<BlocProvider> blocProviders() => [
   // CompetitionBloc provider
   BlocProvider<CompetitionBloc>(
     create: (context) =>
-        CompetitionBloc(locator<CompetitionUsecases>())
+        CompetitionBloc(locator<AuthUseCases>(), locator<CompetitionUsecases>())
           ..add(LoadCompetitionsEvent()),
   ),
 

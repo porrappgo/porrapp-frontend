@@ -36,6 +36,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _onAuthResetResource(AuthResetResource event, Emitter<AuthState> emit) {
     print('AuthBloc - Resetting resource state');
+    formKey.currentState?.reset();
     emit(state.copyWith(response: Initial(), formKey: formKey));
   }
 

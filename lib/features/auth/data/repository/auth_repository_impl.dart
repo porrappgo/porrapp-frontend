@@ -18,9 +18,26 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<bool> logout() {
-    // TODO: implement logout
-    throw UnimplementedError();
+  Future<Resource<bool>> logout() async {
+    try {
+      await _secureStorage.deleteAll();
+      print('User logged out and secure storage cleared.');
+      print('Validating logout operation: secure storage should be empty.');
+      var email = await _secureStorage.read(SecureStorageConstants.email);
+      var access = await _secureStorage.read(
+        SecureStorageConstants.tokenAccess,
+      );
+      var refresh = await _secureStorage.read(
+        SecureStorageConstants.tokenRefresh,
+      );
+      print(
+        'Post-logout secure storage values: email=$email, access=$access, refresh=$refresh',
+      );
+      return Success(true);
+    } catch (e) {
+      print('Error during logout: $e');
+      return Error('Failed to logout');
+    }
   }
 
   @override

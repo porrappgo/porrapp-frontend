@@ -20,3 +20,10 @@ class LoadMatchesEvent extends CompetitionEvent {
   @override
   List<Object> get props => [];
 }
+
+class LogoutEvent extends CompetitionEvent {
+  const LogoutEvent();
+
+  @override
+  List<Object> get props => [];
+}
