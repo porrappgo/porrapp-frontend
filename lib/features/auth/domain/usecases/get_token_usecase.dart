@@ -5,7 +5,7 @@ class GetTokenUseCase {
 
   GetTokenUseCase(this.repository);
 
-  run(String account, String phone) async {
-    return await repository.getToken(account, phone);
+  run(String email, String password) async {
+    return await repository.getToken(email, password);
   }
 }

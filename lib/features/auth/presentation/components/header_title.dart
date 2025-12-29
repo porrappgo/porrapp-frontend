@@ -40,21 +40,21 @@ class HeaderTitle extends StatelessWidget {
         height: 280,
         width: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xff43664e), Color(0xff2c4e38)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.sports_soccer, color: Colors.white, size: 70),
+            Icon(
+              Icons.sports_soccer,
+              color: Theme.of(context).colorScheme.primary,
+              size: 70,
+            ),
             SizedBox(width: 10),
             Text(
               'PorrApp',
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.primary,
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
               ),

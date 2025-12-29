@@ -5,11 +5,13 @@ class AuthUseCases {
   GetTokenUseCase getToken;
   SaveUserUsecase saveUserSession;
   LogoutUseCase logout;
+  RegisterUseCase register;
 
   AuthUseCases({
     required this.login,
     required this.getToken,
     required this.saveUserSession,
     required this.logout,
+    required this.register,
   });
 }

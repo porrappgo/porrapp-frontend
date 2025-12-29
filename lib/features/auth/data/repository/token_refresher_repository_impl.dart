@@ -31,8 +31,20 @@ class TokenRefresherRepositoryImpl implements TokenRefresherRepository {
   }
 
   @override
-  Future<Resource<AuthTokenModel>> getToken(String email, String phone) {
-    return _tokenService.getToken(email, phone);
+  Future<Resource<AuthTokenModel>> getToken(
+    String email,
+    String password,
+  ) async {
+    return await _tokenService.getToken(email, password);
+  }
+
+  @override
+  Future<Resource<AuthModel>> registerUser(
+    String email,
+    String name,
+    String password,
+  ) async {
+    return await _tokenService.register(email, name, password);
   }
 
   /// Update user token in secure storage.

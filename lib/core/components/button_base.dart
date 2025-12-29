@@ -34,7 +34,7 @@ class ButtonBase extends StatelessWidget {
       disabledTextColor: Theme.of(context).colorScheme.onPrimary,
       onPressed: (isDisabled || isLoading) ? null : onPressed,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
-      color: Theme.of(context).colorScheme.tertiary,
+      color: Theme.of(context).colorScheme.primaryContainer,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
         child: isLoading
@@ -46,7 +46,7 @@ class ButtonBase extends StatelessWidget {
             : Text(
                 text,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onTertiary,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
       ),

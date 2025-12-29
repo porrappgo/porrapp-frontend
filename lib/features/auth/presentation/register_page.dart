@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:porrapp_frontend/features/auth/presentation/components/header_title.dart';
+import 'package:porrapp_frontend/features/auth/presentation/register_content.dart';
 
 class RegisterPage extends StatelessWidget {
   static const String routeName = 'register';
@@ -16,7 +17,7 @@ class RegisterPage extends StatelessWidget {
             // Header with wave design
             const HeaderTitle(),
             // Registration form
-            const Text('Registration Form Goes Here'),
+            RegisterContent(),
           ],
         ),
       ),

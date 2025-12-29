@@ -56,4 +56,35 @@ class TokenService {
       return Error('An error occurred during refreshToken: ${e.toString()}');
     }
   }
+
+  Future<Resource<AuthModel>> register(
+    String email,
+    String name,
+    String password,
+  ) async {
+    try {
+      print(
+        'Attempting to register user with email: $email, name: $name, password: $password',
+      );
+
+      final response = await _dio.post(
+        '/user/create/',
+        data: {"email": email, "password": password, "name": name},
+        options: Options(extra: {"noAuth": true}),
+      );
+      print(
+        'Register response status: ${response.statusCode}, data: ${response.data}',
+      );
+      if (response.statusCode == 201) {
+        AuthModel authResponse = AuthModel.fromJson(response.data);
+        return Success<AuthModel>(authResponse);
+      } else {
+        return Error(response.data);
+      }
+    } catch (e) {
+      // Handle error
+      print('Error during register: $e');
+      return Error('An error occurred during register: ${e.toString()}');
+    }
+  }
 }

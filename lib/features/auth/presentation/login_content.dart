@@ -119,14 +119,11 @@ class _LoginContentState extends State<LoginContent> {
                   // Link to registration page.
                   GestureDetector(
                     onTap: () {
-                      context.go('/${RegisterPage.routeName}');
+                      context.push('/${RegisterPage.routeName}');
                     },
                     child: Text(
                       "Don't have an account? Register",
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        decoration: TextDecoration.underline,
-                      ),
+                      style: TextStyle(decoration: TextDecoration.underline),
                     ),
                   ),
                 ],

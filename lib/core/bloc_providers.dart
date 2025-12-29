@@ -21,6 +21,9 @@ List<BlocProvider> blocProviders() => [
   BlocProvider<AuthBloc>(
     create: (context) => AuthBloc(locator<AuthUseCases>()),
   ),
+  BlocProvider<RegisterBloc>(
+    create: (context) => RegisterBloc(locator<AuthUseCases>()),
+  ),
 
   // CompetitionBloc provider
   BlocProvider<CompetitionBloc>(

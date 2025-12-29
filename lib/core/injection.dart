@@ -130,6 +130,7 @@ Future<void> configureDependencies(Env envConfig) async {
       getToken: GetTokenUseCase(locator()),
       saveUserSession: SaveUserUsecase(locator()),
       logout: LogoutUseCase(locator()),
+      register: RegisterUseCase(locator()),
     ),
   );
 
