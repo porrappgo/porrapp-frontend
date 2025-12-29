@@ -11,7 +11,7 @@ on: [push]
 jobs:
   testAndCoverage:
     name: 🧪 Test
-    uses: ./porrapp_frontend/.github/workflows/_test_with_coverage.yml
+    uses: ./.github/workflows/_test_with_coverage.yml
     secrets: inherit
 
   analyze:
