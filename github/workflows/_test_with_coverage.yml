@@ -1,0 +1,33 @@
+name: 🧪 Test with coverage 📊
+
+on:
+  workflow_call:
+
+jobs:
+  coverage:
+    name: 🧪 Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: ⬇️ Checkout repository
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Install lcov
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install lcov
+
+      - name: ⚙️ Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: ⚙️ Flutter pub get
+        run: flutter pub get
+
+      - name: 🧪 Run tests with coverage
+        run: |
+          flutter test --coverage
+          lcov --remove coverage/lcov.info '*/.pub-cache/*' '*/test/*' '/usr/*' '*/build/*' -o coverage/filtered_lcov.info
+          lcov --list coverage/filtered_lcov.info
