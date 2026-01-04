@@ -66,6 +66,7 @@ Future<void> configureDependencies(Env envConfig) async {
 
     dio.interceptors.add(
       AuthInterceptor(
+        locator<Dio>(instanceName: 'authDio'),
         locator<ISecureStorageService>(),
         locator<TokenRefresherRepository>(),
       ),
