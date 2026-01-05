@@ -9,8 +9,7 @@ import 'package:porrapp_frontend/features/auth/presentation/login_page.dart';
 import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/bloc/bloc.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/group_standings_page.dart';
-import 'package:porrapp_frontend/features/prediction/presentation/rooms_page.dart';
-import 'package:porrapp_frontend/features/splash/presentation/splash_page.dart';
+import 'package:porrapp_frontend/features/prediction/presentation/rooms/rooms_page.dart';
 
 class CompetitionPage extends StatelessWidget {
   static const String routeName = 'competitions';

@@ -5,7 +5,7 @@ import 'package:porrapp_frontend/features/auth/presentation/bloc/bloc.dart';
 import 'package:porrapp_frontend/features/competitions/domain/usecases/usecases.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/bloc/bloc.dart';
 import 'package:porrapp_frontend/features/prediction/domain/usecases/usecases.dart';
-import 'package:porrapp_frontend/features/prediction/presentation/bloc/bloc.dart';
+import 'package:porrapp_frontend/features/prediction/presentation/rooms/bloc/rooms_bloc.dart';
 import 'package:porrapp_frontend/features/splash/domain/usecases/usecases.dart';
 import 'package:porrapp_frontend/features/splash/presentation/bloc/bloc.dart';
 
@@ -32,8 +32,8 @@ List<BlocProvider> blocProviders() => [
           ..add(LoadCompetitionsEvent()),
   ),
 
-  BlocProvider<RoomBloc>(
+  BlocProvider<RoomsBloc>(
     create: (context) =>
-        RoomBloc(locator<PredictionUseCases>())..add(LoadRoomsEvent()),
+        RoomsBloc(locator<PredictionUseCases>())..add(LoadRoomsEvent()),
   ),
 ];

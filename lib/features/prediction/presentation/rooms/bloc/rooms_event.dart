@@ -1,13 +1,13 @@
-import 'package:equatable/equatable.dart';
+part of 'rooms_bloc.dart';
 
-class RoomEvent extends Equatable {
-  const RoomEvent();
+sealed class RoomsEvent extends Equatable {
+  const RoomsEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class CreateRoomEvent extends RoomEvent {
+class CreateRoomEvent extends RoomsEvent {
   final String roomName;
   final int competion;
 
@@ -17,7 +17,7 @@ class CreateRoomEvent extends RoomEvent {
   List<Object> get props => [roomName];
 }
 
-class LoadRoomsEvent extends RoomEvent {
+class LoadRoomsEvent extends RoomsEvent {
   const LoadRoomsEvent();
 
   @override

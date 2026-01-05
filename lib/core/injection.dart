@@ -116,10 +116,7 @@ Future<void> configureDependencies(Env envConfig) async {
   );
 
   locator.registerLazySingleton<PredictionRepository>(
-    () => PredictionRepositoryImpl(
-      locator<PredictionService>(),
-      locator<ISecureStorageService>(),
-    ),
+    () => PredictionRepositoryImpl(locator<PredictionService>()),
   );
 
   // ───────────────────────────────

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:porrapp_frontend/core/util/resource.dart';
+import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 
 class PredictionService {
@@ -7,7 +7,7 @@ class PredictionService {
 
   PredictionService(this._dio);
 
-  Future<Resource<RoomModel>> createRoom(String token, RoomModel room) async {
+  Future<Resource<RoomModel>> createRoom(RoomModel room) async {
     /**
      * Create a new prediction room using the remote API with the provided token and room data.
      */
@@ -16,7 +16,6 @@ class PredictionService {
       final response = await _dio.post(
         '/prediction/rooms/create/',
         data: room.toJson(),
-        options: Options(headers: {"Authorization": "Token $token"}),
       );
 
       if (response.statusCode == 201) {
@@ -32,28 +31,18 @@ class PredictionService {
     }
   }
 
-  Future<Resource<List<RoomModel>>> listRooms(String token) async {
+  Future<List<RoomModel>> listRooms() async {
     /**
      * List all prediction rooms using the remote API with the provided token.
      */
-    try {
-      final response = await _dio.get(
-        '/prediction/rooms/',
-        options: Options(headers: {"Authorization": "Token $token"}),
-      );
+    final response = await _dio.get('/prediction/rooms/');
 
-      if (response.statusCode == 200) {
-        List<RoomModel> rooms = (response.data as List)
-            .map((roomJson) => RoomModel.fromJson(roomJson))
-            .toList();
-        return Success<List<RoomModel>>(rooms);
-      } else {
-        return Error(response.data);
-      }
-    } catch (e) {
-      // Handle error
-      print('Error during listing rooms: $e');
-      return Error('An error occurred during listing rooms: ${e.toString()}');
+    if (response.statusCode == 200) {
+      return (response.data as List)
+          .map((roomJson) => RoomModel.fromJson(roomJson))
+          .toList();
+    } else {
+      throw ServerException();
     }
   }
 }

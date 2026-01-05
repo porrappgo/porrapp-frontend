@@ -1,6 +1,5 @@
-import 'package:porrapp_frontend/core/constants/constants.dart';
-import 'package:porrapp_frontend/core/secure/secure_storage.dart';
-import 'package:porrapp_frontend/core/util/resource.dart';
+import 'package:dartz/dartz.dart';
+import 'package:porrapp_frontend/core/util/util.dart';
 
 import 'package:porrapp_frontend/features/prediction/data/datasource/remote/prediction_service.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/room_model.dart';
@@ -8,9 +7,8 @@ import 'package:porrapp_frontend/features/prediction/domain/repository/predictio
 
 class PredictionRepositoryImpl extends PredictionRepository {
   final PredictionService _predictionService;
-  final ISecureStorageService _secureStorage;
 
-  PredictionRepositoryImpl(this._predictionService, this._secureStorage);
+  PredictionRepositoryImpl(this._predictionService);
 
   @override
   Future<Resource<RoomModel>> createRoom(RoomModel room) async {
@@ -18,29 +16,20 @@ class PredictionRepositoryImpl extends PredictionRepository {
      * Retrieve the token from secure storage
      * and create a new prediction room using the prediction service.
      */
-    var token = await _getToken();
-    if (token == null) {
-      return Error('No token found');
-    }
-
-    return await _predictionService.createRoom(token, room);
+    return await _predictionService.createRoom(room);
   }
 
   @override
-  Future<Resource<List<RoomModel>>> listRooms() {
+  Future<Either<Failure, List<RoomModel>>> listRooms() async {
     /**
      * Retrieve the token from secure storage
      * and list all prediction rooms using the prediction service.
      */
-    return _getToken().then((token) {
-      if (token == null) {
-        return Future.value(Error('No token found'));
-      }
-      return _predictionService.listRooms(token);
-    });
-  }
-
-  Future<String?> _getToken() async {
-    return await _secureStorage.read(SecureStorageConstants.tokenAccess);
+    try {
+      final rooms = await _predictionService.listRooms();
+      return Right(rooms);
+    } on ServerException {
+      return Left(ServerFailure(''));
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 
@@ -6,5 +7,5 @@ abstract class PredictionRepository {
   Future<Resource<RoomModel>> createRoom(RoomModel room);
 
   // List all rooms.
-  Future<Resource<List<RoomModel>>> listRooms();
+  Future<Either<Failure, List<RoomModel>>> listRooms();
 }
