@@ -7,27 +7,21 @@ class PredictionService {
 
   PredictionService(this._dio);
 
-  Future<Resource<RoomModel>> createRoom(RoomModel room) async {
+  Future<RoomModel> createRoom(RoomModel room) async {
     /**
      * Create a new prediction room using the remote API with the provided token and room data.
      */
-    try {
-      print('Creating room with data: ${room.toJson()}');
-      final response = await _dio.post(
-        '/prediction/rooms/create/',
-        data: room.toJson(),
-      );
+    print('Creating room with data: ${room.toJson()}');
+    final response = await _dio.post(
+      '/prediction/rooms/create/',
+      data: room.toJson(),
+    );
 
-      if (response.statusCode == 201) {
-        print('Create room response data: ${response.data}');
-        return Success<RoomModel>(RoomModel.fromJson(response.data));
-      } else {
-        return Error(response.data);
-      }
-    } catch (e) {
-      // Handle error
-      print('Error during creating room: $e');
-      return Error('An error occurred during creating room: ${e.toString()}');
+    if (response.statusCode == 201) {
+      print('Create room response data: ${response.data}');
+      return RoomModel.fromJson(response.data);
+    } else {
+      throw ServerException();
     }
   }
 

@@ -11,12 +11,17 @@ class PredictionRepositoryImpl extends PredictionRepository {
   PredictionRepositoryImpl(this._predictionService);
 
   @override
-  Future<Resource<RoomModel>> createRoom(RoomModel room) async {
+  Future<Either<Failure, RoomModel>> createRoom(RoomModel room) async {
     /**
      * Retrieve the token from secure storage
      * and create a new prediction room using the prediction service.
      */
-    return await _predictionService.createRoom(room);
+    try {
+      final createdRoom = await _predictionService.createRoom(room);
+      return Right(createdRoom);
+    } on ServerException {
+      return Left(ServerFailure(''));
+    }
   }
 
   @override
