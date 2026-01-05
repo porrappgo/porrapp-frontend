@@ -5,10 +5,11 @@ import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/auth/domain/repository/token_refresher_repository.dart';
 
 class AuthInterceptor extends Interceptor {
+  final Dio dio;
   final ISecureStorageService secureStorage;
   final TokenRefresherRepository tokenRefresherRepository;
 
-  AuthInterceptor(this.secureStorage, this.tokenRefresherRepository);
+  AuthInterceptor(this.dio, this.secureStorage, this.tokenRefresherRepository);
 
   @override
   void onRequest(
@@ -38,12 +39,9 @@ class AuthInterceptor extends Interceptor {
 
       if (refreshResponse is Success<String>) {
         final newToken = refreshResponse.data;
-
         err.requestOptions.headers['Authorization'] = 'Bearer $newToken';
 
-        final dio = Dio();
         final retryResponse = await dio.fetch(err.requestOptions);
-
         return handler.resolve(retryResponse);
       }
     }

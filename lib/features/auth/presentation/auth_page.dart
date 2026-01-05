@@ -11,7 +11,11 @@ import 'package:porrapp_frontend/features/competitions/presentation/competition_
 
 class AuthPage extends StatefulWidget {
   static const String routeName = 'auth';
-  const AuthPage({super.key});
+
+  final Future<void> Function({String? msg, Toast? toastLength})? toastFunction;
+  final GoRouter? router;
+
+  const AuthPage({Key? key, this.toastFunction, this.router}) : super(key: key);
 
   @override
   State<AuthPage> createState() => _AuthPageState();
@@ -35,10 +39,12 @@ class _AuthPageState extends State<AuthPage> {
             /// If login is successful, save the user session
             print('Saving user session...');
             authBloc?.add(AuthSaveUserSession(response: responseState.data));
-            context.go('/${CompetitionPage.routeName}');
+            (widget.router ?? GoRouter.of(context)).go(
+              '/${CompetitionPage.routeName}',
+            );
           } else if (responseState is Error<AuthTokenModel>) {
             /// Show an error message if login fails
-            Fluttertoast.showToast(
+            (widget.toastFunction ?? Fluttertoast.showToast)(
               msg: responseState.message,
               toastLength: Toast.LENGTH_LONG,
             );
@@ -70,9 +76,7 @@ class _AuthPageState extends State<AuthPage> {
                           EmailChanged(email: BlocFormItem(value: text)),
                         );
                       },
-                      validator: (value) {
-                        return state.email.error;
-                      },
+                      validator: (value) => state.email.error,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
@@ -87,9 +91,7 @@ class _AuthPageState extends State<AuthPage> {
                           PasswordChanged(password: BlocFormItem(value: text)),
                         );
                       },
-                      validator: (value) {
-                        return state.email.error;
-                      },
+                      validator: (value) => state.password.error,
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
