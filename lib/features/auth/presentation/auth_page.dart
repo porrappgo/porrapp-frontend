@@ -76,9 +76,7 @@ class _AuthPageState extends State<AuthPage> {
                           EmailChanged(email: BlocFormItem(value: text)),
                         );
                       },
-                      validator: (value) {
-                        return state.email.error;
-                      },
+                      validator: (value) => state.email.error,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
@@ -93,9 +91,7 @@ class _AuthPageState extends State<AuthPage> {
                           PasswordChanged(password: BlocFormItem(value: text)),
                         );
                       },
-                      validator: (value) {
-                        return state.email.error;
-                      },
+                      validator: (value) => state.password.error,
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
