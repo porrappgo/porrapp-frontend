@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
+import 'package:porrapp_frontend/features/competitions/domain/usecases/usecases.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/domain/usecases/usecases.dart';
 
@@ -27,10 +29,8 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
 
       resource.fold(
         (failure) => emit(RoomsError('Failed to create room')),
-        (room) => null,
+        (room) => emit(RoomsCreated(room)),
       );
-
-      emit(RoomsHasData(resource));
     } catch (e) {
       emit(RoomsError('Failed to create room'));
     }
@@ -40,10 +40,17 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
     try {
       emit(RoomsLoading());
 
-      final resource = await predictionUseCases.listRoomsUsecase.run();
+      final resource = await predictionUseCases.roomsWithCompetitionsUseCases
+          .run();
+
       resource.fold(
-        (failure) => emit(RoomsError(failure.message)),
-        (rooms) => emit(RoomsHasData(rooms)),
+        (failure) => emit(RoomsError('Failed to load rooms')),
+        (roomsWithCompetitions) => emit(
+          RoomsHasData(
+            roomsWithCompetitions.rooms,
+            roomsWithCompetitions.competitions,
+          ),
+        ),
       );
     } catch (e) {
       print('Error loading rooms: $e');

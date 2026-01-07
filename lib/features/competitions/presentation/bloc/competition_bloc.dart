@@ -23,11 +23,23 @@ class CompetitionBloc extends Bloc<CompetitionEvent, CompetitionState> {
     try {
       print('Loading leagues and groups...');
       emit(state.copyWith(leagues: Loading()));
-      final competitions = await competitionUsecases.getCompetitions.run();
-      emit(state.copyWith(leagues: competitions));
+      final resource = await competitionUsecases.getCompetitions.run();
 
-      if (competitions is Success) {
-        for (var competition in competitions.data) {
+      Resource<List<CompetitionModel>>? competitions = null;
+      resource.fold(
+        (failure) {
+          competitions = Error(failure.message);
+        },
+        (data) {
+          competitions = Success(data);
+        },
+      );
+
+      emit(state.copyWith(leagues: competitions));
+      if (competitions == null) return;
+
+      if (competitions is Success<List<CompetitionModel>>) {
+        for (var competition in competitions?.data) {
           print('Fetching groups for competition ID: ${competition.id}');
 
           // Fetch groups for each competition

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/bloc/rooms_bloc.dart';
+import 'package:porrapp_frontend/features/prediction/presentation/rooms/components/new_room_dialog.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/components/rooms_no_yet.dart';
 
 class RoomsPage extends StatelessWidget {
@@ -52,7 +53,10 @@ class RoomsPage extends StatelessWidget {
                   bottom: 20,
                   right: 20,
                   child: FloatingActionButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final result = await showCreateRoomSheet(context);
+                      print('Create Room Sheet result: $result');
+                    },
                     child: const Icon(Icons.add),
                   ),
                 ),

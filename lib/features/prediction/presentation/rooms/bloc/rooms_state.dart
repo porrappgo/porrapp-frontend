@@ -26,9 +26,19 @@ final class RoomsError extends RoomsState {
 // State when rooms have been successfully loaded.
 final class RoomsHasData extends RoomsState {
   final List<RoomModel> rooms;
+  final List<CompetitionModel> competitions;
 
-  const RoomsHasData(this.rooms);
+  const RoomsHasData(this.rooms, this.competitions);
 
   @override
-  List<Object> get props => [rooms];
+  List<Object> get props => [rooms, competitions];
+}
+
+final class RoomsCreated extends RoomsState {
+  final RoomModel room;
+
+  const RoomsCreated(this.room);
+
+  @override
+  List<Object> get props => [room];
 }

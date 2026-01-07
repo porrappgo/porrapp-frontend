@@ -57,6 +57,15 @@ class AuthRepositoryImpl extends AuthRepository {
     String access,
     String? refresh,
   ) async {
+    print('Saving user session to secure storage...');
+    print('Email: $email');
+    print('Access Token: $access');
+    if (refresh != null) {
+      print('Refresh Token: $refresh');
+    } else {
+      print('No Refresh Token provided.');
+    }
+
     await Future.wait([
       _secureStorage.write(SecureStorageConstants.email, email),
       _secureStorage.write(SecureStorageConstants.tokenAccess, access),

@@ -3,9 +3,11 @@ import 'package:porrapp_frontend/features/prediction/domain/usecases/usecases.da
 class PredictionUseCases {
   CreateRoomUseCase createRoomUseCase;
   ListRoomsUsecase listRoomsUsecase;
+  RoomsWithCompetitionsUseCases roomsWithCompetitionsUseCases;
 
   PredictionUseCases({
     required this.createRoomUseCase,
     required this.listRoomsUsecase,
+    required this.roomsWithCompetitionsUseCases,
   });
 }

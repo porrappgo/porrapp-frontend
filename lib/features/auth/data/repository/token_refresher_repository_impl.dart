@@ -12,12 +12,14 @@ class TokenRefresherRepositoryImpl implements TokenRefresherRepository {
   TokenRefresherRepositoryImpl(this._tokenService, this._secureStorage);
 
   @override
-  Future<Resource<String>?> refreshAccessToken() async {
+  Future<Resource<String>> refreshAccessToken() async {
     final refresh = await _secureStorage.read(
       SecureStorageConstants.tokenRefresh,
     );
 
-    if (refresh == null) return null;
+    print("TokenRefresherRepositoryImpl: refresh token: $refresh");
+
+    if (refresh == null) return Error("No refresh token found");
 
     final response = await _tokenService.refreshToken(refresh);
 
@@ -27,7 +29,7 @@ class TokenRefresherRepositoryImpl implements TokenRefresherRepository {
       return Success(tokenAccess);
     }
 
-    return null;
+    return Error("Failed to refresh token");
   }
 
   @override
@@ -52,5 +54,13 @@ class TokenRefresherRepositoryImpl implements TokenRefresherRepository {
     await Future.wait([
       _secureStorage.write(SecureStorageConstants.tokenAccess, tokenAccess),
     ]);
+
+    final token = await _secureStorage.read(SecureStorageConstants.tokenAccess);
+    final refresh = await _secureStorage.read(
+      SecureStorageConstants.tokenRefresh,
+    );
+    print(
+      "TokenRefresherRepositoryImpl: Updated tokenAccess: $token, tokenRefresh: $refresh",
+    );
   }
 }
