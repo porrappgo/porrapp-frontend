@@ -3,7 +3,7 @@ import 'package:porrapp_frontend/core/injection.dart';
 import 'package:porrapp_frontend/features/auth/domain/usecases/usecases.dart';
 import 'package:porrapp_frontend/features/auth/presentation/bloc/bloc.dart';
 import 'package:porrapp_frontend/features/competitions/domain/usecases/usecases.dart';
-import 'package:porrapp_frontend/features/competitions/presentation/bloc/bloc.dart';
+import 'package:porrapp_frontend/features/competitions/presentation/bloc/competition_bloc.dart';
 import 'package:porrapp_frontend/features/prediction/domain/usecases/usecases.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/bloc/rooms_bloc.dart';
 import 'package:porrapp_frontend/features/splash/domain/usecases/usecases.dart';

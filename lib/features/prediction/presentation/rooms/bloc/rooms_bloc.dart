@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
-import 'package:porrapp_frontend/features/competitions/domain/usecases/usecases.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/domain/usecases/usecases.dart';
 

@@ -136,6 +136,10 @@ Future<void> configureDependencies(Env envConfig) async {
     () => PredictionUseCases(
       createRoomUseCase: CreateRoomUseCase(locator()),
       listRoomsUsecase: ListRoomsUsecase(locator()),
+      roomsWithCompetitionsUseCases: RoomsWithCompetitionsUseCases(
+        locator(),
+        locator(),
+      ),
     ),
   );
 

@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+part of 'competition_bloc.dart';
 
 class CompetitionEvent extends Equatable {
   const CompetitionEvent();
