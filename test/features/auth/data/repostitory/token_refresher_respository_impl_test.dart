@@ -26,18 +26,21 @@ void main() {
   });
 
   group('refreshAccessToken', () {
-    test('returns null if refresh token is not in secure storage', () async {
-      when(
-        () => mockSecureStorage.read(SecureStorageConstants.tokenRefresh),
-      ).thenAnswer((_) async => null);
+    test(
+      'returns Error message if refresh token is not in secure storage',
+      () async {
+        when(
+          () => mockSecureStorage.read(SecureStorageConstants.tokenRefresh),
+        ).thenAnswer((_) async => null);
 
-      final result = await repository.refreshAccessToken();
+        final result = await repository.refreshAccessToken();
 
-      expect(result, isNull);
-      verify(
-        () => mockSecureStorage.read(SecureStorageConstants.tokenRefresh),
-      ).called(1);
-    });
+        expect(result, isA<Error<String>>());
+        verify(
+          () => mockSecureStorage.read(SecureStorageConstants.tokenRefresh),
+        ).called(1);
+      },
+    );
 
     test(
       'returns Success<String> and updates secure storage on successful refresh',
@@ -45,6 +48,9 @@ void main() {
         when(
           () => mockSecureStorage.read(SecureStorageConstants.tokenRefresh),
         ).thenAnswer((_) async => 'refresh_token');
+        when(
+          () => mockSecureStorage.read(SecureStorageConstants.tokenAccess),
+        ).thenAnswer((_) async => 'old_access');
 
         final authTokenModel = AuthTokenModel(
           access: 'new_access',
@@ -76,7 +82,7 @@ void main() {
       },
     );
 
-    test('returns null if refresh token request fails', () async {
+    test('returns Error message if refresh token request fails', () async {
       when(
         () => mockSecureStorage.read(SecureStorageConstants.tokenRefresh),
       ).thenAnswer((_) async => 'refresh_token');
@@ -87,7 +93,7 @@ void main() {
 
       final result = await repository.refreshAccessToken();
 
-      expect(result, isNull);
+      expect(result, isA<Error<String>>());
     });
   });
 

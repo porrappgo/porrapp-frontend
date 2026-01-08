@@ -10,6 +10,7 @@ class InputText extends StatefulWidget {
   final String? Function(String?)? validator;
   final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
+  final int? maxLength;
 
   const InputText({
     Key? key,
@@ -21,6 +22,7 @@ class InputText extends StatefulWidget {
     this.validator,
     this.textInputAction,
     this.keyboardType = TextInputType.none,
+    this.maxLength,
   }) : super(key: key);
 
   @override
@@ -56,6 +58,7 @@ class _InputTextState extends State<InputText> {
       validator: widget.validator,
       textInputAction: widget.textInputAction,
       keyboardType: widget.keyboardType,
+      maxLength: widget.maxLength,
     );
   }
 }

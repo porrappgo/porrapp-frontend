@@ -54,8 +54,17 @@ class RoomsPage extends StatelessWidget {
                   right: 20,
                   child: FloatingActionButton(
                     onPressed: () async {
-                      final result = await showCreateRoomSheet(context);
+                      final result = await showCreateRoomSheet(
+                        context,
+                        state.competitions,
+                      );
                       print('Create Room Sheet result: $result');
+
+                      if (result == null) return;
+                      print(
+                        'Creating room with name: ${result.name}, '
+                        'and competition: ${result.competition.id}',
+                      );
                     },
                     child: const Icon(Icons.add),
                   ),
