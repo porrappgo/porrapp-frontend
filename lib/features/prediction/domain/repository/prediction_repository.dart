@@ -8,4 +8,9 @@ abstract class PredictionRepository {
 
   // List all rooms.
   Future<Either<Failure, List<RoomModel>>> listRooms();
+
+  // Get predictions for a specific room.
+  Future<Either<Failure, List<PredictionModel>>> getPredictionsForRoom(
+    int roomId,
+  );
 }

@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:porrapp_frontend/core/util/util.dart';
 
 import 'package:porrapp_frontend/features/prediction/data/datasource/remote/prediction_service.dart';
+import 'package:porrapp_frontend/features/prediction/domain/models/prediction_model.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/room_model.dart';
 import 'package:porrapp_frontend/features/prediction/domain/repository/prediction_repository.dart';
 
@@ -13,8 +14,7 @@ class PredictionRepositoryImpl extends PredictionRepository {
   @override
   Future<Either<Failure, RoomModel>> createRoom(RoomModel room) async {
     /**
-     * Retrieve the token from secure storage
-     * and create a new prediction room using the prediction service.
+     * Create a new room using the prediction service.
      */
     try {
       final createdRoom = await _predictionService.createRoom(room);
@@ -27,12 +27,28 @@ class PredictionRepositoryImpl extends PredictionRepository {
   @override
   Future<Either<Failure, List<RoomModel>>> listRooms() async {
     /**
-     * Retrieve the token from secure storage
-     * and list all prediction rooms using the prediction service.
+     * Retrieve list of rooms using the prediction service.
      */
     try {
       final rooms = await _predictionService.listRooms();
       return Right(rooms);
+    } on ServerException {
+      return Left(ServerFailure(''));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<PredictionModel>>> getPredictionsForRoom(
+    int roomId,
+  ) async {
+    /**
+     * Retrive predictions for a specific room using the prediction service.
+     */
+    try {
+      final predictions = await _predictionService.getPredictions(
+        roomId.toString(),
+      );
+      return Right(predictions);
     } on ServerException {
       return Left(ServerFailure(''));
     }

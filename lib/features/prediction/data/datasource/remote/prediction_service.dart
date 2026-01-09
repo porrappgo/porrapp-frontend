@@ -39,4 +39,20 @@ class PredictionService {
       throw ServerException();
     }
   }
+
+  Future<List<PredictionModel>> getPredictions(String roomId) async {
+    /**
+     * Get predictions for a specific room using the remote API with the provided token and room ID.
+     */
+    // TODO: Implement filtering by roomId in the API call.
+    final response = await _dio.get('/prediction/predictions/');
+
+    if (response.statusCode == 200) {
+      return (response.data as List)
+          .map((predictionJson) => PredictionModel.fromJson(predictionJson))
+          .toList();
+    } else {
+      throw ServerException();
+    }
+  }
 }
