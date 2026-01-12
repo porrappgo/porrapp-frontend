@@ -25,10 +25,10 @@ class _PredictionCardState extends State<PredictionCard> {
   void initState() {
     super.initState();
     homeController = TextEditingController(
-      text: widget.prediction.predictedHomeScore?.toString() ?? '',
+      text: widget.prediction.predictedHomeScore.toString(),
     );
     awayController = TextEditingController(
-      text: widget.prediction.predictedAwayScore?.toString() ?? '',
+      text: widget.prediction.predictedAwayScore.toString(),
     );
   }
 
@@ -76,6 +76,7 @@ class _PredictionCardState extends State<PredictionCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Home team
                 TeamInfo(
                   teamName: match.homeTeam.name,
                   teamLogoUrl: match.homeTeam.flag,
@@ -85,10 +86,13 @@ class _PredictionCardState extends State<PredictionCard> {
                   controller: homeController,
                   onChanged: (_) => _onChanged(),
                 ),
+
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Text(':'),
                 ),
+
+                // Away team
                 ScoreInput(
                   controller: awayController,
                   onChanged: (_) => _onChanged(),

@@ -13,4 +13,9 @@ abstract class PredictionRepository {
   Future<Either<Failure, List<PredictionModel>>> getPredictionsForRoom(
     int roomId,
   );
+
+  // Update predictions.
+  Future<Either<Failure, bool>> updatePredictions(
+    PredictionUpdateModel predictionUpdate,
+  );
 }

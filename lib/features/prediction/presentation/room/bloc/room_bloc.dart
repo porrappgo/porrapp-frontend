@@ -70,13 +70,35 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
 
     emit(current.copyWith(isSaving: true, errorMessage: null));
 
-    await Future.delayed(const Duration(seconds: 2));
+    final predictionUpdate = PredictionUpdateModel(
+      predictions: current.predictions
+          .map(
+            (p) => Prediction(
+              id: p.id,
+              predictedHomeScore: p.predictedHomeScore,
+              predictedAwayScore: p.predictedAwayScore,
+            ),
+          )
+          .toList(),
+    );
 
-    emit(
-      current.copyWith(
-        isSaving: false,
-        errorMessage: 'Failed to save predictions. Please try again.',
-      ),
+    final resource = await predictionUseCases.updatePredictionsUseCase.run(
+      predictionUpdate,
+    );
+
+    resource.fold(
+      (failure) {
+        print('Failed to save predictions: $failure');
+        emit(
+          current.copyWith(
+            isSaving: false,
+            errorMessage: 'Failed to save predictions. Please try again.',
+          ),
+        );
+      },
+      (success) {
+        emit(current.copyWith(isSaving: false, hasChanges: false));
+      },
     );
   }
 

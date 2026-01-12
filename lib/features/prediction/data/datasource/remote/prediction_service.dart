@@ -55,4 +55,24 @@ class PredictionService {
       throw ServerException();
     }
   }
+
+  Future<bool> updatePredictions(PredictionUpdateModel predictionUpdate) async {
+    /**
+     * Update predictions using the remote API with the provided token and prediction update data.
+     */
+    print('Updating predictions with data: ${predictionUpdate.toJson()}');
+    final response = await _dio.patch(
+      '/prediction/predictions/update/',
+      data: predictionUpdate.toJson(),
+    );
+
+    if (response.statusCode == 200) {
+      print('Update predictions response data: ${response.data}');
+      // Answer {"status": "predictions updated"}
+      return response.data.containsKey('success') &&
+          response.data['success'] == true;
+    } else {
+      throw ServerException();
+    }
+  }
 }
