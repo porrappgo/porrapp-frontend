@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/bloc/room_bloc.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/components/score_input.dart';
@@ -63,7 +64,9 @@ class _PredictionCardState extends State<PredictionCard> {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            Text('Match ${match.id} - ${match.date.toLocal()}'),
+            Text(
+              'Match ${match.id} - ${DateFormat.yMMMd().format(match.date)}',
+            ),
             match.isFinished
                 ? const Text(
                     'Match Finished',
@@ -83,6 +86,7 @@ class _PredictionCardState extends State<PredictionCard> {
                 ),
                 const SizedBox(width: 21),
                 ScoreInput(
+                  isEnabled: !match.isFinished,
                   controller: homeController,
                   onChanged: (_) => _onChanged(),
                 ),
@@ -95,6 +99,7 @@ class _PredictionCardState extends State<PredictionCard> {
                 // Away team
                 ScoreInput(
                   controller: awayController,
+                  isEnabled: !match.isFinished,
                   onChanged: (_) => _onChanged(),
                 ),
 

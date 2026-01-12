@@ -70,10 +70,7 @@ class RoomsPage extends StatelessWidget {
                             'Competition ID: ${room.competition} - Room ID: ${room.id}',
                           ),
                           onTap: () {
-                            context.push(
-                              '/${RoomPage.routeName}',
-                              extra: room.id,
-                            );
+                            context.push('/${RoomPage.routeName}', extra: room);
                           },
                         );
                       },

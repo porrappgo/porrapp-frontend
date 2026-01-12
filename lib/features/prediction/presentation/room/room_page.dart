@@ -10,8 +10,9 @@ class RoomPage extends StatefulWidget {
   static const String routeName = 'room';
 
   final int roomId;
+  final String? roomName;
 
-  const RoomPage({super.key, required this.roomId});
+  const RoomPage({super.key, required this.roomId, this.roomName});
 
   @override
   State<RoomPage> createState() => _RoomPageState();
@@ -27,7 +28,7 @@ class _RoomPageState extends State<RoomPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Room Page')),
+      appBar: AppBar(title: Text(widget.roomName ?? 'Room Page')),
       body: BlocBuilder<RoomBloc, RoomState>(
         builder: (context, state) {
           if (state is RoomLoading) {
