@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/bloc/room_bloc.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/components/prediction_card.dart';
@@ -34,6 +35,9 @@ class _RoomPageState extends State<RoomPage> {
           } else if (state is RoomError) {
             return Center(child: Text(state.message));
           } else if (state is RoomHasData) {
+            // print(
+            //   'hasChanges: ${state.hasChanges}, isSaving: ${state.isSaving}',
+            // );
             final groupedPredictions = <String, List<PredictionModel>>{};
 
             for (final prediction in state.predictions) {
@@ -57,6 +61,41 @@ class _RoomPageState extends State<RoomPage> {
           } else {
             return const Center(child: Text('Unknown state'));
           }
+        },
+      ),
+      floatingActionButton: BlocConsumer<RoomBloc, RoomState>(
+        listener: (context, state) {
+          if (state is RoomHasData && state.errorMessage != null) {
+            // print(
+            //   'hasChanges: ${state.hasChanges}, isSaving: ${state.isSaving}',
+            // );
+            Fluttertoast.showToast(
+              msg: state.errorMessage!,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state is RoomHasData) {
+            print(
+              'hasChanges: ${state.hasChanges}, isSaving: ${state.isSaving}',
+            );
+            return FloatingActionButton.extended(
+              onPressed: (!state.hasChanges || state.isSaving)
+                  ? null
+                  : () => context.read<RoomBloc>().add(SavePredictions()),
+              icon: const Icon(Icons.save),
+              label: state.isSaving
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Text('Save'),
+            );
+          }
+          return const SizedBox();
         },
       ),
     );
