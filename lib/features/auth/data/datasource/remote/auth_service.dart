@@ -9,7 +9,11 @@ class AuthService {
 
   Future<Resource<AuthModel>> login() async {
     try {
+      print('AuthService: Initiating login request to /user/me/');
       final response = await _dio.get('/user/me/');
+      print(
+        'AuthService: Received response with status code ${response.statusCode}',
+      );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         AuthModel authResponse = AuthModel.fromJson(response.data);

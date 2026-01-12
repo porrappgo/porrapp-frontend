@@ -7,29 +7,22 @@ class CompetitionService {
 
   CompetitionService(this._dio);
 
-  Future<Resource<List<CompetitionModel>>> getAll() async {
+  Future<List<CompetitionModel>> getAll() async {
     /**
      * Fetch all competitions from the remote API using the provided token.
      */
-    try {
-      final response = await _dio.get('/competition/');
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        print('Competitions response data: ${response.data}');
-        List<dynamic> data = response.data;
-        List<CompetitionModel> competitions = data
-            .map((item) => CompetitionModel.fromJson(item))
-            .toList();
-        return Success<List<CompetitionModel>>(competitions);
-      } else {
-        return Error(response.data);
-      }
-    } catch (e) {
-      // Handle error
-      print('Error during getting competitions: $e');
-      return Error(
-        'An error occurred during getting competitions: ${e.toString()}',
-      );
+    final response = await _dio.get('/competition/');
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print('Competitions response data: ${response.data}');
+      List<dynamic> data = response.data;
+      List<CompetitionModel> competitions = data
+          .map((item) => CompetitionModel.fromJson(item))
+          .toList();
+      return competitions;
+    } else {
+      throw ServerException();
     }
   }
 

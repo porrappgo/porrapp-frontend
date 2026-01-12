@@ -116,10 +116,7 @@ Future<void> configureDependencies(Env envConfig) async {
   );
 
   locator.registerLazySingleton<PredictionRepository>(
-    () => PredictionRepositoryImpl(
-      locator<PredictionService>(),
-      locator<ISecureStorageService>(),
-    ),
+    () => PredictionRepositoryImpl(locator<PredictionService>()),
   );
 
   // ───────────────────────────────
@@ -139,6 +136,11 @@ Future<void> configureDependencies(Env envConfig) async {
     () => PredictionUseCases(
       createRoomUseCase: CreateRoomUseCase(locator()),
       listRoomsUsecase: ListRoomsUsecase(locator()),
+      roomsWithCompetitionsUseCases: RoomsWithCompetitionsUseCases(
+        locator(),
+        locator(),
+      ),
+      getPredictionsForRoomUsecase: GetPredictionsForRoomUsecase(locator()),
     ),
   );
 

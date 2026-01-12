@@ -1,4 +1,5 @@
-import 'package:porrapp_frontend/core/util/resource.dart';
+import 'package:dartz/dartz.dart';
+import 'package:porrapp_frontend/core/util/util.dart';
 
 import 'package:porrapp_frontend/features/competitions/data/datasource/remote/competition_service.dart';
 import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
@@ -10,12 +11,17 @@ class CompetitionRepositoryImpl extends CompetitionRepository {
   CompetitionRepositoryImpl(this._competitionService);
 
   @override
-  Future<Resource<List<CompetitionModel>>> getAll() async {
+  Future<Either<Failure, List<CompetitionModel>>> getAll() async {
     /**
      * Retrieve the token from secure storage
      * and fetch all competitions using the competition service.
      */
-    return await _competitionService.getAll();
+    try {
+      final competitions = await _competitionService.getAll();
+      return Right(competitions);
+    } on ServerException {
+      return Left(ServerFailure(''));
+    }
   }
 
   @override

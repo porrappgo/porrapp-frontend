@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
+
 List<MatchModel> matchModelFromJson(String str) =>
     List<MatchModel>.from(json.decode(str).map((x) => MatchModel.fromJson(x)));
 
@@ -16,8 +18,8 @@ class MatchModel {
   DateTime createdAt;
   DateTime updatedAt;
   int competition;
-  int homeTeam;
-  int awayTeam;
+  TeamModel homeTeam;
+  TeamModel awayTeam;
 
   MatchModel({
     required this.id,
@@ -43,8 +45,8 @@ class MatchModel {
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
     competition: json["competition"],
-    homeTeam: json["home_team"],
-    awayTeam: json["away_team"],
+    homeTeam: TeamModel.fromJson(json["home_team"]),
+    awayTeam: TeamModel.fromJson(json["away_team"]),
   );
 
   Map<String, dynamic> toJson() => {

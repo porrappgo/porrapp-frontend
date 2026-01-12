@@ -1,46 +1,56 @@
-import 'package:porrapp_frontend/core/constants/constants.dart';
-import 'package:porrapp_frontend/core/secure/secure_storage.dart';
-import 'package:porrapp_frontend/core/util/resource.dart';
+import 'package:dartz/dartz.dart';
+import 'package:porrapp_frontend/core/util/util.dart';
 
 import 'package:porrapp_frontend/features/prediction/data/datasource/remote/prediction_service.dart';
+import 'package:porrapp_frontend/features/prediction/domain/models/prediction_model.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/room_model.dart';
 import 'package:porrapp_frontend/features/prediction/domain/repository/prediction_repository.dart';
 
 class PredictionRepositoryImpl extends PredictionRepository {
   final PredictionService _predictionService;
-  final ISecureStorageService _secureStorage;
 
-  PredictionRepositoryImpl(this._predictionService, this._secureStorage);
+  PredictionRepositoryImpl(this._predictionService);
 
   @override
-  Future<Resource<RoomModel>> createRoom(RoomModel room) async {
+  Future<Either<Failure, RoomModel>> createRoom(RoomModel room) async {
     /**
-     * Retrieve the token from secure storage
-     * and create a new prediction room using the prediction service.
+     * Create a new room using the prediction service.
      */
-    var token = await _getToken();
-    if (token == null) {
-      return Error('No token found');
+    try {
+      final createdRoom = await _predictionService.createRoom(room);
+      return Right(createdRoom);
+    } on ServerException {
+      return Left(ServerFailure(''));
     }
-
-    return await _predictionService.createRoom(token, room);
   }
 
   @override
-  Future<Resource<List<RoomModel>>> listRooms() {
+  Future<Either<Failure, List<RoomModel>>> listRooms() async {
     /**
-     * Retrieve the token from secure storage
-     * and list all prediction rooms using the prediction service.
+     * Retrieve list of rooms using the prediction service.
      */
-    return _getToken().then((token) {
-      if (token == null) {
-        return Future.value(Error('No token found'));
-      }
-      return _predictionService.listRooms(token);
-    });
+    try {
+      final rooms = await _predictionService.listRooms();
+      return Right(rooms);
+    } on ServerException {
+      return Left(ServerFailure(''));
+    }
   }
 
-  Future<String?> _getToken() async {
-    return await _secureStorage.read(SecureStorageConstants.tokenAccess);
+  @override
+  Future<Either<Failure, List<PredictionModel>>> getPredictionsForRoom(
+    int roomId,
+  ) async {
+    /**
+     * Retrive predictions for a specific room using the prediction service.
+     */
+    try {
+      final predictions = await _predictionService.getPredictions(
+        roomId.toString(),
+      );
+      return Right(predictions);
+    } on ServerException {
+      return Left(ServerFailure(''));
+    }
   }
 }

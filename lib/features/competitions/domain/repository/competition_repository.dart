@@ -1,9 +1,10 @@
+import 'package:dartz/dartz.dart';
 import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
 
 abstract class CompetitionRepository {
   // Get all competitions.
-  Future<Resource<List<CompetitionModel>>> getAll();
+  Future<Either<Failure, List<CompetitionModel>>> getAll();
 
   // Get gropus standing by list of group IDs.
   Future<Resource<List<GroupStandingModel>>> getGroupsStandingByGroupsIds(
