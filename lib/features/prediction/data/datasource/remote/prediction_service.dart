@@ -25,15 +25,30 @@ class PredictionService {
     }
   }
 
-  Future<List<RoomModel>> listRooms() async {
+  Future<List<RoomUserModel>> listRooms() async {
     /**
      * List all prediction rooms using the remote API with the provided token.
      */
-    final response = await _dio.get('/prediction/rooms/');
+    final response = await _dio.get('/prediction/room-users/');
 
     if (response.statusCode == 200) {
       return (response.data as List)
-          .map((roomJson) => RoomModel.fromJson(roomJson))
+          .map((roomJson) => RoomUserModel.fromJson(roomJson))
+          .toList();
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<List<RoomUserModel>> listRoomsByRoomId(String roomId) async {
+    /**
+     * List all prediction rooms using the remote API with the provided token.
+     */
+    final response = await _dio.get('/prediction/room-users/$roomId/');
+
+    if (response.statusCode == 200) {
+      return (response.data as List)
+          .map((roomJson) => RoomUserModel.fromJson(roomJson))
           .toList();
     } else {
       throw ServerException();

@@ -21,7 +21,7 @@ class RoomsWithCompetitionsUseCases {
         competitionRepository.getAll(),
       ]);
 
-      final roomsResult = results[0] as Either<Failure, List<RoomModel>>;
+      final roomsResult = results[0] as Either<Failure, List<RoomUserModel>>;
       final competitionsResult =
           results[1] as Either<Failure, List<CompetitionModel>>;
 

@@ -22,12 +22,14 @@ final class RoomError extends RoomState {
 
 final class RoomHasData extends RoomState {
   final List<PredictionModel> predictions;
+  final List<RoomUserModel>? roomUsers;
   final bool isSaving;
   final bool hasChanges;
   final String? errorMessage;
 
   const RoomHasData({
     required this.predictions,
+    this.roomUsers,
     this.isSaving = false,
     this.hasChanges = false,
     this.errorMessage,
@@ -35,12 +37,14 @@ final class RoomHasData extends RoomState {
 
   RoomHasData copyWith({
     List<PredictionModel>? predictions,
+    List<RoomUserModel>? roomUsers,
     bool? isSaving,
     bool? hasChanges,
     String? errorMessage,
   }) {
     return RoomHasData(
       predictions: predictions ?? this.predictions,
+      roomUsers: roomUsers ?? this.roomUsers,
       isSaving: isSaving ?? this.isSaving,
       hasChanges: hasChanges ?? this.hasChanges,
       errorMessage: errorMessage,
@@ -48,5 +52,11 @@ final class RoomHasData extends RoomState {
   }
 
   @override
-  List<Object?> get props => [predictions, isSaving, hasChanges, errorMessage];
+  List<Object?> get props => [
+    predictions,
+    roomUsers,
+    isSaving,
+    hasChanges,
+    errorMessage,
+  ];
 }

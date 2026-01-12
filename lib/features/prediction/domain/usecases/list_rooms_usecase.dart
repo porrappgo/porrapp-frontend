@@ -8,7 +8,7 @@ class ListRoomsUsecase {
 
   ListRoomsUsecase(this.repository);
 
-  Future<Either<Failure, List<RoomModel>>> run() async {
+  Future<Either<Failure, List<RoomUserModel>>> run() async {
     return await repository.listRooms();
   }
 }

@@ -17,7 +17,7 @@ class RoomsPage extends StatelessWidget {
     final roomsBloc = BlocProvider.of<RoomsBloc>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Rooms')),
+      appBar: AppBar(title: const Text('PorrApp')),
       body: BlocListener<RoomsBloc, RoomsState>(
         listener: (context, state) {
           print('RoomsPage BlocListener detected state change: $state');
@@ -63,14 +63,17 @@ class RoomsPage extends StatelessWidget {
                     ListView.builder(
                       itemCount: rooms.length,
                       itemBuilder: (context, index) {
-                        final room = rooms[index];
+                        final roomUser = rooms[index];
                         return ListTile(
-                          title: Text(room.name),
+                          title: Text(roomUser.room.name),
                           subtitle: Text(
-                            'Competition ID: ${room.competition} - Room ID: ${room.id}',
+                            'Competition ID: ${roomUser.room.competition} - Room ID: ${roomUser.room.id} - points: ${roomUser.totalPoints} exact, ${roomUser.exactHits} hits',
                           ),
                           onTap: () {
-                            context.push('/${RoomPage.routeName}', extra: room);
+                            context.push(
+                              '/${RoomPage.routeName}',
+                              extra: roomUser.room,
+                            );
                           },
                         );
                       },
