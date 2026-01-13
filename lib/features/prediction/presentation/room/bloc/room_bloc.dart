@@ -24,7 +24,12 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
 
       resource.fold(
         (failure) => emit(RoomError('Failed to load predictions')),
-        (predictions) => emit(RoomHasData(predictions: predictions)),
+        (predictionsAndUserRooms) => emit(
+          RoomHasData(
+            predictions: predictionsAndUserRooms.predictions,
+            roomUsers: predictionsAndUserRooms.roomUsers,
+          ),
+        ),
       );
     } catch (e) {
       emit(RoomError('Failed to load predictions'));

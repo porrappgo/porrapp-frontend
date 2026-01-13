@@ -40,7 +40,7 @@ class PredictionService {
     }
   }
 
-  Future<List<RoomUserModel>> listRoomsByRoomId(String roomId) async {
+  Future<List<RoomUserModel>> listRoomsByRoomId(int roomId) async {
     /**
      * List all prediction rooms using the remote API with the provided token.
      */

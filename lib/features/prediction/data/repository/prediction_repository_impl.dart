@@ -72,7 +72,7 @@ class PredictionRepositoryImpl extends PredictionRepository {
 
   @override
   Future<Either<Failure, List<RoomUserModel>>> listRoomsByRoomId(
-    String roomId,
+    int roomId,
   ) async {
     /**
      * Retrieve list of rooms by room ID using the prediction service.

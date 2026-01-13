@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:porrapp_frontend/features/competitions/domain/models/competition_model.dart';
+import 'package:porrapp_frontend/features/prediction/domain/models/room_user_model.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/room_page.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/bloc/rooms_bloc.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/components/new_room_dialog.dart';
@@ -20,8 +22,6 @@ class RoomsPage extends StatelessWidget {
       appBar: AppBar(title: const Text('PorrApp')),
       body: BlocListener<RoomsBloc, RoomsState>(
         listener: (context, state) {
-          print('RoomsPage BlocListener detected state change: $state');
-
           if (state is RoomsError) {
             Fluttertoast.showToast(
               msg: state.message,
@@ -40,7 +40,6 @@ class RoomsPage extends StatelessWidget {
         },
         child: BlocBuilder<RoomsBloc, RoomsState>(
           builder: (context, state) {
-            print('Building RoomsPage with state: $state');
             // Display loading indicator while rooms are being loaded
             if (state is RoomsLoading) {
               return const Center(child: CircularProgressIndicator());
@@ -60,24 +59,7 @@ class RoomsPage extends StatelessWidget {
                   if (rooms.isEmpty)
                     const RoomsNoYet()
                   else
-                    ListView.builder(
-                      itemCount: rooms.length,
-                      itemBuilder: (context, index) {
-                        final roomUser = rooms[index];
-                        return ListTile(
-                          title: Text(roomUser.room.name),
-                          subtitle: Text(
-                            'Competition ID: ${roomUser.room.competition} - Room ID: ${roomUser.room.id} - points: ${roomUser.totalPoints} exact, ${roomUser.exactHits} hits',
-                          ),
-                          onTap: () {
-                            context.push(
-                              '/${RoomPage.routeName}',
-                              extra: roomUser.room,
-                            );
-                          },
-                        );
-                      },
-                    ),
+                    _roomsList(rooms, state.competitions),
 
                   Positioned(
                     bottom: 20,
@@ -88,13 +70,8 @@ class RoomsPage extends StatelessWidget {
                           context,
                           state.competitions,
                         );
-                        print('Create Room Sheet result: $result');
 
                         if (result == null) return;
-                        print(
-                          'Creating room with name: ${result.name}, '
-                          'and competition: ${result.competition.id}',
-                        );
                         roomsBloc.add(
                           CreateRoomEvent(result.name, result.competition.id),
                         );
@@ -109,6 +86,71 @@ class RoomsPage extends StatelessWidget {
             return const Center(child: Text('No rooms available'));
           },
         ),
+      ),
+    );
+  }
+
+  ListView _roomsList(
+    List<RoomUserModel> rooms,
+    List<CompetitionModel> competitions,
+  ) {
+    return ListView.builder(
+      itemCount: rooms.length,
+      itemBuilder: (context, index) {
+        final roomUser = rooms[index];
+        final competition = competitions.firstWhere(
+          (comp) => comp.id == roomUser.room.competition,
+        );
+        return CardRoom(roomUser: roomUser, competition: competition);
+      },
+    );
+  }
+}
+
+class CardRoom extends StatelessWidget {
+  final RoomUserModel roomUser;
+  final CompetitionModel competition;
+
+  const CardRoom({
+    super.key,
+    required this.roomUser,
+    required this.competition,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: Stack(
+        children: [
+          Positioned(
+            left: -15,
+            top: -15,
+            child: Opacity(
+              opacity: 0.06,
+              child: const FadeInImage(
+                width: 70,
+                height: 70,
+                placeholder: AssetImage('assets/images/soccer_placeholder.png'),
+                image: AssetImage('assets/images/soccer_placeholder.png'),
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 8, left: 8),
+            child: ListTile(
+              title: Text(
+                roomUser.room.name,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text('Competition: ${competition.name}'),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                context.push('/${RoomPage.routeName}', extra: roomUser.room);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
