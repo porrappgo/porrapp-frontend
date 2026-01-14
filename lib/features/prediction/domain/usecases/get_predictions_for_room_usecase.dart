@@ -9,43 +9,21 @@ class GetPredictionsForRoomUsecase {
   GetPredictionsForRoomUsecase(this.repository);
 
   Future<Either<Failure, PredictionsWithUserRooms>> run(int roomId) async {
-    try {
-      final results = await Future.wait([
-        repository.getPredictionsForRoom(roomId),
-        repository.listRoomsByRoomId(roomId),
-      ]);
+    final predictionsResult = await repository.getPredictionsForRoom(roomId);
 
-      final predictionsResult =
-          results[0] as Either<Failure, List<PredictionModel>>;
-      final roomUsersResult =
-          results[1] as Either<Failure, List<RoomUserModel>>;
-
-      if (predictionsResult.isLeft()) {
-        return Left(
-          roomUsersResult.fold(
-            (l) => l,
-            (_) => throw InternalFailure('Failed to load predictions'),
+    return predictionsResult.fold((failure) => Left(failure), (
+      predictions,
+    ) async {
+      final roomUsersResult = await repository.listRoomsByRoomId(roomId);
+      return roomUsersResult.fold(
+        (failure) => Left(failure),
+        (roomUsers) => Right(
+          PredictionsWithUserRooms(
+            predictions: predictions,
+            roomUsers: roomUsers,
           ),
-        );
-      }
-
-      if (roomUsersResult.isLeft()) {
-        return Left(
-          roomUsersResult.fold(
-            (l) => l,
-            (_) => throw InternalFailure('Failed to load room users'),
-          ),
-        );
-      }
-
-      return Right(
-        PredictionsWithUserRooms(
-          predictions: predictionsResult.getOrElse(() => []),
-          roomUsers: roomUsersResult.getOrElse(() => []),
         ),
       );
-    } catch (e) {
-      return Left(InternalFailure('Failed to get predictions for room'));
-    }
+    });
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:porrapp_frontend/core/util/util.dart';
+import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/domain/repository/prediction_repository.dart';
 import 'package:porrapp_frontend/features/prediction/domain/usecases/get_predictions_for_room_usecase.dart';
@@ -10,20 +11,108 @@ import 'package:porrapp_frontend/features/prediction/domain/usecases/get_predict
 class MockPredictionRepository extends Mock implements PredictionRepository {}
 
 void main() {
-  late MockPredictionRepository repository;
   late GetPredictionsForRoomUsecase usecase;
+  late MockPredictionRepository repository;
 
   setUp(() {
     repository = MockPredictionRepository();
     usecase = GetPredictionsForRoomUsecase(repository);
   });
 
-  test('returns Right when predictions and room users succeed', () async {
-    // Arrange
-    const roomId = 1;
+  const roomId = 1;
 
+  test('returns Failure when getPredictionsForRoom fails', () async {
+    // Arrange
+    final failure = ServerFailure('Error fetching predictions');
+
+    when(
+      () => repository.getPredictionsForRoom(roomId),
+    ).thenAnswer((_) async => Left(failure));
+
+    // Act
+    final result = await usecase.run(roomId);
+
+    // Assert
+    expect(result.isLeft(), true);
+
+    result.fold(
+      (l) => expect(l, failure),
+      (_) => fail('Expected Left with Failure'),
+    );
+
+    verify(() => repository.getPredictionsForRoom(roomId)).called(1);
+    verifyNever(() => repository.listRoomsByRoomId(any()));
+  });
+
+  test('returns Failure when listRoomsByRoomId fails', () async {
+    // Arrange
     final predictions = <PredictionModel>[];
-    final roomUsers = <RoomUserModel>[];
+    final failure = ServerFailure('Error fetching room users');
+
+    when(
+      () => repository.getPredictionsForRoom(roomId),
+    ).thenAnswer((_) async => Right(predictions));
+
+    when(
+      () => repository.listRoomsByRoomId(roomId),
+    ).thenAnswer((_) async => Left(failure));
+
+    // Act
+    final result = await usecase.run(roomId);
+
+    // Assert
+    expect(result.isLeft(), true);
+
+    result.fold(
+      (l) => expect(l, failure),
+      (_) => fail('Expected Left with Failure'),
+    );
+
+    verify(() => repository.getPredictionsForRoom(roomId)).called(1);
+    verify(() => repository.listRoomsByRoomId(roomId)).called(1);
+  });
+
+  test('returns PredictionsWithUserRooms when both calls succeed', () async {
+    // Arrange
+    final predictions = <PredictionModel>[
+      PredictionModel(
+        id: 1,
+        match: MatchModel(
+          id: 10,
+          homeTeam: TeamModel(
+            id: 1,
+            name: 'Team A',
+            flag: 'http://example.com/cresta.png',
+            competition: 1,
+          ),
+          awayTeam: TeamModel(
+            id: 2,
+            name: 'Team B',
+            flag: 'http://example.com/cresta2.png',
+            competition: 1,
+          ),
+          stage: "string",
+          date: DateTime.now(),
+          homeScore: 0,
+          awayScore: 0,
+          isFinished: false,
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+          competition: 1,
+        ),
+        predictedHomeScore: 2,
+        predictedAwayScore: 1,
+        pointsEarned: 3,
+      ),
+    ];
+
+    final roomUsers = <RoomUserModel>[
+      RoomUserModel(
+        room: RoomModel(id: 1, name: 'Room 1', competition: 10),
+        totalPoints: 12,
+        exactHits: 2,
+      ),
+    ];
 
     when(
       () => repository.getPredictionsForRoom(roomId),
@@ -39,80 +128,14 @@ void main() {
     // Assert
     expect(result.isRight(), true);
 
-    result.fold((_) => fail('Expected Right'), (data) {
+    result.fold((_) => fail('Expected Right with PredictionsWithUserRooms'), (
+      data,
+    ) {
       expect(data.predictions, predictions);
       expect(data.roomUsers, roomUsers);
     });
 
     verify(() => repository.getPredictionsForRoom(roomId)).called(1);
     verify(() => repository.listRoomsByRoomId(roomId)).called(1);
-  });
-
-  test('returns Left when predictions fail', () async {
-    // Arrange
-    const roomId = 2;
-    final failure = InternalFailure('Failed to get predictions for room');
-
-    when(
-      () => repository.getPredictionsForRoom(roomId),
-    ).thenAnswer((_) async => Left(failure));
-
-    when(
-      () => repository.listRoomsByRoomId(roomId),
-    ).thenAnswer((_) async => Right(<RoomUserModel>[]));
-
-    // Act
-    final result = await usecase.run(roomId);
-
-    // Assert
-    expect(result.isLeft(), true);
-
-    result.fold((l) => expect(l, failure), (_) => fail('Expected Left'));
-  });
-
-  test('returns Left when room users fail', () async {
-    // Arrange
-    const roomId = 3;
-    final failure = ServerFailure('Error fetching room users');
-
-    when(
-      () => repository.getPredictionsForRoom(roomId),
-    ).thenAnswer((_) async => Right(<PredictionModel>[]));
-
-    when(
-      () => repository.listRoomsByRoomId(roomId),
-    ).thenAnswer((_) async => Left(failure));
-
-    // Act
-    final result = await usecase.run(roomId);
-
-    // Assert
-    expect(result.isLeft(), true);
-
-    result.fold((l) => expect(l, failure), (_) => fail('Expected Left'));
-  });
-
-  test('returns InternalFailure when an exception is thrown', () async {
-    // Arrange
-    const roomId = 4;
-
-    when(
-      () => repository.getPredictionsForRoom(roomId),
-    ).thenThrow(Exception('Unexpected error'));
-
-    when(
-      () => repository.listRoomsByRoomId(roomId),
-    ).thenAnswer((_) async => Right(<RoomUserModel>[]));
-
-    // Act
-    final result = await usecase.run(roomId);
-
-    // Assert
-    expect(result.isLeft(), true);
-
-    result.fold(
-      (l) => expect(l, isA<InternalFailure>()),
-      (_) => fail('Expected Left'),
-    );
   });
 }
