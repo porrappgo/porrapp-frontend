@@ -34,7 +34,7 @@ jobs:
       - name: 🧪 Combine coverage reports
         run: |
           chmod +x scripts/*.sh
-          ./scripts/combine-coverage.sh
+          ./scripts/combine-coverage.sh ${{ github.workspace }}
 
       - name: 🧪✅❌ Publish test results
         id: compute_test_results
