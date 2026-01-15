@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/domain/usecases/usecases.dart';
@@ -8,6 +9,8 @@ part 'rooms_event.dart';
 part 'rooms_state.dart';
 
 class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
+  static const String tag = "RoomsBloc";
+
   final PredictionUseCases predictionUseCases;
 
   RoomsBloc(this.predictionUseCases) : super(RoomsInitial()) {
@@ -52,7 +55,11 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
         ),
       );
     } catch (e) {
-      print('Error loading rooms: $e');
+      FlutterLogs.logError(
+        tag,
+        "_onLoadRoomsEvent",
+        "Error in _onLoadRoomsEvent: $e",
+      );
       emit(RoomsError('Failed to load rooms'));
     }
   }

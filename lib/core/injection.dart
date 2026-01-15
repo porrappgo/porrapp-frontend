@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -27,6 +28,15 @@ final locator = GetIt.instance;
 
 @InjectableInit()
 Future<void> configureDependencies(Env envConfig) async {
+  // ───────────────────────────────
+  // 🔊 Logs
+  // ───────────────────────────────
+  await FlutterLogs.initLogs(
+    directoryStructure: DirectoryStructure.FOR_DATE,
+    timeStampFormat: TimeStampFormat.TIME_FORMAT_READABLE,
+    logFileExtension: LogFileExtension.LOG,
+  );
+
   // ───────────────────────────────
   // 🔐 Secure Storage
   // ───────────────────────────────
