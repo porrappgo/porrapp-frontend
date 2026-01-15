@@ -45,5 +45,15 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- Deep linking configuration -->
+	<key>CFBundleURLTypes</key>
+	<array>
+	<dict>
+		<key>CFBundleURLSchemes</key>
+		<array>
+		<string>applinks:localhost:8000</string>
+		</array>
+	</dict>
+</array>
 </dict>
 </plist>

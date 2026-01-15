@@ -37,13 +37,23 @@ void main() {
 
     test('RoomModel.toJson returns valid json map', () {
       // Arrange
-      final model = RoomModel(id: 10, name: "Champions Room", competition: 300);
+      final model = RoomModel(
+        id: 10,
+        name: "Champions Room",
+        competition: 300,
+        deeplink: 'www.example.com',
+      );
 
       // Act
       final json = model.toJson();
 
       // Assert
-      expect(json, {"id": 10, "name": "Champions Room", "competition": 300});
+      expect(json, {
+        "id": 10,
+        "name": "Champions Room",
+        "competition": 300,
+        "deeplink": 'www.example.com',
+      });
     });
 
     test('roomModelFromJson parses json string correctly', () {

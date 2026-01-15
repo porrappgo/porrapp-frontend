@@ -1,14 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:porrapp_frontend/core/util/util.dart';
-import 'package:porrapp_frontend/features/auth/presentation/login_page.dart';
 import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
 import 'package:porrapp_frontend/features/competitions/presentation/bloc/competition_bloc.dart';
-import 'package:porrapp_frontend/features/competitions/presentation/group_standings_page.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/rooms_page.dart';
 
 class CompetitionPage extends StatelessWidget {

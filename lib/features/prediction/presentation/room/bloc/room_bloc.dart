@@ -109,10 +109,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
 
   bool _isValid(List<PredictionModel> predictions) {
     for (final p in predictions) {
-      if (p.predictedHomeScore == null ||
-          p.predictedAwayScore == null ||
-          p.predictedHomeScore! < 0 ||
-          p.predictedAwayScore! < 0) {
+      if (p.predictedHomeScore < 0 || p.predictedAwayScore < 0) {
         return false;
       }
     }
