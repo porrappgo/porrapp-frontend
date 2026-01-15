@@ -68,6 +68,7 @@ jobs:
           title: "Coverage Report"
 
       - name: 🥤 Extract test coverage percentage
+        if: github.event_name == 'push' && github.event.ref == 'refs/heads/main'
         run: |
           chmod +x scripts/*.sh
           ./scripts/generate-html-coverage.sh
@@ -79,6 +80,7 @@ jobs:
           echo "coverage_percentage=$percentage" >> "$GITHUB_ENV"
 
       - name: 🪪 Create test coverage badge
+        if: github.event_name == 'push' && github.event.ref == 'refs/heads/main'
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           auth: ${{ secrets.BADGE_GIST_TOKEN }}
