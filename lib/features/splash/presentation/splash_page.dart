@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:go_router/go_router.dart';
 import 'package:porrapp_frontend/features/auth/presentation/login_page.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/rooms_page.dart';
 import 'package:porrapp_frontend/features/splash/presentation/bloc/bloc.dart';
 
 class SplashPage extends StatelessWidget {
+  static const String tag = "SplashPage";
   static const String routeName = 'splash';
 
   const SplashPage({super.key});
@@ -22,7 +24,9 @@ class SplashPage extends StatelessWidget {
             final isLoggedIn = state.isLoggedIn;
             final errorMessage = state.errorMessage;
 
-            print(
+            FlutterLogs.logInfo(
+              tag,
+              "listener",
               'SplashPage - isLoading: $isLoading, isLoggedIn: $isLoggedIn, errorMessage: $errorMessage',
             );
 
