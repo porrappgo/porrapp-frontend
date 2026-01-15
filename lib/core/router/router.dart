@@ -55,9 +55,17 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-      name: RoomsPage.routeName,
       path: '/${RoomsPage.routeName}',
       builder: (context, state) => const RoomsPage(),
+    ),
+    // Added to handle deep linking with room code.
+    // https://dev.to/faidterence/flutter-deep-linking-create-links-that-actually-work-3l2b
+    GoRoute(
+      path: '/${RoomsPage.routeName}/:code',
+      builder: (context, state) {
+        final code = state.pathParameters['code'];
+        return RoomsPage(codeRoom: code);
+      },
     ),
     GoRoute(
       name: RoomPage.routeName,
