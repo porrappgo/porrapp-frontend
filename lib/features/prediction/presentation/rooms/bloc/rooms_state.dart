@@ -25,7 +25,7 @@ final class RoomsError extends RoomsState {
 
 // State when rooms have been successfully loaded.
 final class RoomsHasData extends RoomsState {
-  final List<RoomModel> rooms;
+  final List<RoomUserModel> rooms;
   final List<CompetitionModel> competitions;
 
   const RoomsHasData(this.rooms, this.competitions);

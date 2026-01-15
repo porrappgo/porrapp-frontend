@@ -1,16 +1,32 @@
 import 'package:flutter/material.dart';
 
 class ScoreInput extends StatelessWidget {
-  const ScoreInput({super.key});
+  final TextEditingController controller;
+  final void Function(String)? onChanged;
+  final bool isEnabled;
+
+  const ScoreInput({
+    super.key,
+    required this.controller,
+    this.onChanged,
+    this.isEnabled = true,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 50,
+      width: 60,
       child: TextField(
+        enabled: isEnabled,
+        maxLength: 2,
+        controller: controller,
+        onChanged: onChanged,
         keyboardType: TextInputType.number,
         textAlign: TextAlign.center,
-        decoration: const InputDecoration(border: OutlineInputBorder()),
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          counterText: '',
+        ),
       ),
     );
   }

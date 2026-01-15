@@ -8,7 +8,22 @@ class GetPredictionsForRoomUsecase {
 
   GetPredictionsForRoomUsecase(this.repository);
 
-  Future<Either<Failure, List<PredictionModel>>> run(int roomId) async {
-    return await repository.getPredictionsForRoom(roomId);
+  Future<Either<Failure, PredictionsWithUserRooms>> run(int roomId) async {
+    final predictionsResult = await repository.getPredictionsForRoom(roomId);
+
+    return predictionsResult.fold((failure) => Left(failure), (
+      predictions,
+    ) async {
+      final roomUsersResult = await repository.listRoomsByRoomId(roomId);
+      return roomUsersResult.fold(
+        (failure) => Left(failure),
+        (roomUsers) => Right(
+          PredictionsWithUserRooms(
+            predictions: predictions,
+            roomUsers: roomUsers,
+          ),
+        ),
+      );
+    });
   }
 }

@@ -3,12 +3,14 @@ import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/domain/repository/prediction_repository.dart';
 
-class ListRoomsUsecase {
+class UpdatePredictionsUseCase {
   PredictionRepository repository;
 
-  ListRoomsUsecase(this.repository);
+  UpdatePredictionsUseCase(this.repository);
 
-  Future<Either<Failure, List<RoomUserModel>>> run() async {
-    return await repository.listRooms();
+  Future<Either<Failure, bool>> run(
+    PredictionUpdateModel predictionUpdate,
+  ) async {
+    return await repository.updatePredictions(predictionUpdate);
   }
 }

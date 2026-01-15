@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:porrapp_frontend/features/auth/presentation/login_page.dart';
-import 'package:porrapp_frontend/features/competitions/presentation/competition_page.dart';
+import 'package:porrapp_frontend/features/prediction/presentation/rooms/rooms_page.dart';
 import 'package:porrapp_frontend/features/splash/presentation/bloc/bloc.dart';
 
 class SplashPage extends StatelessWidget {
@@ -29,7 +29,7 @@ class SplashPage extends StatelessWidget {
             if (!isLoading && !isLoggedIn) {
               context.go('/${LoginPage.routeName}');
             } else if (!isLoading && isLoggedIn) {
-              context.go('/${CompetitionPage.routeName}');
+              context.go('/${RoomsPage.routeName}');
             }
           },
           child: BlocBuilder<SplashBloc, SplashState>(

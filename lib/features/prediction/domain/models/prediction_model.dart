@@ -41,4 +41,14 @@ class PredictionModel {
     "predicted_away_score": predictedAwayScore,
     "points_earned": pointsEarned,
   };
+
+  PredictionModel copyWith({int? predictedHomeScore, int? predictedAwayScore}) {
+    return PredictionModel(
+      id: id,
+      match: match,
+      predictedHomeScore: predictedHomeScore ?? this.predictedHomeScore,
+      predictedAwayScore: predictedAwayScore ?? this.predictedAwayScore,
+      pointsEarned: pointsEarned,
+    );
+  }
 }

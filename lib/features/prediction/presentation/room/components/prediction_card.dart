@@ -1,5 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
+import 'package:porrapp_frontend/features/prediction/presentation/room/bloc/room_bloc.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/components/score_input.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/components/team_info.dart';
 
@@ -13,6 +18,42 @@ class PredictionCard extends StatefulWidget {
 }
 
 class _PredictionCardState extends State<PredictionCard> {
+  late TextEditingController homeController;
+  late TextEditingController awayController;
+  Timer? _debounce;
+
+  @override
+  void initState() {
+    super.initState();
+    homeController = TextEditingController(
+      text: widget.prediction.predictedHomeScore.toString(),
+    );
+    awayController = TextEditingController(
+      text: widget.prediction.predictedAwayScore.toString(),
+    );
+  }
+
+  void _onChanged() {
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 400), () {
+      context.read<RoomBloc>().add(
+        UpdatePredictionLocally(
+          predictionId: widget.prediction.id,
+          homeScore: int.tryParse(homeController.text),
+          awayScore: int.tryParse(awayController.text),
+        ),
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    homeController.dispose();
+    awayController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final match = widget.prediction.match;
@@ -23,7 +64,9 @@ class _PredictionCardState extends State<PredictionCard> {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            Text('Match ${match.id} - ${match.date.toLocal()}'),
+            Text(
+              'Match ${match.id} - ${DateFormat.yMMMd().format(match.date)}',
+            ),
             match.isFinished
                 ? const Text(
                     'Match Finished',
@@ -36,17 +79,29 @@ class _PredictionCardState extends State<PredictionCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Home team
                 TeamInfo(
                   teamName: match.homeTeam.name,
                   teamLogoUrl: match.homeTeam.flag,
                 ),
                 const SizedBox(width: 21),
-                const ScoreInput(),
+                ScoreInput(
+                  isEnabled: !match.isFinished,
+                  controller: homeController,
+                  onChanged: (_) => _onChanged(),
+                ),
+
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Text(':'),
                 ),
-                const ScoreInput(),
+
+                // Away team
+                ScoreInput(
+                  controller: awayController,
+                  isEnabled: !match.isFinished,
+                  onChanged: (_) => _onChanged(),
+                ),
 
                 const SizedBox(width: 21),
                 TeamInfo(
@@ -55,13 +110,6 @@ class _PredictionCardState extends State<PredictionCard> {
                 ),
               ],
             ),
-
-            // const SizedBox(height: 8),
-
-            // ElevatedButton(
-            //   onPressed: () {},
-            //   child: const Text('Guardar predicción'),
-            // ),
           ],
         ),
       ),

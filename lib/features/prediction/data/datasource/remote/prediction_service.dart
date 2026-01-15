@@ -25,15 +25,30 @@ class PredictionService {
     }
   }
 
-  Future<List<RoomModel>> listRooms() async {
+  Future<List<RoomUserModel>> listRooms() async {
     /**
      * List all prediction rooms using the remote API with the provided token.
      */
-    final response = await _dio.get('/prediction/rooms/');
+    final response = await _dio.get('/prediction/room-users/');
 
     if (response.statusCode == 200) {
       return (response.data as List)
-          .map((roomJson) => RoomModel.fromJson(roomJson))
+          .map((roomJson) => RoomUserModel.fromJson(roomJson))
+          .toList();
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<List<RoomUserModel>> listRoomsByRoomId(int roomId) async {
+    /**
+     * List all prediction rooms using the remote API with the provided token.
+     */
+    final response = await _dio.get('/prediction/room-users/$roomId/');
+
+    if (response.statusCode == 200) {
+      return (response.data as List)
+          .map((roomJson) => RoomUserModel.fromJson(roomJson))
           .toList();
     } else {
       throw ServerException();
@@ -51,6 +66,26 @@ class PredictionService {
       return (response.data as List)
           .map((predictionJson) => PredictionModel.fromJson(predictionJson))
           .toList();
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<bool> updatePredictions(PredictionUpdateModel predictionUpdate) async {
+    /**
+     * Update predictions using the remote API with the provided token and prediction update data.
+     */
+    print('Updating predictions with data: ${predictionUpdate.toJson()}');
+    final response = await _dio.patch(
+      '/prediction/predictions/update/',
+      data: predictionUpdate.toJson(),
+    );
+
+    if (response.statusCode == 200) {
+      print('Update predictions response data: ${response.data}');
+      // Answer {"status": "predictions updated"}
+      return response.data.containsKey('success') &&
+          response.data['success'] == true;
     } else {
       throw ServerException();
     }

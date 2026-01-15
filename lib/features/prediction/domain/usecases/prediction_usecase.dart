@@ -5,11 +5,13 @@ class PredictionUseCases {
   ListRoomsUsecase listRoomsUsecase;
   RoomsWithCompetitionsUseCases roomsWithCompetitionsUseCases;
   GetPredictionsForRoomUsecase getPredictionsForRoomUsecase;
+  UpdatePredictionsUseCase updatePredictionsUseCase;
 
   PredictionUseCases({
     required this.createRoomUseCase,
     required this.listRoomsUsecase,
     required this.roomsWithCompetitionsUseCases,
     required this.getPredictionsForRoomUsecase,
+    required this.updatePredictionsUseCase,
   });
 }

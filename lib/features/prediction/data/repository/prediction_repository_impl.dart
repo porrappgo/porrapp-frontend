@@ -2,8 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:porrapp_frontend/core/util/util.dart';
 
 import 'package:porrapp_frontend/features/prediction/data/datasource/remote/prediction_service.dart';
-import 'package:porrapp_frontend/features/prediction/domain/models/prediction_model.dart';
-import 'package:porrapp_frontend/features/prediction/domain/models/room_model.dart';
+import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/domain/repository/prediction_repository.dart';
 
 class PredictionRepositoryImpl extends PredictionRepository {
@@ -25,7 +24,7 @@ class PredictionRepositoryImpl extends PredictionRepository {
   }
 
   @override
-  Future<Either<Failure, List<RoomModel>>> listRooms() async {
+  Future<Either<Failure, List<RoomUserModel>>> listRooms() async {
     /**
      * Retrieve list of rooms using the prediction service.
      */
@@ -49,6 +48,38 @@ class PredictionRepositoryImpl extends PredictionRepository {
         roomId.toString(),
       );
       return Right(predictions);
+    } on ServerException {
+      return Left(ServerFailure(''));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> updatePredictions(
+    PredictionUpdateModel predictionUpdate,
+  ) async {
+    /**
+     * Update predictions using the prediction service.
+     */
+    try {
+      final updatedPredictions = await _predictionService.updatePredictions(
+        predictionUpdate,
+      );
+      return Right(updatedPredictions);
+    } on ServerException {
+      return Left(ServerFailure(''));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<RoomUserModel>>> listRoomsByRoomId(
+    int roomId,
+  ) async {
+    /**
+     * Retrieve list of rooms by room ID using the prediction service.
+     */
+    try {
+      final rooms = await _predictionService.listRoomsByRoomId(roomId);
+      return Right(rooms);
     } on ServerException {
       return Left(ServerFailure(''));
     }

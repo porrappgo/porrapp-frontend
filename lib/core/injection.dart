@@ -141,6 +141,7 @@ Future<void> configureDependencies(Env envConfig) async {
         locator(),
       ),
       getPredictionsForRoomUsecase: GetPredictionsForRoomUsecase(locator()),
+      updatePredictionsUseCase: UpdatePredictionsUseCase(locator()),
     ),
   );
 
