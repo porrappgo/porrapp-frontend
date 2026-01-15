@@ -45,7 +45,7 @@ jobs:
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           auth: ${{ secrets.BADGE_GIST_TOKEN }}
-          gistID: "a326af0439aec9c2a4aed809dc731a36"
+          gistID: "cb6c4617ba53ee0149dfa224e83ba59f"
           filename: "passing-tests-badge.json"
           label: "Tests"
           message: "${{ steps.compute_test_results.outputs.passed }} passed, ${{ steps.compute_test_results.outputs.failed }} failed"
@@ -76,7 +76,7 @@ jobs:
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           auth: ${{ secrets.BADGE_GIST_TOKEN }}
-          gistID: "2e904f1d8a9ef0e1e1458de1e7fcfba6"
+          gistID: "cb6c4617ba53ee0149dfa224e83ba59f"
           filename: "test-coverage-badge.json"
           label: "Test coverage"
           message: "${{ env.coverage_percentage }} %"
