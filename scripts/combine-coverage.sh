@@ -27,6 +27,7 @@ lcov --remove "$REPORT_DIR/combined_lcov.info" \
   "*.i69n.dart" \
   "*/generated/*" \
   "*.theme_extension.dart" \
-  -o "$REPORT_DIR/cleaned_combined_lcov.info"
+  -o "$REPORT_DIR/cleaned_combined_lcov.info"\
+  --ignore-errors unused
 
 echo "✅ Combined and cleaned coverage report generated at $REPORT_DIR/cleaned_combined_lcov.info"
