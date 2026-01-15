@@ -41,11 +41,13 @@ class RoomsPage extends StatelessWidget {
           }
 
           if (state is RoomsHasData) {
-            print('RoomsPage - codeRoom: $codeRoom');
-            if (codeRoom != null && codeRoom!.isNotEmpty) {
-              print('Attempting to join room with code: $codeRoom');
-              await _displayCreateRoomDialog(context, state, roomsBloc);
-            }
+            if (codeRoom == null || codeRoom!.isNotEmpty) return;
+            await _displayCreateRoomDialog(
+              context,
+              state,
+              roomsBloc,
+              roomCode: codeRoom,
+            );
           }
         },
         child: BlocBuilder<RoomsBloc, RoomsState>(
@@ -99,9 +101,14 @@ class RoomsPage extends StatelessWidget {
   Future<void> _displayCreateRoomDialog(
     BuildContext context,
     RoomsHasData state,
-    RoomsBloc roomsBloc,
-  ) async {
-    final result = await showCreateRoomSheet(context, state.competitions);
+    RoomsBloc roomsBloc, {
+    String? roomCode,
+  }) async {
+    final result = await showCreateRoomSheet(
+      context,
+      state.competitions,
+      roomCode: roomCode,
+    );
 
     if (result == null) return;
 

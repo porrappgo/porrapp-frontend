@@ -5,8 +5,9 @@ import 'package:porrapp_frontend/features/competitions/domain/models/competition
 
 Future<CreateRoomData?> showCreateRoomSheet(
   BuildContext context,
-  List<CompetitionModel> competitions,
-) {
+  List<CompetitionModel> competitions, {
+  String? roomCode,
+}) {
   final formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   CompetitionModel? selectedCompetition;

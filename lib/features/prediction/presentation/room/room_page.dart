@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/bloc/room_bloc.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/components/prediction_card.dart';
@@ -11,8 +13,14 @@ class RoomPage extends StatefulWidget {
 
   final int roomId;
   final String? roomName;
+  final String? deeplink;
 
-  const RoomPage({super.key, required this.roomId, this.roomName});
+  const RoomPage({
+    super.key,
+    required this.roomId,
+    this.roomName,
+    this.deeplink,
+  });
 
   @override
   State<RoomPage> createState() => _RoomPageState();
@@ -37,6 +45,17 @@ class _RoomPageState extends State<RoomPage> {
             icon: const Icon(Icons.leaderboard),
             onPressed: () {
               _rankingUser(context);
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.person_add_outlined),
+            onPressed: () async {
+              if (widget.deeplink == null) return;
+
+              await showShareDialog(
+                text: 'Join my prediction room using this link:',
+                uri: Uri.parse(widget.deeplink!),
+              );
             },
           ),
         ],
