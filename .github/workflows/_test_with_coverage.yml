@@ -31,6 +31,11 @@ jobs:
           chmod +x scripts/*.sh
           ./scripts/test-with-coverage.sh
 
+      - name: 🧪 Combine coverage reports
+        run: |
+          chmod +x scripts/*.sh
+          ./scripts/combine-coverage.sh
+
       - name: 🧪✅❌ Publish test results
         id: compute_test_results
         uses: dorny/test-reporter@v2.5.0
@@ -42,6 +47,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🪪 Create passing test results badge
+        if: github.event_name == 'push' && github.event.ref == 'refs/heads/main'
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           auth: ${{ secrets.BADGE_GIST_TOKEN }}
@@ -77,7 +83,7 @@ jobs:
         with:
           auth: ${{ secrets.BADGE_GIST_TOKEN }}
           gistID: "cb6c4617ba53ee0149dfa224e83ba59f"
-          filename: "test-coverage-badge.json"
+          filename: "passing-tests-badge.json"
           label: "Test coverage"
           message: "${{ env.coverage_percentage }} %"
           namedLogo: "Codecov"
