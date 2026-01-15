@@ -30,3 +30,13 @@ jobs:
         run: |
           chmod +x scripts/*.sh
           ./scripts/test-with-coverage.sh
+
+      - name: 🧪✅❌ Publish test results
+        id: compute_test_results
+        uses: dorny/test-reporter@v2.5.0
+        with:
+          name: "🧪📊 Unit tests report"
+          path: test_reports/*_test_report.json
+          reporter: "flutter-json"
+          max-annotations: "50"
+          token: ${{ secrets.GITHUB_TOKEN }}

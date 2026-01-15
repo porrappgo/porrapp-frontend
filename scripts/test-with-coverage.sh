@@ -28,4 +28,4 @@ else
   sed -i "s/^SF:lib/SF:$escapedPath\/lib/g" "$PACKAGE_LCOV_INFO_PATH"
 fi
 
-echo "✅ Coverage generated at: $PACKAGE_LCOV_INFO_PATH"
+echo "✅ Coverage generated."
