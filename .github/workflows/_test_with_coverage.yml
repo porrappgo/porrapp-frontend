@@ -42,7 +42,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🪪 Create passing test results badge
-        if: github.event_name == 'push' && github.event.ref == 'refs/heads/main'
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           auth: ${{ secrets.BADGE_GIST_TOKEN }}
@@ -61,3 +60,28 @@ jobs:
           lcov-file: coverage_report/cleaned_combined_lcov.info
           github-token: ${{ secrets.GITHUB_TOKEN }}
           title: "Coverage Report"
+
+      - name: 🥤 Extract test coverage percentage
+        run: |
+          chmod +x scripts/*.sh
+          ./scripts/generate-html-coverage.sh
+          grep -o '.*headerCovTableEntryLo.*' coverage_report/index.html \
+            | sed -E 's/.*>([0-9.]+) %<.*/\1/' \
+            > coverage_percentage.txt
+          percentage=$(cat coverage_percentage.txt)
+          echo "Coverage percentage: $percentage"
+          echo "coverage_percentage=$percentage" >> "$GITHUB_ENV"
+
+      - name: 🪪 Create test coverage badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.BADGE_GIST_TOKEN }}
+          gistID: "2e904f1d8a9ef0e1e1458de1e7fcfba6"
+          filename: "test-coverage-badge.json"
+          label: "Test coverage"
+          message: "${{ env.coverage_percentage }} %"
+          namedLogo: "Codecov"
+          labelColor: "lightgrey"
+          valColorRange: ${{ env.coverage_percentage }}
+          minColorRange: 50
+          maxColorRange: 80
