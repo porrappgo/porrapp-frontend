@@ -145,6 +145,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create Room'**
   String get createRoom;
+
+  /// Toast message shown when a room is created successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Room \"{roomName}\" created successfully!'**
+  String roomCreatedSuccessfully(Object roomName);
+
+  /// Message shown when there are no rooms available
+  ///
+  /// In en, this message translates to:
+  /// **'No rooms available yet.'**
+  String get noRoomsAvailableYet;
 }
 
 class _AppLocalizationsDelegate

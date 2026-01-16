@@ -30,5 +30,16 @@
     "createRoom": "Crear sala",
     "@createRoom": {
         "description": "Texto para el botón de crear sala en el diálogo para crear una nueva sala."
+    },
+    "roomCreatedSuccessfully": "¡Sala \"{roomName}\" creada con éxito!",
+    "@roomCreatedSuccessfully": {
+        "description": "Mensaje emergente que se muestra cuando una sala se crea con éxito",
+        "placeholders": {
+            "roomName": {}
+        }
+    },
+    "noRoomsAvailableYet": "No hay salas disponibles todavía.",
+    "@noRoomsAvailableYet": {
+        "description": "Mensaje que se muestra cuando no hay salas disponibles"
     }
 }

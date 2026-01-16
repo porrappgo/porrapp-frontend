@@ -31,4 +31,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get createRoom => 'Crear sala';
+
+  @override
+  String roomCreatedSuccessfully(Object roomName) {
+    return '¡Sala \"$roomName\" creada con éxito!';
+  }
+
+  @override
+  String get noRoomsAvailableYet => 'No hay salas disponibles todavía.';
 }

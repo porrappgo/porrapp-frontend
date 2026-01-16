@@ -30,5 +30,16 @@
     "createRoom": "Create Room",
     "@createRoom": {
         "description": "Text for the create room button in the create new room dialog"
+    },
+    "roomCreatedSuccessfully": "Room \"{roomName}\" created successfully!",
+    "@roomCreatedSuccessfully": {
+        "description": "Toast message shown when a room is created successfully",
+        "placeholders": {
+            "roomName": {}
+        }
+    },
+    "noRoomsAvailableYet": "No rooms available yet.",
+    "@noRoomsAvailableYet": {
+        "description": "Message shown when there are no rooms available"
     }
 }
