@@ -1,5 +1,7 @@
 # porrapp_frontend
 
+![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/porrappgo/cb6c4617ba53ee0149dfa224e83ba59f/raw/passing-tests-badge.json)
+
 A new Flutter project.
 
 ## Getting Started

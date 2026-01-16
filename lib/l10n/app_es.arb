@@ -1,0 +1,34 @@
+{
+    "createNewRoomTitle": "Crea una nueva sala",
+    "@createNewRoomTitle": {
+        "description": "Titulo del diálogo para crear una nueva sala."
+    },
+    "competition": "Competición",
+    "@competition": {
+        "description": "Etiqueta para el desplegable de competiciones en el diálogo para crear una nueva sala."
+    },
+    "selectACompetition": "Selecciona una competición",
+    "@selectACompetition": {
+        "description": "Texto de ayuda para el desplegable de competiciones en el diálogo para crear una nueva sala."
+    },
+    "roomName": "Nombre de la sala",
+    "@roomName": {
+        "description": "Etiqueta para el campo de entrada del nombre de la sala en el diálogo para crear una nueva sala."
+    },
+    "enterRoomName": "Introduce el nombre de la sala",
+    "@enterRoomName": {
+        "description": "Texto de ayuda para el campo de entrada del nombre de la sala en el diálogo para crear una nueva sala."
+    },
+    "roomNameIsRequired": "El nombre de la sala es obligatorio",
+    "@roomNameIsRequired": {
+        "description": "Mensaje de validación cuando no se proporciona el nombre de la sala"
+    },
+    "minimum3Characters": "Mínimo 3 caracteres",
+    "@minimum3Characters": {
+        "description": "Mensaje de validación cuando el nombre de la sala tiene menos de 3 caracteres"
+    },
+    "createRoom": "Crear sala",
+    "@createRoom": {
+        "description": "Texto para el botón de crear sala en el diálogo para crear una nueva sala."
+    }
+}
