@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:porrapp_frontend/core/components/components.dart';
 import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/competitions/domain/models/competition_model.dart';
+import 'package:porrapp_frontend/l10n/app_localizations.dart';
 
 Future<CreateRoomData?> showCreateRoomSheet(
   BuildContext context,
@@ -16,6 +17,8 @@ Future<CreateRoomData?> showCreateRoomSheet(
     context: context,
     isScrollControlled: true,
     builder: (BuildContext ctx) {
+      final localizations = AppLocalizations.of(context)!;
+
       return Padding(
         padding: EdgeInsets.all(32.0),
         child: Form(
@@ -24,22 +27,22 @@ Future<CreateRoomData?> showCreateRoomSheet(
             mainAxisSize: MainAxisSize.min,
             children: [
               // Title
-              Text('Create New Room'),
+              Text(localizations.createNewRoomTitle),
               const SizedBox(height: 16),
 
               // Room Name Input
-              _roomNameTextEditor(nameController),
+              _roomNameTextEditor(nameController, localizations),
               const SizedBox(height: 21),
 
               // Competition Dropdown
               _competitionDropdown(competitions, (value) {
                 selectedCompetition = value;
-              }),
+              }, localizations),
               const SizedBox(height: 16),
 
               // Create Room Button
               ButtonBase(
-                text: 'Create Room',
+                text: localizations.createRoom,
                 onPressed: () {
                   if (!formKey.currentState!.validate()) return;
 
@@ -59,20 +62,23 @@ Future<CreateRoomData?> showCreateRoomSheet(
   );
 }
 
-InputText _roomNameTextEditor(TextEditingController nameController) {
+InputText _roomNameTextEditor(
+  TextEditingController nameController,
+  AppLocalizations localizations,
+) {
   return InputText(
-    label: 'Room Name',
-    hint: 'Enter room name',
+    label: localizations.roomName,
+    hint: localizations.enterRoomName,
     maxLength: 50,
     onChanged: (value) {
       nameController.text = value;
     },
     validator: (value) {
       if (value == null || value.trim().isEmpty) {
-        return 'Room name is required';
+        return localizations.roomNameIsRequired;
       }
       if (value.length < 3) {
-        return 'Minimum 3 characters';
+        return localizations.minimum3Characters;
       }
       return null;
     },
@@ -82,11 +88,12 @@ InputText _roomNameTextEditor(TextEditingController nameController) {
 DropdownButtonFormField<CompetitionModel> _competitionDropdown(
   List<CompetitionModel> competitions,
   ValueChanged<CompetitionModel?> onChanged,
+  AppLocalizations localizations,
 ) {
   return DropdownButtonFormField<CompetitionModel>(
     decoration: InputDecorations.decoration(
-      labelText: 'Competition',
-      hintText: 'Select a competition',
+      labelText: localizations.competition,
+      hintText: localizations.selectACompetition,
     ),
     items: competitions.map((competition) {
       return DropdownMenuItem(
@@ -94,7 +101,8 @@ DropdownButtonFormField<CompetitionModel> _competitionDropdown(
         child: Text(competition.name),
       );
     }).toList(),
-    validator: (value) => value == null ? 'Please select a competition' : null,
+    validator: (value) =>
+        value == null ? localizations.selectACompetition : null,
     onChanged: onChanged,
   );
 }

@@ -1,0 +1,34 @@
+{
+    "createNewRoomTitle": "Create New Room",
+    "@createNewRoomTitle": {
+        "description": "Title for the create new room dialog"
+    },
+    "competition": "Competition",
+    "@competition": {
+        "description": "Label for the competition dropdown in the create new room dialog"
+    },
+    "selectACompetition": "Select a competition",
+    "@selectACompetition": {
+        "description": "Hint text for the competition dropdown in the create new room dialog"
+    },
+    "roomName": "Room Name",
+    "@roomName": {
+        "description": "Label for the room name input field in the create new room dialog"
+    },
+    "enterRoomName": "Enter room name",
+    "@enterRoomName": {
+        "description": "Hint text for the room name input field in the create new room dialog"
+    },
+    "roomNameIsRequired": "Room name is required",
+    "@roomNameIsRequired": {
+        "description": "Validation message when the room name is not provided"
+    },
+    "minimum3Characters": "Minimum 3 characters",
+    "@minimum3Characters": {
+        "description": "Validation message when the room name is less than 3 characters"
+    },
+    "createRoom": "Create Room",
+    "@createRoom": {
+        "description": "Text for the create room button in the create new room dialog"
+    }
+}

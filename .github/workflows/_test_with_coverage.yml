@@ -76,6 +76,7 @@ jobs:
           percentage=$(cat coverage_percentage.txt)
           echo "Coverage percentage: $percentage"
           echo "coverage_percentage=$percentage" >> $GITHUB_ENV
+
       - name: 🪪 Create test coverage badge
         if: github.event_name == 'push' && github.event.ref == 'refs/heads/main'
         uses: schneegans/dynamic-badges-action@v1.7.0
