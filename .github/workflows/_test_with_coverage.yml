@@ -72,13 +72,10 @@ jobs:
         run: |
           chmod +x scripts/*.sh
           ./scripts/generate-html-coverage.sh
-          grep -o '.*headerCovTableEntryLo.*' coverage_report/index.html \
-            | sed -E 's/.*>([0-9.]+) %<.*/\1/' \
-            > coverage_percentage.txt
+          grep -o '.*headerCovTableEntryLo.*' coverage_report/index.html | sed -E  's/.*>(.*) %<.*/\1/' > coverage_percentage.txt
           percentage=$(cat coverage_percentage.txt)
           echo "Coverage percentage: $percentage"
-          echo "coverage_percentage=$percentage" >> "$GITHUB_ENV"
-
+          echo "coverage_percentage=$percentage" >> $GITHUB_ENV
       - name: 🪪 Create test coverage badge
         if: github.event_name == 'push' && github.event.ref == 'refs/heads/main'
         uses: schneegans/dynamic-badges-action@v1.7.0
