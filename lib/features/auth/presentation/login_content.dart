@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:porrapp_frontend/core/components/components.dart';
 import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/auth/domain/model/model.dart';
 import 'package:porrapp_frontend/features/auth/presentation/bloc/bloc.dart';
 import 'package:porrapp_frontend/features/auth/presentation/register_page.dart';
-import 'package:porrapp_frontend/features/competitions/presentation/competition_page.dart';
+import 'package:porrapp_frontend/features/prediction/presentation/rooms/rooms_page.dart';
+import 'package:porrapp_frontend/l10n/app_localizations.dart';
 
 class LoginContent extends StatefulWidget {
+  static const String tag = 'LoginContent';
   const LoginContent({super.key});
 
   @override
@@ -21,17 +25,22 @@ class _LoginContentState extends State<LoginContent> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     authBloc = BlocProvider.of<AuthBloc>(context);
 
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         final responseState = state.response;
-        print('LoginPage - responseState: $responseState');
+        FlutterLogs.logInfo(
+          LoginContent.tag,
+          'BlocListener',
+          'LoginContent - responseState: $responseState',
+        );
 
         if (responseState is Success<AuthTokenModel>) {
           /// If login is successful, save the user session
           authBloc?.add(AuthSaveUserSession(response: responseState.data));
-          context.go('/${CompetitionPage.routeName}');
+          context.go('/${RoomsPage.routeName}');
           authBloc?.add(const AuthResetResource());
         } else if (responseState is Error<AuthTokenModel>) {
           /// Show an error message if login fails
@@ -61,8 +70,8 @@ class _LoginContentState extends State<LoginContent> {
                   SizedBox(height: 24.0),
                   SizedBox(
                     width: double.infinity,
-                    child: const Text(
-                      'Welcome Back',
+                    child: Text(
+                      localizations.loginTitle,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -71,23 +80,21 @@ class _LoginContentState extends State<LoginContent> {
                   ),
                   // Form fields
                   InputText(
-                    label: 'Email',
-                    hint: 'Enter your email',
+                    label: localizations.emailLabel,
+                    hint: localizations.emailHint,
                     onChanged: (text) {
                       authBloc?.add(
                         EmailChanged(email: BlocFormItem(value: text)),
                       );
                     },
                     validator: (value) {
-                      print('Validating email: ${state.email.error}');
-                      print('Value being validated: $value');
                       return state.email.error;
                     },
                     textInputAction: TextInputAction.next,
                   ),
                   InputText(
-                    label: 'Password',
-                    hint: 'Enter your password',
+                    label: localizations.passwordLabel,
+                    hint: localizations.passwordHint,
                     isPassword: true,
                     onChanged: (text) {
                       authBloc?.add(
@@ -111,7 +118,7 @@ class _LoginContentState extends State<LoginContent> {
                     },
                     isLoading: state.response is LoadingPage,
                     isDisabled: state.response is LoadingPage,
-                    text: 'Log In',
+                    text: localizations.loginTitle,
                   ),
 
                   SizedBox(height: 16.0),
@@ -122,7 +129,7 @@ class _LoginContentState extends State<LoginContent> {
                       context.push('/${RegisterPage.routeName}');
                     },
                     child: Text(
-                      "Don't have an account? Register",
+                      localizations.dontHaveAccountRegister,
                       style: TextStyle(decoration: TextDecoration.underline),
                     ),
                   ),

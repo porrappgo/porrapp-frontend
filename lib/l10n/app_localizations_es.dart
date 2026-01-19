@@ -39,4 +39,22 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get noRoomsAvailableYet => 'No hay salas disponibles todavía.';
+
+  @override
+  String get loginTitle => 'Bienvenido de nuevo';
+
+  @override
+  String get emailLabel => 'Correo electrónico';
+
+  @override
+  String get emailHint => 'Introduce tu correo electrónico';
+
+  @override
+  String get passwordLabel => 'Contraseña';
+
+  @override
+  String get passwordHint => 'Introduce tu contraseña';
+
+  @override
+  String get dontHaveAccountRegister => '¿No tienes una cuenta? Regístrate';
 }

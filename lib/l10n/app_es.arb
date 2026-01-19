@@ -41,5 +41,29 @@
     "noRoomsAvailableYet": "No hay salas disponibles todavía.",
     "@noRoomsAvailableYet": {
         "description": "Mensaje que se muestra cuando no hay salas disponibles"
+    },
+    "loginTitle": "Bienvenido de nuevo",
+    "@loginTitle": {
+        "description": "Título de la pantalla de inicio de sesión"
+    },
+    "emailLabel": "Correo electrónico",
+    "@emailLabel": {
+        "description": "Etiqueta para el campo de entrada del correo electrónico en la pantalla de inicio de sesión"
+    },
+    "emailHint": "Introduce tu correo electrónico",
+    "@emailHint": {
+        "description": "Texto de ayuda para el campo de entrada del correo electrónico en la pantalla de inicio de sesión"
+    },
+    "passwordLabel": "Contraseña",
+    "@passwordLabel": {
+        "description": "Etiqueta para el campo de entrada de la contraseña en la pantalla de inicio de sesión"
+    },
+    "passwordHint": "Introduce tu contraseña",
+    "@passwordHint": {
+        "description": "Texto de ayuda para el campo de entrada de la contraseña en la pantalla de inicio de sesión"
+    },
+    "dontHaveAccountRegister": "¿No tienes una cuenta? Regístrate",
+    "@dontHaveAccountRegister": {
+        "description": "Texto para el enlace de registro en la pantalla de inicio de sesión"
     }
 }

@@ -157,6 +157,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No rooms available yet.'**
   String get noRoomsAvailableYet;
+
+  /// Title for the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back'**
+  String get loginTitle;
+
+  /// Label for the email input field on the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get emailLabel;
+
+  /// Hint text for the email input field on the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email'**
+  String get emailHint;
+
+  /// Label for the password input field on the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get passwordLabel;
+
+  /// Hint text for the password input field on the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get passwordHint;
+
+  /// Text for the link to the registration page on the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Register'**
+  String get dontHaveAccountRegister;
 }
 
 class _AppLocalizationsDelegate

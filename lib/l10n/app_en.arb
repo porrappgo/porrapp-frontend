@@ -41,5 +41,29 @@
     "noRoomsAvailableYet": "No rooms available yet.",
     "@noRoomsAvailableYet": {
         "description": "Message shown when there are no rooms available"
+    },
+    "loginTitle": "Welcome Back",
+    "@loginTitle": {
+        "description": "Title for the login screen"
+    },
+    "emailLabel": "Email",
+    "@emailLabel": {
+        "description": "Label for the email input field on the login screen"
+    },
+    "emailHint": "Enter your email",
+    "@emailHint": {
+        "description": "Hint text for the email input field on the login screen"
+    },
+    "passwordLabel": "Password",
+    "@passwordLabel": {
+        "description": "Label for the password input field on the login screen"
+    },
+    "passwordHint": "Enter your password",
+    "@passwordHint": {
+        "description": "Hint text for the password input field on the login screen"
+    },
+    "dontHaveAccountRegister": "Don't have an account? Register",
+    "@dontHaveAccountRegister": {
+        "description": "Text for the link to the registration page on the login screen"
     }
 }
