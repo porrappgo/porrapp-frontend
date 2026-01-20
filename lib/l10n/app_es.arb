@@ -1,0 +1,69 @@
+{
+    "createNewRoomTitle": "Crea una nueva sala",
+    "@createNewRoomTitle": {
+        "description": "Titulo del diálogo para crear una nueva sala."
+    },
+    "competition": "Competición",
+    "@competition": {
+        "description": "Etiqueta para el desplegable de competiciones en el diálogo para crear una nueva sala."
+    },
+    "selectACompetition": "Selecciona una competición",
+    "@selectACompetition": {
+        "description": "Texto de ayuda para el desplegable de competiciones en el diálogo para crear una nueva sala."
+    },
+    "roomName": "Nombre de la sala",
+    "@roomName": {
+        "description": "Etiqueta para el campo de entrada del nombre de la sala en el diálogo para crear una nueva sala."
+    },
+    "enterRoomName": "Introduce el nombre de la sala",
+    "@enterRoomName": {
+        "description": "Texto de ayuda para el campo de entrada del nombre de la sala en el diálogo para crear una nueva sala."
+    },
+    "roomNameIsRequired": "El nombre de la sala es obligatorio",
+    "@roomNameIsRequired": {
+        "description": "Mensaje de validación cuando no se proporciona el nombre de la sala"
+    },
+    "minimum3Characters": "Mínimo 3 caracteres",
+    "@minimum3Characters": {
+        "description": "Mensaje de validación cuando el nombre de la sala tiene menos de 3 caracteres"
+    },
+    "createRoom": "Crear sala",
+    "@createRoom": {
+        "description": "Texto para el botón de crear sala en el diálogo para crear una nueva sala."
+    },
+    "roomCreatedSuccessfully": "¡Sala \"{roomName}\" creada con éxito!",
+    "@roomCreatedSuccessfully": {
+        "description": "Mensaje emergente que se muestra cuando una sala se crea con éxito",
+        "placeholders": {
+            "roomName": {}
+        }
+    },
+    "noRoomsAvailableYet": "No hay salas disponibles todavía.",
+    "@noRoomsAvailableYet": {
+        "description": "Mensaje que se muestra cuando no hay salas disponibles"
+    },
+    "loginTitle": "Bienvenido de nuevo",
+    "@loginTitle": {
+        "description": "Título de la pantalla de inicio de sesión"
+    },
+    "emailLabel": "Correo electrónico",
+    "@emailLabel": {
+        "description": "Etiqueta para el campo de entrada del correo electrónico en la pantalla de inicio de sesión"
+    },
+    "emailHint": "Introduce tu correo electrónico",
+    "@emailHint": {
+        "description": "Texto de ayuda para el campo de entrada del correo electrónico en la pantalla de inicio de sesión"
+    },
+    "passwordLabel": "Contraseña",
+    "@passwordLabel": {
+        "description": "Etiqueta para el campo de entrada de la contraseña en la pantalla de inicio de sesión"
+    },
+    "passwordHint": "Introduce tu contraseña",
+    "@passwordHint": {
+        "description": "Texto de ayuda para el campo de entrada de la contraseña en la pantalla de inicio de sesión"
+    },
+    "dontHaveAccountRegister": "¿No tienes una cuenta? Regístrate",
+    "@dontHaveAccountRegister": {
+        "description": "Texto para el enlace de registro en la pantalla de inicio de sesión"
+    }
+}

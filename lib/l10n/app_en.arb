@@ -1,0 +1,69 @@
+{
+    "createNewRoomTitle": "Create New Room",
+    "@createNewRoomTitle": {
+        "description": "Title for the create new room dialog"
+    },
+    "competition": "Competition",
+    "@competition": {
+        "description": "Label for the competition dropdown in the create new room dialog"
+    },
+    "selectACompetition": "Select a competition",
+    "@selectACompetition": {
+        "description": "Hint text for the competition dropdown in the create new room dialog"
+    },
+    "roomName": "Room Name",
+    "@roomName": {
+        "description": "Label for the room name input field in the create new room dialog"
+    },
+    "enterRoomName": "Enter room name",
+    "@enterRoomName": {
+        "description": "Hint text for the room name input field in the create new room dialog"
+    },
+    "roomNameIsRequired": "Room name is required",
+    "@roomNameIsRequired": {
+        "description": "Validation message when the room name is not provided"
+    },
+    "minimum3Characters": "Minimum 3 characters",
+    "@minimum3Characters": {
+        "description": "Validation message when the room name is less than 3 characters"
+    },
+    "createRoom": "Create Room",
+    "@createRoom": {
+        "description": "Text for the create room button in the create new room dialog"
+    },
+    "roomCreatedSuccessfully": "Room \"{roomName}\" created successfully!",
+    "@roomCreatedSuccessfully": {
+        "description": "Toast message shown when a room is created successfully",
+        "placeholders": {
+            "roomName": {}
+        }
+    },
+    "noRoomsAvailableYet": "No rooms available yet.",
+    "@noRoomsAvailableYet": {
+        "description": "Message shown when there are no rooms available"
+    },
+    "loginTitle": "Welcome Back",
+    "@loginTitle": {
+        "description": "Title for the login screen"
+    },
+    "emailLabel": "Email",
+    "@emailLabel": {
+        "description": "Label for the email input field on the login screen"
+    },
+    "emailHint": "Enter your email",
+    "@emailHint": {
+        "description": "Hint text for the email input field on the login screen"
+    },
+    "passwordLabel": "Password",
+    "@passwordLabel": {
+        "description": "Label for the password input field on the login screen"
+    },
+    "passwordHint": "Enter your password",
+    "@passwordHint": {
+        "description": "Hint text for the password input field on the login screen"
+    },
+    "dontHaveAccountRegister": "Don't have an account? Register",
+    "@dontHaveAccountRegister": {
+        "description": "Text for the link to the registration page on the login screen"
+    }
+}
