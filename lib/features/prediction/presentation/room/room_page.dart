@@ -94,7 +94,7 @@ class _RoomPageState extends State<RoomPage> {
           }
         },
       ),
-      floatingActionButton: floatingAcctionButton(),
+      floatingActionButton: floatingActionButton(),
     );
   }
 
@@ -142,7 +142,7 @@ class _RoomPageState extends State<RoomPage> {
     );
   }
 
-  BlocConsumer<RoomBloc, RoomState> floatingAcctionButton() {
+  BlocConsumer<RoomBloc, RoomState> floatingActionButton() {
     return BlocConsumer<RoomBloc, RoomState>(
       listener: (context, state) {
         if (state is RoomHasData && state.errorMessage != null) {
@@ -158,11 +158,10 @@ class _RoomPageState extends State<RoomPage> {
       },
       builder: (context, state) {
         if (state is RoomHasData) {
-          print('hasChanges: ${state.hasChanges}, isSaving: ${state.isSaving}');
           return FloatingActionButton.extended(
             onPressed: (!state.hasChanges || state.isSaving)
                 ? null
-                : () => context.read<RoomBloc>().add(SavePredictions()),
+                : () => context.read<RoomBloc>().add(SavePredictionsEvent()),
             icon: const Icon(Icons.save),
             label: state.isSaving
                 ? const SizedBox(

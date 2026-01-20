@@ -36,7 +36,8 @@ List<BlocProvider> blocProviders() => [
 
   BlocProvider<RoomsBloc>(
     create: (context) =>
-        RoomsBloc(locator<PredictionUseCases>())..add(LoadRoomsEvent()),
+        RoomsBloc(locator<PredictionUseCases>(), locator<AuthUseCases>())
+          ..add(LoadRoomsEvent()),
   ),
   BlocProvider<RoomBloc>(
     create: (context) => RoomBloc(locator<PredictionUseCases>()),

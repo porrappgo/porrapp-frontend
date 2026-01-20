@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_logs/flutter_logs.dart';
+
+import 'package:porrapp_frontend/features/auth/domain/usecases/auth_usecases.dart';
 import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/domain/usecases/usecases.dart';
@@ -12,10 +14,13 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
   static const String tag = "RoomsBloc";
 
   final PredictionUseCases predictionUseCases;
+  final AuthUseCases authUseCases;
 
-  RoomsBloc(this.predictionUseCases) : super(RoomsInitial()) {
+  RoomsBloc(this.predictionUseCases, this.authUseCases)
+    : super(RoomsInitial()) {
     on<CreateRoomEvent>(_onCreateRoomEvent);
     on<LoadRoomsEvent>(_onLoadRoomsEvent);
+    on<LogoutFromAppEvent>(_onLogoutFromAppEvent);
   }
 
   void _onCreateRoomEvent(
@@ -61,6 +66,21 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
         "Error in _onLoadRoomsEvent: $e",
       );
       emit(RoomsError('Failed to load rooms'));
+    }
+  }
+
+  void _onLogoutFromAppEvent(
+    LogoutFromAppEvent event,
+    Emitter<RoomsState> emit,
+  ) async {
+    emit(LogoutLoading());
+
+    try {
+      await authUseCases.logout.run();
+      emit(LogoutSuccess());
+      emit(RoomsInitial());
+    } catch (e) {
+      emit(LogoutError('Failed to logout. Please try again.'));
     }
   }
 }

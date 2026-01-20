@@ -23,3 +23,5 @@ class LoadRoomsEvent extends RoomsEvent {
   @override
   List<Object> get props => [];
 }
+
+class LogoutFromAppEvent extends RoomsEvent {}
