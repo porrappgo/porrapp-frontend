@@ -18,9 +18,14 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
 
   RoomsBloc(this.predictionUseCases, this.authUseCases)
     : super(RoomsInitial()) {
+    on<ResetRoomsEvent>(_onResetRoomsEvent);
     on<CreateRoomEvent>(_onCreateRoomEvent);
     on<LoadRoomsEvent>(_onLoadRoomsEvent);
     on<LogoutFromAppEvent>(_onLogoutFromAppEvent);
+  }
+
+  void _onResetRoomsEvent(ResetRoomsEvent event, Emitter<RoomsState> emit) {
+    emit(RoomsInitial());
   }
 
   void _onCreateRoomEvent(
@@ -78,7 +83,6 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
     try {
       await authUseCases.logout.run();
       emit(LogoutSuccess());
-      emit(RoomsInitial());
     } catch (e) {
       emit(LogoutError('Failed to logout. Please try again.'));
     }

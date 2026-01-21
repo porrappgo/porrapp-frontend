@@ -1,45 +1,53 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 
-import 'package:porrapp_frontend/core/util/util.dart';
+import 'package:porrapp_frontend/core/util/resource.dart';
 import 'package:porrapp_frontend/features/auth/domain/model/model.dart';
-import 'package:porrapp_frontend/features/splash/domain/usecases/usecases.dart';
-import 'package:porrapp_frontend/features/splash/presentation/bloc/bloc.dart';
+import 'package:porrapp_frontend/features/auth/domain/usecases/usecases.dart';
+
+part 'splash_event.dart';
+part 'splash_state.dart';
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
   static const String tag = "SplashBloc";
 
-  final SplashUsecases isLoggedInUseCase;
+  final AuthUseCases authUseCases;
 
-  SplashBloc(this.isLoggedInUseCase) : super(SplashState()) {
-    on<SplashIsLoggedInEvent>(_onSplashIsLoggedInEvent);
+  SplashBloc(this.authUseCases) : super(SplashInitial()) {
+    on<LoadSplashEvent>(_onLoadSplashEvent);
   }
 
-  void _onSplashIsLoggedInEvent(
-    SplashIsLoggedInEvent event,
+  void _onLoadSplashEvent(
+    LoadSplashEvent event,
     Emitter<SplashState> emit,
   ) async {
     try {
       FlutterLogs.logInfo(
         tag,
-        "_onSplashIsLoggedInEvent",
-        "SplashIsLoggedInEvent triggered",
+        "_onLoadSplashEvent",
+        "LoadSplashEvent triggered",
       );
-      emit(state.copyWith(isLoading: true));
-      Resource<AuthModel> isLoggedIn = await isLoggedInUseCase.isLoggedIn.run();
+      emit(SplashLoading());
+
+      Resource<AuthModel> isLoggedIn = await authUseCases.login.run();
       FlutterLogs.logInfo(
         tag,
-        "_onSplashIsLoggedInEvent",
+        "_onLoadSplashEvent",
         "SplashBloc: isLoggedIn: $isLoggedIn and type: ${isLoggedIn is Success}",
       );
-      emit(state.copyWith(isLoggedIn: isLoggedIn is Success, isLoading: false));
+      if (isLoggedIn is Success<AuthModel>) {
+        emit(SplashLoaded());
+      } else {
+        emit(SplashInitial());
+      }
     } catch (e) {
       FlutterLogs.logError(
         tag,
-        "_onSplashIsLoggedInEvent",
-        "Error in _onSplashIsLoggedInEvent: $e",
+        "_onLoadSplashEvent",
+        "Error in _onLoadSplashEvent: $e",
       );
-      emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
+      emit(SplashError('An error occurred during splash loading'));
     }
   }
 }

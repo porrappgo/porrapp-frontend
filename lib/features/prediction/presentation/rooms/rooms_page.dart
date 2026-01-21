@@ -12,16 +12,26 @@ import 'package:porrapp_frontend/features/prediction/presentation/rooms/bloc/roo
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/components/card_room.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/components/new_room_dialog.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/components/rooms_no_yet.dart';
-import 'package:porrapp_frontend/features/splash/presentation/splash_page.dart';
 import 'package:porrapp_frontend/l10n/app_localizations.dart';
 
-class RoomsPage extends StatelessWidget {
+class RoomsPage extends StatefulWidget {
   static const String tag = 'RoomsPage';
   static const String routeName = 'rooms';
 
   final String? codeRoom;
 
   const RoomsPage({super.key, this.codeRoom});
+
+  @override
+  State<RoomsPage> createState() => _RoomsPageState();
+}
+
+class _RoomsPageState extends State<RoomsPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<RoomsBloc>().add(const LoadRoomsEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +41,7 @@ class RoomsPage extends StatelessWidget {
     return BlocListener<RoomsBloc, RoomsState>(
       listener: (context, state) async {
         FlutterLogs.logInfo(
-          tag,
+          RoomsPage.tag,
           'listener',
           'RoomsState changed to: ${state.runtimeType}',
         );
@@ -60,12 +70,12 @@ class RoomsPage extends StatelessWidget {
         }
 
         if (state is RoomsHasData) {
-          if (codeRoom == null || codeRoom!.isNotEmpty) return;
+          if (widget.codeRoom == null || widget.codeRoom!.isEmpty) return;
           await _displayCreateRoomDialog(
             context,
             state,
             roomsBloc,
-            roomCode: codeRoom,
+            roomCode: widget.codeRoom,
           );
         }
 
@@ -74,16 +84,18 @@ class RoomsPage extends StatelessWidget {
             msg: "Logged out successfully",
             toastLength: Toast.LENGTH_LONG,
           );
+          roomsBloc.add(const ResetRoomsEvent());
           context.go('/${LoginPage.routeName}');
         }
       },
       child: BlocBuilder<RoomsBloc, RoomsState>(
         builder: (context, state) {
           FlutterLogs.logInfo(
-            tag,
+            RoomsPage.tag,
             'build',
             'Current RoomsState: ${state.runtimeType}',
           );
+
           // Display loading indicator while rooms are being loaded
           if (state is RoomsLoading || state is LogoutLoading) {
             return const CircularLoadingPage();
@@ -101,7 +113,7 @@ class RoomsPage extends StatelessWidget {
 
             return Scaffold(
               appBar: AppBar(
-                title: Text('PorrApp ${codeRoom ?? ''}'),
+                title: Text('PorrApp ${widget.codeRoom ?? ''}'),
                 actions: [
                   IconButton(
                     icon: const Icon(Icons.logout),

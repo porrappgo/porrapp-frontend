@@ -8,15 +8,14 @@ import 'package:porrapp_frontend/features/competitions/presentation/bloc/competi
 import 'package:porrapp_frontend/features/prediction/domain/usecases/usecases.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/bloc/room_bloc.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/bloc/rooms_bloc.dart';
-import 'package:porrapp_frontend/features/splash/domain/usecases/usecases.dart';
-import 'package:porrapp_frontend/features/splash/presentation/bloc/bloc.dart';
+import 'package:porrapp_frontend/features/splash/presentation/bloc/splash_bloc.dart';
 
 /// Returns a list of [BlocProvider]s used throughout the application.
 List<BlocProvider> blocProviders() => [
   // SplashBloc provider
   BlocProvider<SplashBloc>(
     create: (context) =>
-        SplashBloc(locator<SplashUsecases>())..add(SplashIsLoggedInEvent()),
+        SplashBloc(locator<AuthUseCases>())..add(LoadSplashEvent()),
   ),
 
   // AuthBloc provider
@@ -36,8 +35,7 @@ List<BlocProvider> blocProviders() => [
 
   BlocProvider<RoomsBloc>(
     create: (context) =>
-        RoomsBloc(locator<PredictionUseCases>(), locator<AuthUseCases>())
-          ..add(LoadRoomsEvent()),
+        RoomsBloc(locator<PredictionUseCases>(), locator<AuthUseCases>()),
   ),
   BlocProvider<RoomBloc>(
     create: (context) => RoomBloc(locator<PredictionUseCases>()),
