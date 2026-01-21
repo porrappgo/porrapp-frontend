@@ -2,8 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 
-import 'package:porrapp_frontend/core/util/resource.dart';
-import 'package:porrapp_frontend/features/auth/domain/model/model.dart';
 import 'package:porrapp_frontend/features/auth/domain/usecases/usecases.dart';
 
 part 'splash_event.dart';
@@ -22,32 +20,28 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     LoadSplashEvent event,
     Emitter<SplashState> emit,
   ) async {
-    try {
-      FlutterLogs.logInfo(
-        tag,
-        "_onLoadSplashEvent",
-        "LoadSplashEvent triggered",
-      );
-      emit(SplashLoading());
+    FlutterLogs.logInfo(tag, "_onLoadSplashEvent", "LoadSplashEvent triggered");
+    emit(SplashLoading());
 
-      Resource<AuthModel> isLoggedIn = await authUseCases.login.run();
-      FlutterLogs.logInfo(
-        tag,
-        "_onLoadSplashEvent",
-        "SplashBloc: isLoggedIn: $isLoggedIn and type: ${isLoggedIn is Success}",
-      );
-      if (isLoggedIn is Success<AuthModel>) {
+    await Future.delayed(const Duration(seconds: 5));
+    final resource = await authUseCases.login.run();
+    resource.fold(
+      (failure) {
+        FlutterLogs.logInfo(
+          tag,
+          "_onLoadSplashEvent",
+          "Token invalid or not found, navigating to LoginPage",
+        );
+        emit(SplashError(failure.message));
+      },
+      (user) {
+        FlutterLogs.logInfo(
+          tag,
+          "_onLoadSplashEvent",
+          "Token valid for user ${user.name}, navigating to RoomsPage",
+        );
         emit(SplashLoaded());
-      } else {
-        emit(SplashInitial());
-      }
-    } catch (e) {
-      FlutterLogs.logError(
-        tag,
-        "_onLoadSplashEvent",
-        "Error in _onLoadSplashEvent: $e",
-      );
-      emit(SplashError('An error occurred during splash loading'));
-    }
+      },
+    );
   }
 }

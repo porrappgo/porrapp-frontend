@@ -1,6 +1,7 @@
+import 'package:dartz/dartz.dart';
 import 'package:porrapp_frontend/core/constants/constants.dart';
 import 'package:porrapp_frontend/core/secure/secure_storage.dart';
-import 'package:porrapp_frontend/core/util/resource.dart';
+import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/auth/data/datasource/remote/auth_service.dart';
 import 'package:porrapp_frontend/features/auth/domain/model/model.dart';
 import 'package:porrapp_frontend/features/auth/domain/repository/auth_repository.dart';
@@ -12,9 +13,16 @@ class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl(this._authService, this._secureStorage);
 
   @override
-  Future<Resource<AuthModel>> login() async {
-    /// Fetch user data
-    return await _authService.login();
+  Future<Either<Failure, AuthModel>> login() async {
+    /**
+     * Fetch authentication tokens from the auth service.
+     */
+    try {
+      final authModel = await _authService.login();
+      return Right(authModel);
+    } on ServerException {
+      return Left(ServerFailure('Error during login process.'));
+    }
   }
 
   @override

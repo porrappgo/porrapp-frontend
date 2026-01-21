@@ -26,8 +26,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(state.copyWith(response: LoadingPage(), formKey: formKey));
-    Resource<AuthModel> response = await authUseCases.login.run();
-    emit(state.copyWith(response: response, formKey: formKey));
+    final resource = await authUseCases.login.run();
+    resource.fold(
+      (failure) {
+        print('AuthBloc - Token invalid or not found during initial event');
+        emit(
+          state.copyWith(response: Error(failure.message), formKey: formKey),
+        );
+      },
+      (user) {
+        print(
+          'AuthBloc - Token valid for user ${user.name} during initial event',
+        );
+        emit(state.copyWith(response: Success(user), formKey: formKey));
+      },
+    );
   }
 
   void _onAuthFormReset(AuthFormReset event, Emitter<AuthState> emit) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_logs/flutter_logs.dart';
 import 'package:go_router/go_router.dart';
 import 'package:porrapp_frontend/features/auth/presentation/login_page.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/rooms_page.dart';
@@ -14,6 +13,10 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultImage = Theme.of(context).brightness == Brightness.dark
+        ? AssetImage('assets/images/light_soccer_placeholder.png')
+        : AssetImage('assets/images/soccer_placeholder.png');
+
     // Page content with loading indicator or branding.
     // Check token validity and navigate accordingly.
     return Scaffold(
@@ -26,14 +29,18 @@ class SplashPage extends StatelessWidget {
               context.go('/${RoomsPage.routeName}');
             }
           },
-          child: BlocBuilder<SplashBloc, SplashState>(
-            builder: (context, state) {
-              if (state is SplashLoading) {
-                return const CircularProgressIndicator();
-              }
-
-              return const Text('Welcome to PorrApp!');
-            },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FadeInImage(
+                width: 90,
+                height: 90,
+                placeholder: defaultImage,
+                image: defaultImage,
+              ),
+              const SizedBox(height: 30),
+              CircularProgressIndicator(),
+            ],
           ),
         ),
       ),
