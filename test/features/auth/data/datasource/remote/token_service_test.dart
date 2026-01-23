@@ -9,6 +9,8 @@ import 'package:porrapp_frontend/features/auth/domain/model/model.dart';
 class MockDio extends Mock implements Dio {}
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late MockDio mockDio;
   late TokenService tokenService;
 
