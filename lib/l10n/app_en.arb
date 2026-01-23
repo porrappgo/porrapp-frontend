@@ -65,5 +65,33 @@
     "dontHaveAccountRegister": "Don't have an account? Register",
     "@dontHaveAccountRegister": {
         "description": "Text for the link to the registration page on the login screen"
+    },
+    "loginButton": "Login",
+    "@loginButton": {
+        "description": "Text for the login button on the login screen"
+    },
+    "nameLabel": "Name",
+    "@nameLabel": {
+        "description": "Label for the name input field on the registration screen"
+    },
+    "nameHint": "Enter your name",
+    "@nameHint": {
+        "description": "Hint text for the name input field on the registration screen"
+    },
+    "confirmPasswordLabel": "Confirm Password",
+    "@confirmPasswordLabel": {
+        "description": "Label for the confirm password input field on the registration screen"
+    },
+    "confirmPasswordHint": "Enter your password again",
+    "@confirmPasswordHint": {
+        "description": "Hint text for the confirm password input field on the registration screen"
+    },
+    "registerButton": "Register",
+    "@registerButton": {
+        "description": "Text for the register button on the registration screen"
+    },
+    "alreadyHaveAccountLogin": "Already have an account? Login",
+    "@alreadyHaveAccountLogin": {
+        "description": "Text for the link to the login page on the registration screen"
     }
 }

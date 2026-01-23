@@ -65,5 +65,33 @@
     "dontHaveAccountRegister": "¿No tienes una cuenta? Regístrate",
     "@dontHaveAccountRegister": {
         "description": "Texto para el enlace de registro en la pantalla de inicio de sesión"
+    },
+    "loginButton": "Iniciar sesión",
+    "@loginButton": {
+        "description": "Texto para el botón de iniciar sesión en la pantalla de inicio de sesión"
+    },
+    "nameLabel": "Nombre",
+    "@nameLabel": {
+        "description": "Etiqueta para el campo de entrada del nombre en la pantalla de registro"
+    },
+    "nameHint": "Introduce tu nombre",
+    "@nameHint": {
+        "description": "Texto de ayuda para el campo de entrada del nombre en la pantalla de registro"
+    },
+    "confirmPasswordLabel": "Confirmar contraseña",
+    "@confirmPasswordLabel": {
+        "description": "Etiqueta para el campo de entrada de confirmación de contraseña en la pantalla de registro"
+    },
+    "confirmPasswordHint": "Introduce tu contraseña de nuevo",
+    "@confirmPasswordHint": {
+        "description": "Texto de ayuda para el campo de entrada de confirmación de contraseña en la pantalla de registro"
+    },
+    "registerButton": "Registrarse",
+    "@registerButton": {
+        "description": "Texto para el botón de registrarse en la pantalla de registro"
+    },
+    "alreadyHaveAccountLogin": "¿Ya tienes una cuenta? Inicia sesión",
+    "@alreadyHaveAccountLogin": {
+        "description": "Texto para el enlace de inicio de sesión en la pantalla de registro"
     }
 }

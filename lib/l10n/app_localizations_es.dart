@@ -57,4 +57,25 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get dontHaveAccountRegister => '¿No tienes una cuenta? Regístrate';
+
+  @override
+  String get loginButton => 'Iniciar sesión';
+
+  @override
+  String get nameLabel => 'Nombre';
+
+  @override
+  String get nameHint => 'Introduce tu nombre';
+
+  @override
+  String get confirmPasswordLabel => 'Confirmar contraseña';
+
+  @override
+  String get confirmPasswordHint => 'Introduce tu contraseña de nuevo';
+
+  @override
+  String get registerButton => 'Registrarse';
+
+  @override
+  String get alreadyHaveAccountLogin => '¿Ya tienes una cuenta? Inicia sesión';
 }

@@ -118,7 +118,7 @@ class _LoginContentState extends State<LoginContent> {
                     },
                     isLoading: state.response is Loading,
                     isDisabled: state.response is Loading,
-                    text: localizations.loginTitle,
+                    text: localizations.loginButton,
                   ),
 
                   SizedBox(height: 16.0),

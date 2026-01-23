@@ -193,6 +193,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Don\'t have an account? Register'**
   String get dontHaveAccountRegister;
+
+  /// Text for the login button on the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get loginButton;
+
+  /// Label for the name input field on the registration screen
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get nameLabel;
+
+  /// Hint text for the name input field on the registration screen
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your name'**
+  String get nameHint;
+
+  /// Label for the confirm password input field on the registration screen
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPasswordLabel;
+
+  /// Hint text for the confirm password input field on the registration screen
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password again'**
+  String get confirmPasswordHint;
+
+  /// Text for the register button on the registration screen
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get registerButton;
+
+  /// Text for the link to the login page on the registration screen
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Login'**
+  String get alreadyHaveAccountLogin;
 }
 
 class _AppLocalizationsDelegate
