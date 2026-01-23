@@ -22,6 +22,8 @@ class AuthRepositoryImpl extends AuthRepository {
       return Right(authModel);
     } on ServerException {
       return Left(ServerFailure('Error during login process.'));
+    } on Exception catch (e) {
+      return Left(ServerFailure('Unexpected error: $e'));
     }
   }
 

@@ -23,7 +23,7 @@ class SplashPage extends StatelessWidget {
       body: Center(
         child: BlocListener<SplashBloc, SplashState>(
           listener: (context, state) {
-            if (state is SplashInitial) {
+            if (state is SplashInitial || state is SplashError) {
               context.go('/${LoginPage.routeName}');
             } else if (state is SplashLoaded) {
               context.go('/${RoomsPage.routeName}');

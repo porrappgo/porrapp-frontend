@@ -23,7 +23,6 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     FlutterLogs.logInfo(tag, "_onLoadSplashEvent", "LoadSplashEvent triggered");
     emit(SplashLoading());
 
-    await Future.delayed(const Duration(seconds: 5));
     final resource = await authUseCases.login.run();
     resource.fold(
       (failure) {
