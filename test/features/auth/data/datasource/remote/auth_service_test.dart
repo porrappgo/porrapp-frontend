@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:porrapp_frontend/core/util/util.dart';
@@ -13,9 +14,19 @@ void main() {
   late MockDio dio;
   late AuthService service;
 
+  const MethodChannel channel = MethodChannel('flutter_logs');
+
   setUp(() {
+    channel.setMockMethodCallHandler((MethodCall methodCall) async {
+      return 'Ok';
+    });
+
     dio = MockDio();
     service = AuthService(dio);
+  });
+
+  tearDown(() {
+    channel.setMockMethodCallHandler(null);
   });
 
   test('returns Success when API responds with 200', () async {

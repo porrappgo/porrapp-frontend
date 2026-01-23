@@ -3,11 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:porrapp_frontend/core/util/share_dialog.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   const MethodChannel channel = MethodChannel(
     'dev.fluttercommunity.plus/share',
   );
-
-  TestWidgetsFlutterBinding.ensureInitialized();
 
   setUp(() {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {

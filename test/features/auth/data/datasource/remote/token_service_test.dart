@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:dio/dio.dart';
@@ -14,9 +15,19 @@ void main() {
   late MockDio mockDio;
   late TokenService tokenService;
 
+  const MethodChannel channel = MethodChannel('flutter_logs');
+
   setUp(() {
+    channel.setMockMethodCallHandler((MethodCall methodCall) async {
+      return 'Ok';
+    });
+
     mockDio = MockDio();
     tokenService = TokenService(mockDio);
+  });
+
+  tearDown(() {
+    channel.setMockMethodCallHandler(null);
   });
 
   group('TokenService - getToken', () {
