@@ -78,4 +78,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get alreadyHaveAccountLogin => '¿Ya tienes una cuenta? Inicia sesión';
+
+  @override
+  String get roomCode => 'Código de la sala';
+
+  @override
+  String get enterRoomCode => 'Introduce el código de la sala';
+
+  @override
+  String get fieldIsRequired => 'El campo es obligatorio';
+
+  @override
+  String get insideInRoom => 'Entrar en la sala';
 }

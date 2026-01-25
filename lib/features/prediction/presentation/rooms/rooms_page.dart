@@ -1,12 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:porrapp_frontend/core/components/components.dart';
+import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/auth/presentation/login_page.dart';
 import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
-
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/bloc/rooms_bloc.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/components/card_room.dart';
@@ -161,7 +162,22 @@ Future<void> _displayCreateRoomDialog(
 
   if (result == null) return;
 
-  roomsBloc.add(CreateRoomEvent(result.name, result.competition.id));
+  if (result is String) {
+    // Joining a room using a code
+    FlutterLogs.logInfo(
+      RoomsPage.tag,
+      '_displayCreateRoomDialog',
+      'Joining room with code: $result',
+    );
+  } else if (result is CreateRoomData) {
+    // Creating a new room
+    FlutterLogs.logInfo(
+      RoomsPage.tag,
+      '_displayCreateRoomDialog',
+      'Creating room with name: ${result.name} and competition ID: ${result.competition.id}',
+    );
+    roomsBloc.add(CreateRoomEvent(result.name, result.competition.id));
+  }
 }
 
 ListView _roomsList(

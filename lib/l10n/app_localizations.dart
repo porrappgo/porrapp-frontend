@@ -235,6 +235,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Already have an account? Login'**
   String get alreadyHaveAccountLogin;
+
+  /// Label for the room code input field in the join room dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Room Code'**
+  String get roomCode;
+
+  /// Hint text for the room code input field in the join room dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Enter room code'**
+  String get enterRoomCode;
+
+  /// Validation message when a required field is not provided
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get fieldIsRequired;
+
+  /// Text for the join room button in the join room dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Join Room'**
+  String get insideInRoom;
 }
 
 class _AppLocalizationsDelegate

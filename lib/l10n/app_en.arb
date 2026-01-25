@@ -93,5 +93,21 @@
     "alreadyHaveAccountLogin": "Already have an account? Login",
     "@alreadyHaveAccountLogin": {
         "description": "Text for the link to the login page on the registration screen"
+    },
+    "roomCode": "Room Code",
+    "@roomCode": {
+        "description": "Label for the room code input field in the join room dialog"
+    },
+    "enterRoomCode": "Enter room code",
+    "@enterRoomCode": {
+        "description": "Hint text for the room code input field in the join room dialog"
+    },
+    "fieldIsRequired": "This field is required",
+    "@fieldIsRequired": {
+        "description": "Validation message when a required field is not provided"
+    },
+    "insideInRoom": "Join Room",
+    "@insideInRoom": {
+        "description": "Text for the join room button in the join room dialog"
     }
 }

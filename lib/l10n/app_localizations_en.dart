@@ -78,4 +78,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get alreadyHaveAccountLogin => 'Already have an account? Login';
+
+  @override
+  String get roomCode => 'Room Code';
+
+  @override
+  String get enterRoomCode => 'Enter room code';
+
+  @override
+  String get fieldIsRequired => 'This field is required';
+
+  @override
+  String get insideInRoom => 'Join Room';
 }

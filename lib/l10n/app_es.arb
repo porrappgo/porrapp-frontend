@@ -93,5 +93,21 @@
     "alreadyHaveAccountLogin": "¿Ya tienes una cuenta? Inicia sesión",
     "@alreadyHaveAccountLogin": {
         "description": "Texto para el enlace de inicio de sesión en la pantalla de registro"
+    },
+    "roomCode": "Código de la sala",
+    "@roomCode": {
+        "description": "Etiqueta para el campo de entrada del código de la sala en el diálogo para unirse a una sala."
+    },
+    "enterRoomCode": "Introduce el código de la sala",
+    "@enterRoomCode": {
+        "description": "Texto de ayuda para el campo de entrada del código de la sala en el diálogo para unirse a una sala."
+    },
+    "fieldIsRequired": "El campo es obligatorio",
+    "@fieldIsRequired": {
+        "description": "Mensaje de validación cuando un campo obligatorio no se ha rellenado"
+    },
+    "insideInRoom": "Entrar en la sala",
+    "@insideInRoom": {
+        "description": "Texto para el botón de entrar en la sala en el diálogo para unirse a una sala."
     }
 }
