@@ -19,6 +19,7 @@ void main() {
     final updatePredictionsUseCase = UpdatePredictionsUseCase(
       FakePredictionRepository(),
     );
+    final joinRoomUseCase = JoinRoomUseCase(FakePredictionRepository());
 
     // Act
     final useCases = PredictionUseCases(
@@ -27,6 +28,7 @@ void main() {
       roomsWithCompetitionsUseCases: roomsWithCompetitionsUseCases,
       getPredictionsForRoomUsecase: getPredictionsForRoomUsecase,
       updatePredictionsUseCase: updatePredictionsUseCase,
+      joinRoomUseCase: joinRoomUseCase,
     );
 
     // Assert
@@ -38,5 +40,6 @@ void main() {
     );
     expect(useCases.getPredictionsForRoomUsecase, getPredictionsForRoomUsecase);
     expect(useCases.updatePredictionsUseCase, updatePredictionsUseCase);
+    expect(useCases.joinRoomUseCase, joinRoomUseCase);
   });
 }

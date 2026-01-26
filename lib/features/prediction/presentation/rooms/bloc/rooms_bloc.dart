@@ -22,6 +22,7 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
     on<CreateRoomEvent>(_onCreateRoomEvent);
     on<LoadRoomsEvent>(_onLoadRoomsEvent);
     on<LogoutFromAppEvent>(_onLogoutFromAppEvent);
+    on<JoinRoomEvent>(_onJoinRoomEvent);
   }
 
   void _onResetRoomsEvent(ResetRoomsEvent event, Emitter<RoomsState> emit) {
@@ -45,6 +46,23 @@ class RoomsBloc extends Bloc<RoomsEvent, RoomsState> {
       );
     } catch (e) {
       emit(RoomsError('Failed to create room'));
+    }
+  }
+
+  _onJoinRoomEvent(JoinRoomEvent event, Emitter<RoomsState> emit) async {
+    try {
+      emit(RoomsLoading());
+
+      final resource = await predictionUseCases.joinRoomUseCase.run(
+        event.invitationCode,
+      );
+
+      resource.fold(
+        (failure) => emit(RoomsError('Failed to join room')),
+        (room) => emit(RoomsCreated(room)),
+      );
+    } catch (e) {
+      emit(RoomsError('Failed to join room'));
     }
   }
 

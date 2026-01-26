@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:porrapp_frontend/core/util/util.dart';
 
 import 'package:porrapp_frontend/features/prediction/data/datasource/remote/prediction_service.dart';
@@ -6,6 +7,7 @@ import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/domain/repository/prediction_repository.dart';
 
 class PredictionRepositoryImpl extends PredictionRepository {
+  static const String tag = "PredictionRepositoryImpl";
   final PredictionService _predictionService;
 
   PredictionRepositoryImpl(this._predictionService);
@@ -20,6 +22,9 @@ class PredictionRepositoryImpl extends PredictionRepository {
       return Right(createdRoom);
     } on ServerException {
       return Left(ServerFailure(''));
+    } on Exception catch (e) {
+      FlutterLogs.logError(tag, 'createRoom', 'Exception: $e');
+      return Left(ServerFailure('Unexpected error occurred'));
     }
   }
 
@@ -33,6 +38,9 @@ class PredictionRepositoryImpl extends PredictionRepository {
       return Right(rooms);
     } on ServerException {
       return Left(ServerFailure(''));
+    } on Exception catch (e) {
+      FlutterLogs.logError(tag, 'listRooms', 'Exception: $e');
+      return Left(ServerFailure('Unexpected error occurred'));
     }
   }
 
@@ -50,6 +58,8 @@ class PredictionRepositoryImpl extends PredictionRepository {
       return Right(predictions);
     } on ServerException {
       return Left(ServerFailure(''));
+    } on Exception {
+      return Left(ServerFailure('Unexpected error occurred'));
     }
   }
 
@@ -67,6 +77,8 @@ class PredictionRepositoryImpl extends PredictionRepository {
       return Right(updatedPredictions);
     } on ServerException {
       return Left(ServerFailure(''));
+    } on Exception {
+      return Left(ServerFailure('Unexpected error occurred'));
     }
   }
 
@@ -82,6 +94,21 @@ class PredictionRepositoryImpl extends PredictionRepository {
       return Right(rooms);
     } on ServerException {
       return Left(ServerFailure(''));
+    } on Exception {
+      return Left(ServerFailure('Unexpected error occurred'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RoomModel>> joinRoom(String code) async {
+    try {
+      final rooms = await _predictionService.joinRoom(code);
+      return Right(rooms);
+    } on ServerException {
+      return Left(ServerFailure(''));
+    } on Exception catch (e) {
+      FlutterLogs.logError(tag, 'joinRoom', 'Exception: $e');
+      return Left(ServerFailure('Unexpected error occurred'));
     }
   }
 }

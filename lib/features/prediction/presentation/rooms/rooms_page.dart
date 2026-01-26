@@ -101,13 +101,6 @@ class _RoomsPageState extends State<RoomsPage> {
           if (state is RoomsLoading || state is LogoutLoading) {
             return const CircularLoadingPage();
           }
-          // Display error message if there was an error loading rooms
-          else if (state is RoomsError) {
-            Fluttertoast.showToast(
-              msg: state.message,
-              toastLength: Toast.LENGTH_LONG,
-            );
-          }
           // Display list of rooms if successfully loaded
           else if (state is RoomsHasData) {
             final rooms = state.rooms;
@@ -169,6 +162,7 @@ Future<void> _displayCreateRoomDialog(
       '_displayCreateRoomDialog',
       'Joining room with code: $result',
     );
+    roomsBloc.add(JoinRoomEvent(result));
   } else if (result is CreateRoomData) {
     // Creating a new room
     FlutterLogs.logInfo(

@@ -24,6 +24,15 @@ class CreateRoomEvent extends RoomsEvent {
   List<Object> get props => [roomName];
 }
 
+class JoinRoomEvent extends RoomsEvent {
+  final String invitationCode;
+
+  const JoinRoomEvent(this.invitationCode);
+
+  @override
+  List<Object> get props => [invitationCode];
+}
+
 class LoadRoomsEvent extends RoomsEvent {
   const LoadRoomsEvent();
 

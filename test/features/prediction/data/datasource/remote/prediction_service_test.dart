@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:porrapp_frontend/features/prediction/data/datasource/remote/prediction_service.dart';
@@ -8,12 +9,24 @@ import 'package:porrapp_frontend/core/util/util.dart';
 class MockDio extends Mock implements Dio {}
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late MockDio mockDio;
   late PredictionService service;
 
+  const MethodChannel channel = MethodChannel('flutter_logs');
+
   setUp(() {
+    channel.setMockMethodCallHandler((MethodCall methodCall) async {
+      return 'Ok';
+    });
+
     mockDio = MockDio();
     service = PredictionService(mockDio);
+  });
+
+  tearDown(() {
+    channel.setMockMethodCallHandler(null);
   });
 
   group('PredictionService', () {

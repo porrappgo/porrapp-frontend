@@ -41,6 +41,6 @@ class CircularLoadingPage extends StatelessWidget {
   ///   A [Widget] containing the centered loading indicator.
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
+    return Scaffold(body: const Center(child: CircularProgressIndicator()));
   }
 }
