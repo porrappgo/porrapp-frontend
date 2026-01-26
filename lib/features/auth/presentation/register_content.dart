@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:porrapp_frontend/core/components/components.dart';
 import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/auth/domain/model/model.dart';
 import 'package:porrapp_frontend/features/auth/presentation/bloc/bloc.dart';
-import 'package:porrapp_frontend/features/competitions/presentation/competition_page.dart';
+import 'package:porrapp_frontend/features/prediction/presentation/rooms/rooms_page.dart';
+import 'package:porrapp_frontend/l10n/app_localizations.dart';
 
 class RegisterContent extends StatefulWidget {
+  static const String tag = 'RegisterContent';
+
   const RegisterContent({super.key});
 
   @override
@@ -20,14 +25,18 @@ class _RegisterContentState extends State<RegisterContent> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     registerBloc = BlocProvider.of<RegisterBloc>(context);
 
     return BlocListener<RegisterBloc, RegisterState>(
       listener: (context, state) {
-        print('Registration resource changed: ${state.registrationResource}');
+        FlutterLogs.logInfo(
+          RegisterContent.tag,
+          'BlocListener',
+          'Registration resource changed: ${state.registrationResource}',
+        );
         if (state.registrationResource is Success<AuthModel>) {
-          print('Registration successful, navigating to CompetitionPage');
-          context.go('/${CompetitionPage.routeName}');
+          context.go('/${RoomsPage.routeName}');
         } else if (state.registrationResource is Error) {
           Fluttertoast.showToast(
             msg: (state.registrationResource as Error).message,
@@ -54,8 +63,8 @@ class _RegisterContentState extends State<RegisterContent> {
                   SizedBox(height: 24.0),
                   // Form fields
                   InputText(
-                    label: 'Email',
-                    hint: 'Enter your email',
+                    label: localizations.emailLabel,
+                    hint: localizations.emailHint,
                     onChanged: (text) {
                       registerBloc?.add(
                         EmailChangedEvent(email: BlocFormItem(value: text)),
@@ -69,8 +78,8 @@ class _RegisterContentState extends State<RegisterContent> {
                   ),
                   // Form fields
                   InputText(
-                    label: 'Name',
-                    hint: 'Enter your name',
+                    label: localizations.nameLabel,
+                    hint: localizations.nameHint,
                     onChanged: (text) {
                       registerBloc?.add(
                         NameChangedEvent(name: BlocFormItem(value: text)),
@@ -81,8 +90,8 @@ class _RegisterContentState extends State<RegisterContent> {
                     keyboardType: TextInputType.name,
                   ),
                   InputText(
-                    label: 'Password',
-                    hint: 'Enter your password',
+                    label: localizations.passwordLabel,
+                    hint: localizations.passwordHint,
                     onChanged: (text) {
                       registerBloc?.add(
                         PasswordChangedEvent(
@@ -95,8 +104,8 @@ class _RegisterContentState extends State<RegisterContent> {
                     textInputAction: TextInputAction.next,
                   ),
                   InputText(
-                    label: 'Confirm Password',
-                    hint: 'Enter your password again',
+                    label: localizations.confirmPasswordLabel,
+                    hint: localizations.confirmPasswordHint,
                     onChanged: (text) {
                       registerBloc?.add(
                         ConfirmPasswordChangedEvent(
@@ -119,7 +128,7 @@ class _RegisterContentState extends State<RegisterContent> {
 
                       registerBloc?.add(const RegisterFormSubmittedEvent());
                     },
-                    text: 'Register',
+                    text: localizations.registerButton,
                     isDisabled: state.isLoadingRegistration,
                     isLoading: state.isLoadingRegistration,
                   ),
@@ -131,7 +140,7 @@ class _RegisterContentState extends State<RegisterContent> {
                       context.pop();
                     },
                     child: Text(
-                      "Already have an account? Login",
+                      localizations.alreadyHaveAccountLogin,
                       style: TextStyle(decoration: TextDecoration.underline),
                     ),
                   ),

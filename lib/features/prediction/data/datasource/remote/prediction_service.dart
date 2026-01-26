@@ -1,8 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_logs/flutter_logs.dart';
+
 import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 
 class PredictionService {
+  static const String tag = 'PredictionService';
+
   final Dio _dio;
 
   PredictionService(this._dio);
@@ -11,14 +15,44 @@ class PredictionService {
     /**
      * Create a new prediction room using the remote API with the provided token and room data.
      */
-    print('Creating room with data: ${room.toJson()}');
+    FlutterLogs.logInfo(
+      tag,
+      'createRoom',
+      'Creating room with data: ${room.toJson()}',
+    );
     final response = await _dio.post(
       '/prediction/rooms/create/',
       data: room.toJson(),
     );
 
     if (response.statusCode == 201) {
-      print('Create room response data: ${response.data}');
+      return RoomModel.fromJson(response.data);
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<RoomModel> joinRoom(String invitationCode) async {
+    /**
+     * Join a prediction room using the remote API with the provided token and invitation code.
+     */
+    FlutterLogs.logInfo(
+      tag,
+      'joinRoom',
+      'Joining room with invitation code: $invitationCode',
+    );
+    final response = await _dio.post(
+      '/prediction/rooms/join/',
+      data: {'invitation_code': invitationCode},
+    );
+
+    FlutterLogs.logInfo(
+      tag,
+      'joinRoom',
+      'Response status code: ${response.statusCode}, data: ${response.data}',
+    );
+
+    if (response.statusCode == 201) {
       return RoomModel.fromJson(response.data);
     } else {
       throw ServerException();
@@ -75,14 +109,17 @@ class PredictionService {
     /**
      * Update predictions using the remote API with the provided token and prediction update data.
      */
-    print('Updating predictions with data: ${predictionUpdate.toJson()}');
+    FlutterLogs.logInfo(
+      tag,
+      'updatePredictions',
+      'Updating predictions with data: ${predictionUpdate.toJson()}',
+    );
     final response = await _dio.patch(
       '/prediction/predictions/update/',
       data: predictionUpdate.toJson(),
     );
 
     if (response.statusCode == 200) {
-      print('Update predictions response data: ${response.data}');
       // Answer {"status": "predictions updated"}
       return response.data.containsKey('success') &&
           response.data['success'] == true;

@@ -42,3 +42,16 @@ final class RoomsCreated extends RoomsState {
   @override
   List<Object> get props => [room];
 }
+
+final class LogoutLoading extends RoomsState {}
+
+final class LogoutSuccess extends RoomsState {}
+
+final class LogoutError extends RoomsState {
+  final String message;
+
+  const LogoutError(this.message);
+
+  @override
+  List<Object> get props => [message];
+}

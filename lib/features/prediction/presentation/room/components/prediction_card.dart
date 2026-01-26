@@ -37,7 +37,7 @@ class _PredictionCardState extends State<PredictionCard> {
     _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 400), () {
       context.read<RoomBloc>().add(
-        UpdatePredictionLocally(
+        UpdatePredictionLocallyEvent(
           predictionId: widget.prediction.id,
           homeScore: int.tryParse(homeController.text),
           awayScore: int.tryParse(awayController.text),

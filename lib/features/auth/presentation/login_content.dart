@@ -116,9 +116,9 @@ class _LoginContentState extends State<LoginContent> {
 
                       authBloc?.add(const AuthSubmitted());
                     },
-                    isLoading: state.response is LoadingPage,
-                    isDisabled: state.response is LoadingPage,
-                    text: localizations.loginTitle,
+                    isLoading: state.response is Loading,
+                    isDisabled: state.response is Loading,
+                    text: localizations.loginButton,
                   ),
 
                   SizedBox(height: 16.0),

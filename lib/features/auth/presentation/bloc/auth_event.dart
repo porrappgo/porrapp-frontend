@@ -9,13 +9,6 @@ abstract class AuthEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class AuthInitialEvent extends AuthEvent {
-  const AuthInitialEvent();
-
-  @override
-  List<Object?> get props => [];
-}
-
 class AuthFormReset extends AuthEvent {
   const AuthFormReset();
 }
@@ -53,8 +46,4 @@ class PasswordChanged extends AuthEvent {
 
 class AuthSubmitted extends AuthEvent {
   const AuthSubmitted();
-}
-
-class AuthLogout extends AuthEvent {
-  const AuthLogout();
 }

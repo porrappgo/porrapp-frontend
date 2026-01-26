@@ -81,26 +81,4 @@ class CompetitionBloc extends Bloc<CompetitionEvent, CompetitionState> {
     //   return Error('Failed to logout');
     // }
   }
-
-  Future<Resource<List<GroupStandingModel>>> _loadGroupStandings(
-    List<int> groupIds,
-  ) async {
-    try {
-      print('Loading group standings for group IDs: $groupIds');
-      return await competitionUsecases.getGroupsStandings.run(groupIds);
-    } catch (e) {
-      print('Error loading group standings: $e');
-      return Error('Failed to load group standings');
-    }
-  }
-
-  Future<Resource<List<TeamModel>>> _loadTeams() async {
-    try {
-      print('Loading teams...');
-      return await competitionUsecases.getTeams.run();
-    } catch (e) {
-      print('Error loading teams: $e');
-      return Error('Failed to load teams');
-    }
-  }
 }

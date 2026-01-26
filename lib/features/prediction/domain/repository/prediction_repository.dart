@@ -6,6 +6,9 @@ abstract class PredictionRepository {
   // Create a room.
   Future<Either<Failure, RoomModel>> createRoom(RoomModel room);
 
+  // Join a room.
+  Future<Either<Failure, RoomModel>> joinRoom(String code);
+
   // List all rooms.
   Future<Either<Failure, List<RoomUserModel>>> listRooms();
 

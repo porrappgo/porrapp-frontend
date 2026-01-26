@@ -1,28 +1,23 @@
-import 'package:equatable/equatable.dart';
+part of 'splash_bloc.dart';
 
-class SplashState extends Equatable {
-  final bool isLoggedIn;
-  final bool isLoading;
-  final String? errorMessage;
-
-  const SplashState({
-    this.isLoggedIn = false,
-    this.isLoading = false,
-    this.errorMessage,
-  });
-
-  SplashState copyWith({
-    bool? isLoggedIn,
-    bool? isLoading,
-    String? errorMessage,
-  }) {
-    return SplashState(
-      isLoggedIn: isLoggedIn ?? this.isLoggedIn,
-      isLoading: isLoading ?? this.isLoading,
-      errorMessage: errorMessage ?? this.errorMessage,
-    );
-  }
+sealed class SplashState extends Equatable {
+  const SplashState();
 
   @override
-  List<Object?> get props => [isLoggedIn, isLoading, errorMessage];
+  List<Object> get props => [];
+}
+
+final class SplashInitial extends SplashState {}
+
+final class SplashLoading extends SplashState {}
+
+final class SplashLoaded extends SplashState {}
+
+final class SplashError extends SplashState {
+  final String message;
+
+  const SplashError(this.message);
+
+  @override
+  List<Object> get props => [message];
 }

@@ -57,4 +57,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dontHaveAccountRegister => 'Don\'t have an account? Register';
+
+  @override
+  String get loginButton => 'Login';
+
+  @override
+  String get nameLabel => 'Name';
+
+  @override
+  String get nameHint => 'Enter your name';
+
+  @override
+  String get confirmPasswordLabel => 'Confirm Password';
+
+  @override
+  String get confirmPasswordHint => 'Enter your password again';
+
+  @override
+  String get registerButton => 'Register';
+
+  @override
+  String get alreadyHaveAccountLogin => 'Already have an account? Login';
+
+  @override
+  String get roomCode => 'Room Code';
+
+  @override
+  String get enterRoomCode => 'Enter room code';
+
+  @override
+  String get fieldIsRequired => 'This field is required';
+
+  @override
+  String get insideInRoom => 'Join Room';
 }

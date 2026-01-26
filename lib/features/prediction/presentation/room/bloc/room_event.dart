@@ -16,18 +16,18 @@ final class LoadRoomEvent extends RoomEvent {
   List<Object> get props => [roomId];
 }
 
-class UpdatePredictionLocally extends RoomEvent {
+class UpdatePredictionLocallyEvent extends RoomEvent {
   final int predictionId;
   final int? homeScore;
   final int? awayScore;
 
-  const UpdatePredictionLocally({
+  const UpdatePredictionLocallyEvent({
     required this.predictionId,
     required this.homeScore,
     required this.awayScore,
   });
 }
 
-class SavePredictions extends RoomEvent {}
+class SavePredictionsEvent extends RoomEvent {}
 
-class ClearRoomError extends RoomEvent {}
+class ClearRoomErrorEvent extends RoomEvent {}
