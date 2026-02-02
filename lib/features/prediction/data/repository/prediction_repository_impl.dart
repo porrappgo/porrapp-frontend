@@ -52,9 +52,7 @@ class PredictionRepositoryImpl extends PredictionRepository {
      * Retrive predictions for a specific room using the prediction service.
      */
     try {
-      final predictions = await _predictionService.getPredictions(
-        roomId.toString(),
-      );
+      final predictions = await _predictionService.getPredictions(roomId);
       return Right(predictions);
     } on ServerException {
       return Left(ServerFailure(''));

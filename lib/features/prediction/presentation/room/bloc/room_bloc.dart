@@ -98,7 +98,15 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
         );
       },
       (success) {
-        emit(current.copyWith(isSaving: false, hasChanges: false));
+        emit(
+          current.copyWith(
+            isSaving: false,
+            hasChanges: false,
+            predictions: current.predictions
+                .map((p) => p.copyWith(isPredicted: true))
+                .toList(),
+          ),
+        );
       },
     );
   }

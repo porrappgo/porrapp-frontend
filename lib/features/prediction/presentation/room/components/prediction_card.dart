@@ -57,6 +57,7 @@ class _PredictionCardState extends State<PredictionCard> {
   @override
   Widget build(BuildContext context) {
     final match = widget.prediction.match;
+    final prediction = widget.prediction;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -64,29 +65,33 @@ class _PredictionCardState extends State<PredictionCard> {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            Text(
-              'Match ${match.id} - ${DateFormat.yMMMd().format(match.date)}',
-            ),
+            Text(DateFormat.yMMMd().format(match.date)),
+
             match.isFinished
-                ? const Text(
-                    'Match Finished',
-                    style: TextStyle(color: Colors.red),
+                ? Row(
+                    children: [
+                      const Text(
+                        'Match Finished',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      Text('${match.homeScore} - ${match.awayScore}'),
+                    ],
                   )
                 : const SizedBox.shrink(),
-
-            Text('${match.homeScore} - ${match.awayScore}'),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Home team
-                TeamInfo(
-                  teamName: match.homeTeam.name,
-                  teamLogoUrl: match.homeTeam.flag,
+                Expanded(
+                  child: TeamInfo(
+                    teamName: match.homeTeam.name,
+                    teamLogoUrl: match.homeTeam.flag,
+                  ),
                 ),
                 const SizedBox(width: 21),
                 ScoreInput(
-                  isEnabled: !match.isFinished,
+                  isDisabled: match.isFinished || prediction.isPredicted,
                   controller: homeController,
                   onChanged: (_) => _onChanged(),
                 ),
@@ -99,14 +104,17 @@ class _PredictionCardState extends State<PredictionCard> {
                 // Away team
                 ScoreInput(
                   controller: awayController,
-                  isEnabled: !match.isFinished,
+                  isDisabled: match.isFinished || prediction.isPredicted,
                   onChanged: (_) => _onChanged(),
                 ),
 
                 const SizedBox(width: 21),
-                TeamInfo(
-                  teamName: match.awayTeam.name,
-                  teamLogoUrl: match.awayTeam.flag,
+
+                Expanded(
+                  child: TeamInfo(
+                    teamName: match.awayTeam.name,
+                    teamLogoUrl: match.awayTeam.flag,
+                  ),
                 ),
               ],
             ),
