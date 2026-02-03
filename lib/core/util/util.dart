@@ -5,3 +5,4 @@ export 'failure.dart';
 export 'exception.dart';
 export 'create_room_data.dart';
 export 'share_dialog.dart';
+export 'message_dialog.dart';

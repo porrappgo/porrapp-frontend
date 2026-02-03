@@ -216,6 +216,7 @@ void main() {
             "predicted_home_score": 2147483647,
             "predicted_away_score": 2147483647,
             "points_earned": 0,
+            "is_predicted": true,
           },
           {
             "id": 1,
@@ -249,6 +250,7 @@ void main() {
             "predicted_home_score": 2147483647,
             "predicted_away_score": 2147483647,
             "points_earned": 0,
+            "is_predicted": true,
           },
         ];
 
@@ -259,11 +261,11 @@ void main() {
         );
 
         when(
-          () => mockDio.get('/prediction/predictions/'),
+          () => mockDio.get('/prediction/predictions/1/'),
         ).thenAnswer((_) async => response);
 
         // Act
-        final result = await service.getPredictions('1');
+        final result = await service.getPredictions(1);
 
         // Assert
         expect(result.length, 2);
@@ -285,7 +287,7 @@ void main() {
 
         // Act & Assert
         expect(
-          () => service.getPredictions('1'),
+          () => service.getPredictions(1),
           throwsA(isA<ServerException>()),
         );
       },

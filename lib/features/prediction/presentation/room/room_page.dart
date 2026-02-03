@@ -6,6 +6,7 @@ import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/bloc/room_bloc.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/components/prediction_card.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/components/stage_header.dart';
+import 'package:porrapp_frontend/l10n/app_localizations.dart';
 
 class RoomPage extends StatefulWidget {
   static const String routeName = 'room';
@@ -34,6 +35,8 @@ class _RoomPageState extends State<RoomPage> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.roomName ?? 'Room Page'),
@@ -43,7 +46,7 @@ class _RoomPageState extends State<RoomPage> {
           IconButton(
             icon: const Icon(Icons.leaderboard),
             onPressed: () {
-              _rankingUser(context);
+              _rankingUser(context, localizations);
             },
           ),
           IconButton(
@@ -94,11 +97,14 @@ class _RoomPageState extends State<RoomPage> {
           }
         },
       ),
-      floatingActionButton: floatingActionButton(),
+      floatingActionButton: floatingActionButton(localizations),
     );
   }
 
-  Future<dynamic> _rankingUser(BuildContext context) {
+  Future<dynamic> _rankingUser(
+    BuildContext context,
+    AppLocalizations localizations,
+  ) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -134,7 +140,7 @@ class _RoomPageState extends State<RoomPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Close'),
+              child: Text(localizations.cancelButton),
             ),
           ],
         );
@@ -142,7 +148,9 @@ class _RoomPageState extends State<RoomPage> {
     );
   }
 
-  BlocConsumer<RoomBloc, RoomState> floatingActionButton() {
+  BlocConsumer<RoomBloc, RoomState> floatingActionButton(
+    AppLocalizations localizations,
+  ) {
     return BlocConsumer<RoomBloc, RoomState>(
       listener: (context, state) {
         if (state is RoomHasData && state.errorMessage != null) {
@@ -161,7 +169,7 @@ class _RoomPageState extends State<RoomPage> {
           return FloatingActionButton.extended(
             onPressed: (!state.hasChanges || state.isSaving)
                 ? null
-                : () => context.read<RoomBloc>().add(SavePredictionsEvent()),
+                : () => _savePredictions(context, localizations),
             icon: const Icon(Icons.save),
             label: state.isSaving
                 ? const SizedBox(
@@ -169,10 +177,21 @@ class _RoomPageState extends State<RoomPage> {
                     height: 18,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : const Text('Save'),
+                : Text(localizations.saveText),
           );
         }
         return const SizedBox();
+      },
+    );
+  }
+
+  void _savePredictions(BuildContext context, AppLocalizations localizations) {
+    messageDialog(
+      context: context,
+      title: localizations.confirmSaveTitle,
+      content: localizations.confirmSaveContent,
+      onConfirmed: () {
+        context.read<RoomBloc>().add(SavePredictionsEvent());
       },
     );
   }

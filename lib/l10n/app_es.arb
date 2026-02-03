@@ -109,5 +109,25 @@
     "insideInRoom": "Entrar en la sala",
     "@insideInRoom": {
         "description": "Texto para el botón de entrar en la sala en el diálogo para unirse a una sala."
+    },
+    "confirmSaveTitle": "Confirmar guardado",
+    "@confirmSaveTitle": {
+        "description": "Título del diálogo para confirmar el guardado de predicciones."
+    },
+    "confirmSaveContent": "¿Estás seguro de que quieres guardar tus predicciones? \n\n Una vez guardadas, no podrás modificarlas.",
+    "@confirmSaveContent": {
+        "description": "Contenido del diálogo para confirmar el guardado de predicciones."
+    },
+    "confirmButton": "Confirmar",
+    "@confirmButton": {
+        "description": "Texto para el botón de confirmar en diálogos de confirmación."
+    },
+    "cancelButton": "Cancelar",
+    "@cancelButton": {
+        "description": "Texto para el botón de cancelar en diálogos de confirmación."
+    },
+    "saveText": "Guardar",
+    "@saveText": {
+        "description": "Texto para el botón de guardar."
     }
 }

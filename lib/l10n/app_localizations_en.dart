@@ -90,4 +90,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get insideInRoom => 'Join Room';
+
+  @override
+  String get confirmSaveTitle => 'Confirm Save';
+
+  @override
+  String get confirmSaveContent =>
+      'Are you sure you want to save your predictions?, you won\'t be able to change them later.';
+
+  @override
+  String get confirmButton => 'Confirm';
+
+  @override
+  String get cancelButton => 'Cancel';
+
+  @override
+  String get saveText => 'Save';
 }

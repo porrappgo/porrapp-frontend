@@ -109,5 +109,25 @@
     "insideInRoom": "Join Room",
     "@insideInRoom": {
         "description": "Text for the join room button in the join room dialog"
+    },
+    "confirmSaveTitle": "Confirm Save",
+    "@confirmSaveTitle": {
+        "description": "Title for the confirm save dialog"
+    },
+    "confirmSaveContent": "Are you sure you want to save your predictions?, you won't be able to change them later.",
+    "@confirmSaveContent": {
+        "description": "Content for the confirm save dialog"
+    },
+    "confirmButton": "Confirm",
+    "@confirmButton": {
+        "description": "Text for the confirm button in dialogs"
+    },
+    "cancelButton": "Cancel",
+    "@cancelButton": {
+        "description": "Text for the cancel button in dialogs"
+    },
+    "saveText": "Save",
+    "@saveText": {
+        "description": "Text for the save button"
     }
 }

@@ -90,4 +90,20 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get insideInRoom => 'Entrar en la sala';
+
+  @override
+  String get confirmSaveTitle => 'Confirmar guardado';
+
+  @override
+  String get confirmSaveContent =>
+      '¿Estás seguro de que quieres guardar tus predicciones? \n\n Una vez guardadas, no podrás modificarlas.';
+
+  @override
+  String get confirmButton => 'Confirmar';
+
+  @override
+  String get cancelButton => 'Cancelar';
+
+  @override
+  String get saveText => 'Guardar';
 }

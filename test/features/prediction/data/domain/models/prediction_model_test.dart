@@ -68,6 +68,7 @@ void main() {
         "predicted_home_score": 2,
         "predicted_away_score": 1,
         "points_earned": 3,
+        "is_predicted": false,
       };
 
       // Act
@@ -79,6 +80,7 @@ void main() {
       expect(model.predictedHomeScore, 2);
       expect(model.predictedAwayScore, 1);
       expect(model.pointsEarned, 3);
+      expect(model.isPredicted, false);
     });
 
     test('toJson returns a valid json map', () {
@@ -89,6 +91,7 @@ void main() {
         predictedHomeScore: 2,
         predictedAwayScore: 1,
         pointsEarned: 3,
+        isPredicted: false,
       );
 
       // Act
@@ -100,6 +103,7 @@ void main() {
       expect(json['predicted_home_score'], 2);
       expect(json['predicted_away_score'], 1);
       expect(json['points_earned'], 3);
+      expect(json['is_predicted'], false);
     });
 
     test('predictionModelFromJson parses list correctly', () {
@@ -111,6 +115,7 @@ void main() {
           "predicted_home_score": 1,
           "predicted_away_score": 0,
           "points_earned": 3,
+          "is_predicted": true,
         },
         {
           "id": 2,
@@ -118,6 +123,7 @@ void main() {
           "predicted_home_score": 2,
           "predicted_away_score": 2,
           "points_earned": 1,
+          "is_predicted": false,
         },
       ]);
 
@@ -128,6 +134,8 @@ void main() {
       expect(result.length, 2);
       expect(result.first, isA<PredictionModel>());
       expect(result.last.id, 2);
+      expect(result.last.pointsEarned, 1);
+      expect(result.last.isPredicted, false);
     });
 
     test('predictionModelToJson serializes list correctly', () {
@@ -139,6 +147,7 @@ void main() {
           predictedHomeScore: 1,
           predictedAwayScore: 0,
           pointsEarned: 3,
+          isPredicted: true,
         ),
         PredictionModel(
           id: 2,
@@ -146,6 +155,7 @@ void main() {
           predictedHomeScore: 2,
           predictedAwayScore: 2,
           pointsEarned: 1,
+          isPredicted: false,
         ),
       ];
 
@@ -157,6 +167,7 @@ void main() {
       expect(decoded.length, 2);
       expect(decoded.first['id'], 1);
       expect(decoded.last['points_earned'], 1);
+      expect(decoded.last['is_predicted'], false);
     });
 
     test('copyWith overrides predicted scores', () {
@@ -167,12 +178,14 @@ void main() {
         predictedHomeScore: 1,
         predictedAwayScore: 1,
         pointsEarned: 0,
+        isPredicted: false,
       );
 
       // Act
       final updated = model.copyWith(
         predictedHomeScore: 3,
         predictedAwayScore: 2,
+        isPredicted: true,
       );
 
       // Assert
@@ -180,6 +193,8 @@ void main() {
       expect(updated.predictedAwayScore, 2);
       expect(updated.id, model.id);
       expect(updated.pointsEarned, model.pointsEarned);
+      expect(updated.match, model.match);
+      expect(updated.isPredicted, true);
     });
 
     test('copyWith keeps original values when parameters are null', () {
@@ -190,6 +205,7 @@ void main() {
         predictedHomeScore: 1,
         predictedAwayScore: 1,
         pointsEarned: 0,
+        isPredicted: false,
       );
 
       // Act
@@ -199,6 +215,8 @@ void main() {
       expect(copied.predictedHomeScore, model.predictedHomeScore);
       expect(copied.predictedAwayScore, model.predictedAwayScore);
       expect(copied.match, model.match);
+      expect(copied.pointsEarned, model.pointsEarned);
+      expect(copied.id, model.id);
     });
   });
 }

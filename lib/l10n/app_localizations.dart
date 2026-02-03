@@ -259,6 +259,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Join Room'**
   String get insideInRoom;
+
+  /// Title for the confirm save dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Save'**
+  String get confirmSaveTitle;
+
+  /// Content for the confirm save dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to save your predictions?, you won\'t be able to change them later.'**
+  String get confirmSaveContent;
+
+  /// Text for the confirm button in dialogs
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirmButton;
+
+  /// Text for the cancel button in dialogs
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelButton;
+
+  /// Text for the save button
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveText;
 }
 
 class _AppLocalizationsDelegate
