@@ -8,6 +8,8 @@ import 'package:porrapp_frontend/features/prediction/presentation/room/component
 import 'package:porrapp_frontend/features/prediction/presentation/room/components/stage_header.dart';
 import 'package:porrapp_frontend/l10n/app_localizations.dart';
 
+enum Menu { rankings, invite, deleteRoom, leaveRoom }
+
 class RoomPage extends StatefulWidget {
   static const String routeName = 'room';
 
@@ -41,24 +43,41 @@ class _RoomPageState extends State<RoomPage> {
       appBar: AppBar(
         title: Text(widget.roomName ?? 'Room Page'),
         actions: [
-          // Display list of rankings of scores of users in this room.
-          // Simple dialog
-          IconButton(
-            icon: const Icon(Icons.leaderboard),
-            onPressed: () {
-              _rankingUser(context, localizations);
+          PopupMenuButton<Menu>(
+            onSelected: (Menu value) {
+              _itemMenuButtonSelected(context, value, localizations);
             },
-          ),
-          IconButton(
-            icon: const Icon(Icons.person_add_outlined),
-            onPressed: () async {
-              if (widget.deeplink == null) return;
-
-              await showShareDialog(
-                text: 'Join my prediction room using this link:',
-                uri: Uri.parse(widget.deeplink!),
-              );
-            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: Menu.rankings,
+                child: ListTile(
+                  leading: Icon(Icons.leaderboard),
+                  title: Text('Rankings'),
+                ),
+              ),
+              PopupMenuItem(
+                value: Menu.invite,
+                child: ListTile(
+                  leading: Icon(Icons.person_add_outlined),
+                  title: Text('Invite'),
+                ),
+              ),
+              PopupMenuItem(
+                value: Menu.deleteRoom,
+                child: ListTile(
+                  leading: Icon(Icons.delete),
+                  title: Text('Delete Room'),
+                ),
+              ),
+              const PopupMenuDivider(),
+              PopupMenuItem(
+                value: Menu.leaveRoom,
+                child: ListTile(
+                  leading: Icon(Icons.exit_to_app),
+                  title: Text('Leave Room'),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -99,6 +118,38 @@ class _RoomPageState extends State<RoomPage> {
       ),
       floatingActionButton: floatingActionButton(localizations),
     );
+  }
+
+  void _itemMenuButtonSelected(
+    BuildContext context,
+    Menu value,
+    AppLocalizations localizations,
+  ) async {
+    switch (value) {
+      case Menu.rankings:
+        _rankingUser(context, localizations);
+        break;
+      case Menu.invite:
+        if (widget.deeplink == null) return;
+
+        await showShareDialog(
+          text: localizations.joinMyPredictionRoomUsingThisLink,
+          uri: Uri.parse(widget.deeplink!),
+        );
+        break;
+      case Menu.deleteRoom:
+        Fluttertoast.showToast(
+          msg: "Delete room not implemented yet.",
+          toastLength: Toast.LENGTH_LONG,
+        );
+        break;
+      case Menu.leaveRoom:
+        Fluttertoast.showToast(
+          msg: "Leave room not implemented yet.",
+          toastLength: Toast.LENGTH_LONG,
+        );
+        break;
+    }
   }
 
   Future<dynamic> _rankingUser(

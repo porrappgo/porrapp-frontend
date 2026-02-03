@@ -289,6 +289,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get saveText;
+
+  /// Text for sharing the prediction room link
+  ///
+  /// In en, this message translates to:
+  /// **'Join my prediction room using this link:'**
+  String get joinMyPredictionRoomUsingThisLink;
 }
 
 class _AppLocalizationsDelegate

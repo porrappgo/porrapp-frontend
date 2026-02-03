@@ -106,4 +106,8 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get saveText => 'Guardar';
+
+  @override
+  String get joinMyPredictionRoomUsingThisLink =>
+      'Únete a mi sala de predicciones usando este enlace:';
 }

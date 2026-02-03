@@ -129,5 +129,9 @@
     "saveText": "Guardar",
     "@saveText": {
         "description": "Texto para el botón de guardar."
+    },
+    "joinMyPredictionRoomUsingThisLink": "Únete a mi sala de predicciones usando este enlace:",
+    "@joinMyPredictionRoomUsingThisLink": {
+        "description": "Texto para compartir el enlace de la sala de predicciones."
     }
 }
