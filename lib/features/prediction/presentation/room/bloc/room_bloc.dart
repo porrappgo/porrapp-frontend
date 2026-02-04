@@ -14,6 +14,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
     on<UpdatePredictionLocallyEvent>(_onUpdatePredictionLocally);
     on<SavePredictionsEvent>(_onSavePredictions);
     on<LeaveRoomEvent>(_onLeaveRoom);
+    on<DeleteRoomEvent>(_onDeleteRoom);
   }
 
   void _onLoadRoomEvent(LoadRoomEvent event, Emitter<RoomState> emit) async {
@@ -123,11 +124,31 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
 
     resource.fold(
       (failure) {
-        emit(RoomLeaveError('Failed to leave room'));
+        emit(RoomDeleteOrLeaveError('Failed to leave room'));
         emit(current);
       },
       (success) {
         emit(RoomLeaveSuccess());
+      },
+    );
+  }
+
+  void _onDeleteRoom(DeleteRoomEvent event, Emitter<RoomState> emit) async {
+    final current = state as RoomHasData;
+
+    emit(RoomLoading());
+
+    final resource = await predictionUseCases.deleteRoomUseCase.run(
+      event.roomId,
+    );
+
+    resource.fold(
+      (failure) {
+        emit(RoomDeleteOrLeaveError('Failed to delete room'));
+        emit(current);
+      },
+      (success) {
+        emit(RoomDeleteSuccess());
       },
     );
   }

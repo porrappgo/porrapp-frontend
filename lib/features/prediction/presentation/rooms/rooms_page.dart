@@ -197,7 +197,7 @@ ListView _roomsList(
           );
 
           // After returning from RoomPage, check if the room was deleted.
-          if (result == RoomsStatus.deleted) {
+          if (result == RoomsStatus.update) {
             roomsBloc.add(const LoadRoomsEvent());
           }
         },

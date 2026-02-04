@@ -84,10 +84,10 @@ class _RoomPageState extends State<RoomPage> {
       ),
       body: BlocListener<RoomBloc, RoomState>(
         listener: (context, state) {
-          if (state is RoomLeaveSuccess) {
-            // Navigate back to rooms page after leaving the room.
-            context.pop(RoomsStatus.deleted);
-          } else if (state is RoomLeaveError) {
+          if (state is RoomLeaveSuccess || state is RoomDeleteSuccess) {
+            // Navigate back to rooms page after leaving or deleting the room.
+            context.pop(RoomsStatus.update);
+          } else if (state is RoomDeleteOrLeaveError) {
             Fluttertoast.showToast(
               msg: state.message,
               toastLength: Toast.LENGTH_LONG,
@@ -150,9 +150,14 @@ class _RoomPageState extends State<RoomPage> {
         );
         break;
       case Menu.deleteRoom:
-        Fluttertoast.showToast(
-          msg: "Delete room not implemented yet.",
-          toastLength: Toast.LENGTH_LONG,
+        messageDialog(
+          context: context,
+          title: "Eliminar sala",
+          content:
+              "¿Estás seguro de que deseas eliminar esta sala? Esta acción no se puede deshacer.",
+          onConfirmed: () {
+            context.read<RoomBloc>().add(DeleteRoomEvent(widget.roomId));
+          },
         );
         break;
       case Menu.leaveRoom:

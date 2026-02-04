@@ -13,10 +13,12 @@ final class RoomLoading extends RoomState {}
 
 final class RoomLeaveSuccess extends RoomState {}
 
-final class RoomLeaveError extends RoomState {
+final class RoomDeleteSuccess extends RoomState {}
+
+final class RoomDeleteOrLeaveError extends RoomState {
   final String message;
 
-  const RoomLeaveError(this.message);
+  const RoomDeleteOrLeaveError(this.message);
 
   @override
   List<Object?> get props => [message];
