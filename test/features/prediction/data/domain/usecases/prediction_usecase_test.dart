@@ -20,6 +20,8 @@ void main() {
       FakePredictionRepository(),
     );
     final joinRoomUseCase = JoinRoomUseCase(FakePredictionRepository());
+    final leaveRoomUseCase = LeaveRoomUseCase(FakePredictionRepository());
+    final deleteRoomUseCase = DeleteRoomUseCase(FakePredictionRepository());
 
     // Act
     final useCases = PredictionUseCases(
@@ -29,6 +31,8 @@ void main() {
       getPredictionsForRoomUsecase: getPredictionsForRoomUsecase,
       updatePredictionsUseCase: updatePredictionsUseCase,
       joinRoomUseCase: joinRoomUseCase,
+      leaveRoomUseCase: leaveRoomUseCase,
+      deleteRoomUseCase: deleteRoomUseCase,
     );
 
     // Assert
@@ -41,5 +45,7 @@ void main() {
     expect(useCases.getPredictionsForRoomUsecase, getPredictionsForRoomUsecase);
     expect(useCases.updatePredictionsUseCase, updatePredictionsUseCase);
     expect(useCases.joinRoomUseCase, joinRoomUseCase);
+    expect(useCases.leaveRoomUseCase, leaveRoomUseCase);
+    expect(useCases.deleteRoomUseCase, deleteRoomUseCase);
   });
 }

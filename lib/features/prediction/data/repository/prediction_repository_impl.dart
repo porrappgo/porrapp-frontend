@@ -109,4 +109,28 @@ class PredictionRepositoryImpl extends PredictionRepository {
       return Left(ServerFailure('Unexpected error occurred'));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> deleteRoom(int roomId) async {
+    try {
+      final deleted = await _predictionService.deleteRoom(roomId);
+      return Right(deleted);
+    } on ServerException {
+      return Left(ServerFailure(''));
+    } on Exception {
+      return Left(ServerFailure('Unexpected error occurred'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> leaveRoom(int roomId) async {
+    try {
+      final left = await _predictionService.leaveRoom(roomId);
+      return Right(left);
+    } on ServerException {
+      return Left(ServerFailure(''));
+    } on Exception {
+      return Left(ServerFailure('Unexpected error occurred'));
+    }
+  }
 }

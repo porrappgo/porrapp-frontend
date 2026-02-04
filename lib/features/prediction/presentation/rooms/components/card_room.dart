@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
-import 'package:porrapp_frontend/features/prediction/presentation/room/room_page.dart';
 
 class CardRoom extends StatelessWidget {
   final RoomUserModel roomUser;
   final CompetitionModel competition;
+  // Event on tap card
+  final VoidCallback? onTap;
 
   const CardRoom({
     super.key,
     required this.roomUser,
     required this.competition,
+    this.onTap,
   });
 
   @override
@@ -49,9 +51,7 @@ class CardRoom extends StatelessWidget {
               ),
               subtitle: Text('${competition.name} ${competition.year}'),
               trailing: const Icon(Icons.arrow_forward),
-              onTap: () {
-                context.push('/${RoomPage.routeName}', extra: roomUser.room);
-              },
+              onTap: onTap,
             ),
           ),
         ],

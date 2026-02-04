@@ -295,6 +295,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Join my prediction room using this link:'**
   String get joinMyPredictionRoomUsingThisLink;
+
+  /// Text for the leave room button
+  ///
+  /// In en, this message translates to:
+  /// **'Leave Room'**
+  String get leaveRoom;
+
+  /// Confirmation message when leaving a prediction room
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to leave the room?'**
+  String get leaveRoomConfirmation;
 }
 
 class _AppLocalizationsDelegate

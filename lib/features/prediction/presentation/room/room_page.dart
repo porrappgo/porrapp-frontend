@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/bloc/room_bloc.dart';
@@ -81,40 +82,51 @@ class _RoomPageState extends State<RoomPage> {
           ),
         ],
       ),
-      body: BlocBuilder<RoomBloc, RoomState>(
-        builder: (context, state) {
-          if (state is RoomLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is RoomError) {
-            return Center(child: Text(state.message));
-          } else if (state is RoomHasData) {
-            // print(
-            //   'hasChanges: ${state.hasChanges}, isSaving: ${state.isSaving}',
-            // );
-            final groupedPredictions = <String, List<PredictionModel>>{};
-
-            for (final prediction in state.predictions) {
-              final stage = prediction.match.stage;
-              groupedPredictions.putIfAbsent(stage, () => []);
-              groupedPredictions[stage]!.add(prediction);
-            }
-
-            List<Widget> items = [];
-
-            for (final entry in groupedPredictions.entries) {
-              items.add(StageHeader(stageName: entry.key));
-              for (final prediction in entry.value) {
-                items.add(PredictionCard(prediction: prediction));
-              }
-            }
-            return ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) => items[index],
+      body: BlocListener<RoomBloc, RoomState>(
+        listener: (context, state) {
+          if (state is RoomLeaveSuccess) {
+            // Navigate back to rooms page after leaving the room.
+            context.pop(RoomsStatus.deleted);
+          } else if (state is RoomLeaveError) {
+            Fluttertoast.showToast(
+              msg: state.message,
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.BOTTOM,
             );
-          } else {
-            return const Center(child: Text('Unknown state'));
           }
         },
+        child: BlocBuilder<RoomBloc, RoomState>(
+          builder: (context, state) {
+            if (state is RoomLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is RoomError) {
+              return Center(child: Text(state.message));
+            } else if (state is RoomHasData) {
+              final groupedPredictions = <String, List<PredictionModel>>{};
+
+              for (final prediction in state.predictions) {
+                final stage = prediction.match.stage;
+                groupedPredictions.putIfAbsent(stage, () => []);
+                groupedPredictions[stage]!.add(prediction);
+              }
+
+              List<Widget> items = [];
+
+              for (final entry in groupedPredictions.entries) {
+                items.add(StageHeader(stageName: entry.key));
+                for (final prediction in entry.value) {
+                  items.add(PredictionCard(prediction: prediction));
+                }
+              }
+              return ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, index) => items[index],
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          },
+        ),
       ),
       floatingActionButton: floatingActionButton(localizations),
     );
@@ -144,9 +156,13 @@ class _RoomPageState extends State<RoomPage> {
         );
         break;
       case Menu.leaveRoom:
-        Fluttertoast.showToast(
-          msg: "Leave room not implemented yet.",
-          toastLength: Toast.LENGTH_LONG,
+        messageDialog(
+          context: context,
+          title: localizations.leaveRoom,
+          content: localizations.leaveRoomConfirmation,
+          onConfirmed: () {
+            context.read<RoomBloc>().add(LeaveRoomEvent(widget.roomId));
+          },
         );
         break;
     }

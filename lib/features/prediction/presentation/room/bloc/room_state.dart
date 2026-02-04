@@ -11,6 +11,17 @@ final class RoomInitial extends RoomState {}
 
 final class RoomLoading extends RoomState {}
 
+final class RoomLeaveSuccess extends RoomState {}
+
+final class RoomLeaveError extends RoomState {
+  final String message;
+
+  const RoomLeaveError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
 final class RoomError extends RoomState {
   final String message;
 

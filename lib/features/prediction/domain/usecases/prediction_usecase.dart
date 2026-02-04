@@ -7,6 +7,8 @@ class PredictionUseCases {
   GetPredictionsForRoomUsecase getPredictionsForRoomUsecase;
   UpdatePredictionsUseCase updatePredictionsUseCase;
   JoinRoomUseCase joinRoomUseCase;
+  LeaveRoomUseCase leaveRoomUseCase;
+  DeleteRoomUseCase deleteRoomUseCase;
 
   PredictionUseCases({
     required this.createRoomUseCase,
@@ -15,5 +17,7 @@ class PredictionUseCases {
     required this.getPredictionsForRoomUsecase,
     required this.updatePredictionsUseCase,
     required this.joinRoomUseCase,
+    required this.leaveRoomUseCase,
+    required this.deleteRoomUseCase,
   });
 }

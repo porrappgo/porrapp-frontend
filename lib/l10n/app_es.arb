@@ -133,5 +133,13 @@
     "joinMyPredictionRoomUsingThisLink": "Únete a mi sala de predicciones usando este enlace:",
     "@joinMyPredictionRoomUsingThisLink": {
         "description": "Texto para compartir el enlace de la sala de predicciones."
+    },
+    "leaveRoom": "Salir de la sala",
+    "@leaveRoom": {
+        "description": "Texto para el botón de salir de la sala en la página de la sala de predicciones."
+    },
+    "leaveRoomConfirmation": "¿Estás seguro de que quieres salir de la sala? Perderás acceso a tus predicciones en esta sala.",
+    "@leaveRoomConfirmation": {
+        "description": "Mensaje de confirmación al salir de una sala de predicciones."
     }
 }

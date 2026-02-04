@@ -31,3 +31,21 @@ class UpdatePredictionLocallyEvent extends RoomEvent {
 class SavePredictionsEvent extends RoomEvent {}
 
 class ClearRoomErrorEvent extends RoomEvent {}
+
+class LeaveRoomEvent extends RoomEvent {
+  final int roomId;
+
+  const LeaveRoomEvent(this.roomId);
+
+  @override
+  List<Object> get props => [roomId];
+}
+
+class DeleteRoomEvent extends RoomEvent {
+  final int roomId;
+
+  const DeleteRoomEvent(this.roomId);
+
+  @override
+  List<Object> get props => [roomId];
+}

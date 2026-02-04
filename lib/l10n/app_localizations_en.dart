@@ -110,4 +110,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get joinMyPredictionRoomUsingThisLink =>
       'Join my prediction room using this link:';
+
+  @override
+  String get leaveRoom => 'Leave Room';
+
+  @override
+  String get leaveRoomConfirmation =>
+      'Are you sure you want to leave the room?';
 }

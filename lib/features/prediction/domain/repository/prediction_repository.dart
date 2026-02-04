@@ -24,4 +24,10 @@ abstract class PredictionRepository {
   Future<Either<Failure, bool>> updatePredictions(
     PredictionUpdateModel predictionUpdate,
   );
+
+  // Leave a room.
+  Future<Either<Failure, bool>> leaveRoom(int roomId);
+
+  // Delete a room.
+  Future<Either<Failure, bool>> deleteRoom(int roomId);
 }

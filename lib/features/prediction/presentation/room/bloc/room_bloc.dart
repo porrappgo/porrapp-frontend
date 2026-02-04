@@ -13,6 +13,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
     on<LoadRoomEvent>(_onLoadRoomEvent);
     on<UpdatePredictionLocallyEvent>(_onUpdatePredictionLocally);
     on<SavePredictionsEvent>(_onSavePredictions);
+    on<LeaveRoomEvent>(_onLeaveRoom);
   }
 
   void _onLoadRoomEvent(LoadRoomEvent event, Emitter<RoomState> emit) async {
@@ -107,6 +108,26 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
                 .toList(),
           ),
         );
+      },
+    );
+  }
+
+  void _onLeaveRoom(LeaveRoomEvent event, Emitter<RoomState> emit) async {
+    final current = state as RoomHasData;
+
+    emit(RoomLoading());
+
+    final resource = await predictionUseCases.leaveRoomUseCase.run(
+      event.roomId,
+    );
+
+    resource.fold(
+      (failure) {
+        emit(RoomLeaveError('Failed to leave room'));
+        emit(current);
+      },
+      (success) {
+        emit(RoomLeaveSuccess());
       },
     );
   }

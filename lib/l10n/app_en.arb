@@ -133,5 +133,13 @@
     "joinMyPredictionRoomUsingThisLink": "Join my prediction room using this link:",
     "@joinMyPredictionRoomUsingThisLink": {
         "description": "Text for sharing the prediction room link"
+    },
+    "leaveRoom": "Leave Room",
+    "@leaveRoom": {
+        "description": "Text for the leave room button"
+    },
+    "leaveRoomConfirmation": "Are you sure you want to leave the room?",
+    "@leaveRoomConfirmation": {
+        "description": "Confirmation message when leaving a prediction room"
     }
 }

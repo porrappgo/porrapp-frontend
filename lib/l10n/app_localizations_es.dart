@@ -110,4 +110,11 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get joinMyPredictionRoomUsingThisLink =>
       'Únete a mi sala de predicciones usando este enlace:';
+
+  @override
+  String get leaveRoom => 'Salir de la sala';
+
+  @override
+  String get leaveRoomConfirmation =>
+      '¿Estás seguro de que quieres salir de la sala? Perderás acceso a tus predicciones en esta sala.';
 }

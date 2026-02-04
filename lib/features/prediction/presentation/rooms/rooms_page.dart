@@ -9,6 +9,7 @@ import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/auth/presentation/login_page.dart';
 import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
+import 'package:porrapp_frontend/features/prediction/presentation/room/room_page.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/bloc/rooms_bloc.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/components/card_room.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/components/new_room_dialog.dart';
@@ -122,7 +123,7 @@ class _RoomsPageState extends State<RoomsPage> {
                   if (rooms.isEmpty)
                     const RoomsNoYet()
                   else
-                    _roomsList(rooms, state.competitions),
+                    _roomsList(rooms, state.competitions, roomsBloc),
                 ],
               ),
               floatingActionButton: FloatingActionButton(
@@ -177,6 +178,7 @@ Future<void> _displayCreateRoomDialog(
 ListView _roomsList(
   List<RoomUserModel> rooms,
   List<CompetitionModel> competitions,
+  RoomsBloc roomsBloc,
 ) {
   return ListView.builder(
     itemCount: rooms.length,
@@ -185,7 +187,21 @@ ListView _roomsList(
       final competition = competitions.firstWhere(
         (comp) => comp.id == roomUser.room.competition,
       );
-      return CardRoom(roomUser: roomUser, competition: competition);
+      return CardRoom(
+        roomUser: roomUser,
+        competition: competition,
+        onTap: () async {
+          final result = await context.push<RoomsStatus>(
+            '/${RoomPage.routeName}',
+            extra: roomUser.room,
+          );
+
+          // After returning from RoomPage, check if the room was deleted.
+          if (result == RoomsStatus.deleted) {
+            roomsBloc.add(const LoadRoomsEvent());
+          }
+        },
+      );
     },
   );
 }

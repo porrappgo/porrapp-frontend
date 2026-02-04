@@ -126,4 +126,32 @@ class PredictionService {
       throw ServerException();
     }
   }
+
+  Future<bool> leaveRoom(int roomId) async {
+    /**
+     * Leave a prediction room using the remote API with the provided token and room ID.
+     */
+    FlutterLogs.logInfo(tag, 'leaveRoom', 'Leaving room with ID: $roomId');
+    final response = await _dio.delete('/prediction/room-users/$roomId/leave/');
+
+    if (response.statusCode == 204) {
+      return true;
+    } else {
+      throw ServerException();
+    }
+  }
+
+  Future<bool> deleteRoom(int roomId) async {
+    /**
+     * Delete a prediction room using the remote API with the provided token and room ID.
+     */
+    FlutterLogs.logInfo(tag, 'deleteRoom', 'Deleting room with ID: $roomId');
+    final response = await _dio.delete('/prediction/rooms/$roomId/');
+
+    if (response.statusCode == 204) {
+      return true;
+    } else {
+      throw ServerException();
+    }
+  }
 }
