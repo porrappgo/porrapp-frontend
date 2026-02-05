@@ -22,7 +22,6 @@ import 'package:porrapp_frontend/features/prediction/data/datasource/remote/pred
 import 'package:porrapp_frontend/features/prediction/data/repository/prediction_repository_impl.dart';
 import 'package:porrapp_frontend/features/prediction/domain/repository/prediction_repository.dart';
 import 'package:porrapp_frontend/features/prediction/domain/usecases/usecases.dart';
-import 'package:porrapp_frontend/features/splash/domain/usecases/usecases.dart';
 
 final locator = GetIt.instance;
 
@@ -152,11 +151,10 @@ Future<void> configureDependencies(Env envConfig) async {
       ),
       getPredictionsForRoomUsecase: GetPredictionsForRoomUsecase(locator()),
       updatePredictionsUseCase: UpdatePredictionsUseCase(locator()),
+      joinRoomUseCase: JoinRoomUseCase(locator()),
+      leaveRoomUseCase: LeaveRoomUseCase(locator()),
+      deleteRoomUseCase: DeleteRoomUseCase(locator()),
     ),
-  );
-
-  locator.registerLazySingleton<SplashUsecases>(
-    () => SplashUsecases(isLoggedIn: IsLoggedInUsecase(locator())),
   );
 
   locator.registerLazySingleton<CompetitionUsecases>(

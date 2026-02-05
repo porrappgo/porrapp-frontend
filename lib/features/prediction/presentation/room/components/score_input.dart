@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class ScoreInput extends StatelessWidget {
   final TextEditingController controller;
   final void Function(String)? onChanged;
-  final bool isEnabled;
+  final bool isDisabled;
 
   const ScoreInput({
     super.key,
     required this.controller,
     this.onChanged,
-    this.isEnabled = true,
+    this.isDisabled = false,
   });
 
   @override
@@ -17,7 +17,7 @@ class ScoreInput extends StatelessWidget {
     return SizedBox(
       width: 60,
       child: TextField(
-        enabled: isEnabled,
+        enabled: !isDisabled,
         maxLength: 2,
         controller: controller,
         onChanged: onChanged,

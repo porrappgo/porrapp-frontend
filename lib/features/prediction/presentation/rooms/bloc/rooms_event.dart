@@ -7,6 +7,13 @@ sealed class RoomsEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class ResetRoomsEvent extends RoomsEvent {
+  const ResetRoomsEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
 class CreateRoomEvent extends RoomsEvent {
   final String roomName;
   final int competion;
@@ -17,9 +24,20 @@ class CreateRoomEvent extends RoomsEvent {
   List<Object> get props => [roomName];
 }
 
+class JoinRoomEvent extends RoomsEvent {
+  final String invitationCode;
+
+  const JoinRoomEvent(this.invitationCode);
+
+  @override
+  List<Object> get props => [invitationCode];
+}
+
 class LoadRoomsEvent extends RoomsEvent {
   const LoadRoomsEvent();
 
   @override
   List<Object> get props => [];
 }
+
+class LogoutFromAppEvent extends RoomsEvent {}

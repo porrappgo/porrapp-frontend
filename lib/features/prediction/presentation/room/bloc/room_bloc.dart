@@ -11,8 +11,10 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
 
   RoomBloc(this.predictionUseCases) : super(RoomInitial()) {
     on<LoadRoomEvent>(_onLoadRoomEvent);
-    on<UpdatePredictionLocally>(_onUpdatePredictionLocally);
-    on<SavePredictions>(_onSavePredictions);
+    on<UpdatePredictionLocallyEvent>(_onUpdatePredictionLocally);
+    on<SavePredictionsEvent>(_onSavePredictions);
+    on<LeaveRoomEvent>(_onLeaveRoom);
+    on<DeleteRoomEvent>(_onDeleteRoom);
   }
 
   void _onLoadRoomEvent(LoadRoomEvent event, Emitter<RoomState> emit) async {
@@ -37,16 +39,13 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
   }
 
   void _onUpdatePredictionLocally(
-    UpdatePredictionLocally event,
+    UpdatePredictionLocallyEvent event,
     Emitter<RoomState> emit,
   ) {
     final current = state as RoomHasData;
 
     final updated = current.predictions.map((prediction) {
       if (prediction.id == event.predictionId) {
-        print(
-          'prediction id: ${prediction.id}, homeScore: ${event.homeScore}, awayScore: ${event.awayScore}',
-        );
         return prediction.copyWith(
           predictedHomeScore: event.homeScore,
           predictedAwayScore: event.awayScore,
@@ -59,7 +58,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
   }
 
   void _onSavePredictions(
-    SavePredictions event,
+    SavePredictionsEvent event,
     Emitter<RoomState> emit,
   ) async {
     final current = state as RoomHasData;
@@ -93,7 +92,6 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
 
     resource.fold(
       (failure) {
-        print('Failed to save predictions: $failure');
         emit(
           current.copyWith(
             isSaving: false,
@@ -102,7 +100,55 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
         );
       },
       (success) {
-        emit(current.copyWith(isSaving: false, hasChanges: false));
+        emit(
+          current.copyWith(
+            isSaving: false,
+            hasChanges: false,
+            predictions: current.predictions
+                .map((p) => p.copyWith(isPredicted: true))
+                .toList(),
+          ),
+        );
+      },
+    );
+  }
+
+  void _onLeaveRoom(LeaveRoomEvent event, Emitter<RoomState> emit) async {
+    final current = state as RoomHasData;
+
+    emit(RoomLoading());
+
+    final resource = await predictionUseCases.leaveRoomUseCase.run(
+      event.roomId,
+    );
+
+    resource.fold(
+      (failure) {
+        emit(RoomDeleteOrLeaveError('Failed to leave room'));
+        emit(current);
+      },
+      (success) {
+        emit(RoomLeaveSuccess());
+      },
+    );
+  }
+
+  void _onDeleteRoom(DeleteRoomEvent event, Emitter<RoomState> emit) async {
+    final current = state as RoomHasData;
+
+    emit(RoomLoading());
+
+    final resource = await predictionUseCases.deleteRoomUseCase.run(
+      event.roomId,
+    );
+
+    resource.fold(
+      (failure) {
+        emit(RoomDeleteOrLeaveError('Failed to delete room'));
+        emit(current);
+      },
+      (success) {
+        emit(RoomDeleteSuccess());
       },
     );
   }

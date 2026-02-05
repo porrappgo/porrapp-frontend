@@ -20,7 +20,11 @@ class TeamInfo extends StatelessWidget {
           fit: BoxFit.cover,
         ),
         const SizedBox(height: 4),
-        Text(teamName ?? 'Team Name'),
+        Text(
+          teamName ?? 'Team Name',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
       ],
     );
   }

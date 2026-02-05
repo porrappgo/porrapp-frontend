@@ -65,5 +65,81 @@
     "dontHaveAccountRegister": "Don't have an account? Register",
     "@dontHaveAccountRegister": {
         "description": "Text for the link to the registration page on the login screen"
+    },
+    "loginButton": "Login",
+    "@loginButton": {
+        "description": "Text for the login button on the login screen"
+    },
+    "nameLabel": "Name",
+    "@nameLabel": {
+        "description": "Label for the name input field on the registration screen"
+    },
+    "nameHint": "Enter your name",
+    "@nameHint": {
+        "description": "Hint text for the name input field on the registration screen"
+    },
+    "confirmPasswordLabel": "Confirm Password",
+    "@confirmPasswordLabel": {
+        "description": "Label for the confirm password input field on the registration screen"
+    },
+    "confirmPasswordHint": "Enter your password again",
+    "@confirmPasswordHint": {
+        "description": "Hint text for the confirm password input field on the registration screen"
+    },
+    "registerButton": "Register",
+    "@registerButton": {
+        "description": "Text for the register button on the registration screen"
+    },
+    "alreadyHaveAccountLogin": "Already have an account? Login",
+    "@alreadyHaveAccountLogin": {
+        "description": "Text for the link to the login page on the registration screen"
+    },
+    "roomCode": "Room Code",
+    "@roomCode": {
+        "description": "Label for the room code input field in the join room dialog"
+    },
+    "enterRoomCode": "Enter room code",
+    "@enterRoomCode": {
+        "description": "Hint text for the room code input field in the join room dialog"
+    },
+    "fieldIsRequired": "This field is required",
+    "@fieldIsRequired": {
+        "description": "Validation message when a required field is not provided"
+    },
+    "insideInRoom": "Join Room",
+    "@insideInRoom": {
+        "description": "Text for the join room button in the join room dialog"
+    },
+    "confirmSaveTitle": "Confirm Save",
+    "@confirmSaveTitle": {
+        "description": "Title for the confirm save dialog"
+    },
+    "confirmSaveContent": "Are you sure you want to save your predictions?, you won't be able to change them later.",
+    "@confirmSaveContent": {
+        "description": "Content for the confirm save dialog"
+    },
+    "confirmButton": "Confirm",
+    "@confirmButton": {
+        "description": "Text for the confirm button in dialogs"
+    },
+    "cancelButton": "Cancel",
+    "@cancelButton": {
+        "description": "Text for the cancel button in dialogs"
+    },
+    "saveText": "Save",
+    "@saveText": {
+        "description": "Text for the save button"
+    },
+    "joinMyPredictionRoomUsingThisLink": "Join my prediction room using this link:",
+    "@joinMyPredictionRoomUsingThisLink": {
+        "description": "Text for sharing the prediction room link"
+    },
+    "leaveRoom": "Leave Room",
+    "@leaveRoom": {
+        "description": "Text for the leave room button"
+    },
+    "leaveRoomConfirmation": "Are you sure you want to leave the room?",
+    "@leaveRoomConfirmation": {
+        "description": "Confirmation message when leaving a prediction room"
     }
 }

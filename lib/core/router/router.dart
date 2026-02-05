@@ -1,23 +1,27 @@
 import 'package:go_router/go_router.dart';
 import 'package:porrapp_frontend/features/auth/presentation/login_page.dart';
 import 'package:porrapp_frontend/features/auth/presentation/register_page.dart';
-import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
-import 'package:porrapp_frontend/features/competitions/presentation/competition_page.dart';
-import 'package:porrapp_frontend/features/competitions/presentation/group_standings_page.dart';
-import 'package:porrapp_frontend/features/competitions/presentation/matches_page.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/room_page.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/rooms_page.dart';
+import 'package:porrapp_frontend/features/settings/presentation/setting_page.dart';
 import 'package:porrapp_frontend/features/splash/presentation/splash_page.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/${SplashPage.routeName}',
   routes: [
+    // ───────────────────────────────
+    // Splash
+    // ───────────────────────────────
     GoRoute(
       name: SplashPage.routeName,
       path: '/${SplashPage.routeName}',
       builder: (context, state) => const SplashPage(),
     ),
+
+    // ───────────────────────────────
+    // Auth
+    // ───────────────────────────────
     GoRoute(
       name: LoginPage.routeName,
       path: '/${LoginPage.routeName}',
@@ -27,27 +31,19 @@ final appRouter = GoRouter(
       path: '/${RegisterPage.routeName}',
       builder: (context, state) => const RegisterPage(),
     ),
+
+    // ───────────────────────────────
+    // Settings
+    // ───────────────────────────────
     GoRoute(
-      name: CompetitionPage.routeName,
-      path: '/${CompetitionPage.routeName}',
-      builder: (context, state) => const CompetitionPage(),
+      name: SettingPage.routeName,
+      path: '/${SettingPage.routeName}',
+      builder: (context, state) => const SettingPage(),
     ),
-    GoRoute(
-      name: GroupStandingsPage.routeName,
-      path: '/${GroupStandingsPage.routeName}',
-      builder: (context, state) {
-        final competitions = state.extra as CompetitionsModel;
-        return GroupStandingsPage(competitions: competitions);
-      },
-    ),
-    GoRoute(
-      name: MatchesPage.routeName,
-      path: '/${MatchesPage.routeName}',
-      builder: (context, state) {
-        final competitions = state.extra as CompetitionsModel;
-        return MatchesPage(competitions: competitions);
-      },
-    ),
+
+    // ───────────────────────────────
+    // Rooms
+    // ───────────────────────────────
     GoRoute(
       path: '/${RoomsPage.routeName}',
       builder: (context, state) => const RoomsPage(),

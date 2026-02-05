@@ -1,41 +1,32 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_logs/flutter_logs.dart';
+
 import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/auth/domain/model/model.dart';
 import 'package:porrapp_frontend/features/auth/domain/usecases/usecases.dart';
 import 'package:porrapp_frontend/features/auth/presentation/bloc/bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  static const String tag = "AuthBloc";
   AuthUseCases authUseCases;
 
   AuthBloc(this.authUseCases) : super(AuthState()) {
-    on<AuthInitialEvent>(_onAuthInitialEvent);
     on<AuthFormReset>(_onAuthFormReset);
     on<AuthResetResource>(_onAuthResetResource);
     on<AuthSaveUserSession>(_onAuthSaveUserSession);
     on<EmailChanged>(_onEmailChanged);
     on<PasswordChanged>(_onPasswordChanged);
     on<AuthSubmitted>(_onAuthSubmitted);
-    on<AuthLogout>(_onAuthLogout);
   }
 
   final formKey = GlobalKey<FormState>();
-
-  void _onAuthInitialEvent(
-    AuthInitialEvent event,
-    Emitter<AuthState> emit,
-  ) async {
-    emit(state.copyWith(response: LoadingPage(), formKey: formKey));
-    Resource<AuthModel> response = await authUseCases.login.run();
-    emit(state.copyWith(response: response, formKey: formKey));
-  }
 
   void _onAuthFormReset(AuthFormReset event, Emitter<AuthState> emit) {
     state.formKey?.currentState?.reset();
   }
 
   void _onAuthResetResource(AuthResetResource event, Emitter<AuthState> emit) {
-    print('AuthBloc - Resetting resource state');
     formKey.currentState?.reset();
     emit(state.copyWith(response: Initial(), formKey: formKey));
   }
@@ -46,7 +37,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     var response = state.response as Success<AuthTokenModel>;
 
-    print('AuthBloc - Saving user session with token: ${response.data.access}');
+    FlutterLogs.logInfo(
+      AuthBloc.tag,
+      '_onAuthSaveUserSession',
+      'Saving user session for email: ${state.email.value}',
+    );
     await authUseCases.saveUserSession.run(
       state.email.value,
       response.data.access,
@@ -69,7 +64,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onPasswordChanged(PasswordChanged event, Emitter<AuthState> emit) {
-    print('AuthBloc - Password changed: ${event.password.value}');
     emit(
       state.copyWith(
         password: BlocFormItem(
@@ -83,22 +77,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _onAuthSubmitted(AuthSubmitted event, Emitter<AuthState> emit) async {
     try {
-      print('AuthBloc - AuthSubmitted event triggered');
-      emit(state.copyWith(response: Loading(), formKey: formKey));
-
-      print(
-        'Submitting login with email: ${state.email.value} and password: ${state.password.value}',
+      FlutterLogs.logInfo(
+        AuthBloc.tag,
+        'AuthSubmitted',
+        'AuthSubmitted event triggered',
       );
-
+      emit(state.copyWith(response: Loading(), formKey: formKey));
       Resource<AuthTokenModel> response = await authUseCases.getToken.run(
         state.email.value,
         state.password.value,
       );
 
-      print('AuthBloc - Received response: $response');
+      FlutterLogs.logInfo(
+        AuthBloc.tag,
+        'AuthSubmitted',
+        'Received response: $response',
+      );
       emit(state.copyWith(response: response, formKey: formKey));
     } catch (e) {
-      print('AuthBloc - Error during AuthSubmitted: $e');
+      FlutterLogs.logError(
+        AuthBloc.tag,
+        'AuthSubmitted',
+        'Error during AuthSubmitted: $e',
+      );
       emit(
         state.copyWith(
           response: Error('An unexpected error occurred'),
@@ -107,6 +108,4 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     }
   }
-
-  void _onAuthLogout(AuthLogout event, Emitter<AuthState> emit) async {}
 }

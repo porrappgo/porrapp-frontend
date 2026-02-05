@@ -106,7 +106,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     RegisterFormSubmittedEvent event,
     Emitter<RegisterState> emit,
   ) async {
-    print('RegisterBloc - RegisterFormSubmittedEvent triggered');
     try {
       emit(
         state.copyWith(
@@ -120,7 +119,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         state.name.value,
         state.password.value,
       );
-      print('RegisterBloc - Received response: $response');
 
       if (response is Error) {
         emit(

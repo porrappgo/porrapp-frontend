@@ -24,19 +24,19 @@ void main() {
 
   group('login', () {
     test('delegates login call to AuthService', () async {
-      final mockResponse = Success<AuthModel>(
-        AuthModel(email: 'test@test.com', name: 'Test User'),
-      );
+      // Arrange
+      final authModel = AuthModel(name: 'test', email: 'test@test.com');
+      when(() => mockAuthService.login()).thenAnswer((_) async => authModel);
 
-      when(() => mockAuthService.login()).thenAnswer((_) async => mockResponse);
-
+      // Act
       final result = await repository.login();
 
-      expect(result, isA<Success<AuthModel>>());
-      final success = result as Success<AuthModel>;
-      expect(success.data.email, 'test@test.com');
-      expect(success.data.name, 'Test User');
-
+      // Assert
+      expect(result.isRight(), true);
+      result.fold(
+        (_) => fail('Expected Right(AuthModel)'),
+        (data) => expect(data, authModel),
+      );
       verify(() => mockAuthService.login()).called(1);
     });
   });

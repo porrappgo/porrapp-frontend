@@ -42,6 +42,7 @@ void main() {
           predictedHomeScore: 2,
           predictedAwayScore: 1,
           pointsEarned: 3,
+          isPredicted: true,
         ),
       ];
 

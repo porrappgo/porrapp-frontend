@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:porrapp_frontend/features/prediction/data/datasource/remote/prediction_service.dart';
@@ -8,12 +9,24 @@ import 'package:porrapp_frontend/core/util/util.dart';
 class MockDio extends Mock implements Dio {}
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late MockDio mockDio;
   late PredictionService service;
 
+  const MethodChannel channel = MethodChannel('flutter_logs');
+
   setUp(() {
+    channel.setMockMethodCallHandler((MethodCall methodCall) async {
+      return 'Ok';
+    });
+
     mockDio = MockDio();
     service = PredictionService(mockDio);
+  });
+
+  tearDown(() {
+    channel.setMockMethodCallHandler(null);
   });
 
   group('PredictionService', () {
@@ -203,6 +216,7 @@ void main() {
             "predicted_home_score": 2147483647,
             "predicted_away_score": 2147483647,
             "points_earned": 0,
+            "is_predicted": true,
           },
           {
             "id": 1,
@@ -236,6 +250,7 @@ void main() {
             "predicted_home_score": 2147483647,
             "predicted_away_score": 2147483647,
             "points_earned": 0,
+            "is_predicted": true,
           },
         ];
 
@@ -246,11 +261,11 @@ void main() {
         );
 
         when(
-          () => mockDio.get('/prediction/predictions/'),
+          () => mockDio.get('/prediction/predictions/1/'),
         ).thenAnswer((_) async => response);
 
         // Act
-        final result = await service.getPredictions('1');
+        final result = await service.getPredictions(1);
 
         // Assert
         expect(result.length, 2);
@@ -272,7 +287,7 @@ void main() {
 
         // Act & Assert
         expect(
-          () => service.getPredictions('1'),
+          () => service.getPredictions(1),
           throwsA(isA<ServerException>()),
         );
       },

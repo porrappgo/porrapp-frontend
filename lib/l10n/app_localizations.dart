@@ -193,6 +193,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Don\'t have an account? Register'**
   String get dontHaveAccountRegister;
+
+  /// Text for the login button on the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get loginButton;
+
+  /// Label for the name input field on the registration screen
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get nameLabel;
+
+  /// Hint text for the name input field on the registration screen
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your name'**
+  String get nameHint;
+
+  /// Label for the confirm password input field on the registration screen
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPasswordLabel;
+
+  /// Hint text for the confirm password input field on the registration screen
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password again'**
+  String get confirmPasswordHint;
+
+  /// Text for the register button on the registration screen
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get registerButton;
+
+  /// Text for the link to the login page on the registration screen
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Login'**
+  String get alreadyHaveAccountLogin;
+
+  /// Label for the room code input field in the join room dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Room Code'**
+  String get roomCode;
+
+  /// Hint text for the room code input field in the join room dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Enter room code'**
+  String get enterRoomCode;
+
+  /// Validation message when a required field is not provided
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get fieldIsRequired;
+
+  /// Text for the join room button in the join room dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Join Room'**
+  String get insideInRoom;
+
+  /// Title for the confirm save dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Save'**
+  String get confirmSaveTitle;
+
+  /// Content for the confirm save dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to save your predictions?, you won\'t be able to change them later.'**
+  String get confirmSaveContent;
+
+  /// Text for the confirm button in dialogs
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirmButton;
+
+  /// Text for the cancel button in dialogs
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelButton;
+
+  /// Text for the save button
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveText;
+
+  /// Text for sharing the prediction room link
+  ///
+  /// In en, this message translates to:
+  /// **'Join my prediction room using this link:'**
+  String get joinMyPredictionRoomUsingThisLink;
+
+  /// Text for the leave room button
+  ///
+  /// In en, this message translates to:
+  /// **'Leave Room'**
+  String get leaveRoom;
+
+  /// Confirmation message when leaving a prediction room
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to leave the room?'**
+  String get leaveRoomConfirmation;
 }
 
 class _AppLocalizationsDelegate

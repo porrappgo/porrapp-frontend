@@ -1,4 +1,4 @@
-import 'package:porrapp_frontend/core/util/resource.dart';
+import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/auth/domain/model/model.dart';
 
 abstract class TokenRefresherRepository {

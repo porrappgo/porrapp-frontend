@@ -16,6 +16,7 @@ class PredictionModel {
   int predictedHomeScore;
   int predictedAwayScore;
   int pointsEarned;
+  bool isPredicted;
 
   PredictionModel({
     required this.id,
@@ -23,6 +24,7 @@ class PredictionModel {
     required this.predictedHomeScore,
     required this.predictedAwayScore,
     required this.pointsEarned,
+    required this.isPredicted,
   });
 
   factory PredictionModel.fromJson(Map<String, dynamic> json) =>
@@ -32,6 +34,7 @@ class PredictionModel {
         predictedHomeScore: json["predicted_home_score"],
         predictedAwayScore: json["predicted_away_score"],
         pointsEarned: json["points_earned"],
+        isPredicted: json["is_predicted"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -40,15 +43,21 @@ class PredictionModel {
     "predicted_home_score": predictedHomeScore,
     "predicted_away_score": predictedAwayScore,
     "points_earned": pointsEarned,
+    "is_predicted": isPredicted,
   };
 
-  PredictionModel copyWith({int? predictedHomeScore, int? predictedAwayScore}) {
+  PredictionModel copyWith({
+    int? predictedHomeScore,
+    int? predictedAwayScore,
+    bool? isPredicted,
+  }) {
     return PredictionModel(
       id: id,
       match: match,
       predictedHomeScore: predictedHomeScore ?? this.predictedHomeScore,
       predictedAwayScore: predictedAwayScore ?? this.predictedAwayScore,
       pointsEarned: pointsEarned,
+      isPredicted: isPredicted ?? this.isPredicted,
     );
   }
 }

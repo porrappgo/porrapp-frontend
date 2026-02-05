@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:porrapp_frontend/core/util/util.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/bloc/room_bloc.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/components/prediction_card.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/room/components/stage_header.dart';
+import 'package:porrapp_frontend/l10n/app_localizations.dart';
+
+enum Menu { rankings, invite, deleteRoom, leaveRoom }
 
 class RoomPage extends StatefulWidget {
   static const String routeName = 'room';
@@ -34,71 +38,145 @@ class _RoomPageState extends State<RoomPage> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.roomName ?? 'Room Page'),
         actions: [
-          // Display list of rankings of scores of users in this room.
-          // Simple dialog
-          IconButton(
-            icon: const Icon(Icons.leaderboard),
-            onPressed: () {
-              _rankingUser(context);
+          PopupMenuButton<Menu>(
+            onSelected: (Menu value) {
+              _itemMenuButtonSelected(context, value, localizations);
             },
-          ),
-          IconButton(
-            icon: const Icon(Icons.person_add_outlined),
-            onPressed: () async {
-              if (widget.deeplink == null) return;
-
-              await showShareDialog(
-                text: 'Join my prediction room using this link:',
-                uri: Uri.parse(widget.deeplink!),
-              );
-            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: Menu.rankings,
+                child: ListTile(
+                  leading: Icon(Icons.leaderboard),
+                  title: Text('Rankings'),
+                ),
+              ),
+              PopupMenuItem(
+                value: Menu.invite,
+                child: ListTile(
+                  leading: Icon(Icons.person_add_outlined),
+                  title: Text('Invite'),
+                ),
+              ),
+              PopupMenuItem(
+                value: Menu.deleteRoom,
+                child: ListTile(
+                  leading: Icon(Icons.delete),
+                  title: Text('Delete Room'),
+                ),
+              ),
+              const PopupMenuDivider(),
+              PopupMenuItem(
+                value: Menu.leaveRoom,
+                child: ListTile(
+                  leading: Icon(Icons.exit_to_app),
+                  title: Text('Leave Room'),
+                ),
+              ),
+            ],
           ),
         ],
       ),
-      body: BlocBuilder<RoomBloc, RoomState>(
-        builder: (context, state) {
-          if (state is RoomLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is RoomError) {
-            return Center(child: Text(state.message));
-          } else if (state is RoomHasData) {
-            // print(
-            //   'hasChanges: ${state.hasChanges}, isSaving: ${state.isSaving}',
-            // );
-            final groupedPredictions = <String, List<PredictionModel>>{};
-
-            for (final prediction in state.predictions) {
-              final stage = prediction.match.stage;
-              groupedPredictions.putIfAbsent(stage, () => []);
-              groupedPredictions[stage]!.add(prediction);
-            }
-
-            List<Widget> items = [];
-
-            for (final entry in groupedPredictions.entries) {
-              items.add(StageHeader(stageName: entry.key));
-              for (final prediction in entry.value) {
-                items.add(PredictionCard(prediction: prediction));
-              }
-            }
-            return ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) => items[index],
+      body: BlocListener<RoomBloc, RoomState>(
+        listener: (context, state) {
+          if (state is RoomLeaveSuccess || state is RoomDeleteSuccess) {
+            // Navigate back to rooms page after leaving or deleting the room.
+            context.pop(RoomsStatus.update);
+          } else if (state is RoomDeleteOrLeaveError) {
+            Fluttertoast.showToast(
+              msg: state.message,
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.BOTTOM,
             );
-          } else {
-            return const Center(child: Text('Unknown state'));
           }
         },
+        child: BlocBuilder<RoomBloc, RoomState>(
+          builder: (context, state) {
+            if (state is RoomLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is RoomError) {
+              return Center(child: Text(state.message));
+            } else if (state is RoomHasData) {
+              final groupedPredictions = <String, List<PredictionModel>>{};
+
+              for (final prediction in state.predictions) {
+                final stage = prediction.match.stage;
+                groupedPredictions.putIfAbsent(stage, () => []);
+                groupedPredictions[stage]!.add(prediction);
+              }
+
+              List<Widget> items = [];
+
+              for (final entry in groupedPredictions.entries) {
+                items.add(StageHeader(stageName: entry.key));
+                for (final prediction in entry.value) {
+                  items.add(PredictionCard(prediction: prediction));
+                }
+              }
+              return ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, index) => items[index],
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          },
+        ),
       ),
-      floatingActionButton: floatingAcctionButton(),
+      floatingActionButton: floatingActionButton(localizations),
     );
   }
 
-  Future<dynamic> _rankingUser(BuildContext context) {
+  void _itemMenuButtonSelected(
+    BuildContext context,
+    Menu value,
+    AppLocalizations localizations,
+  ) async {
+    switch (value) {
+      case Menu.rankings:
+        _rankingUser(context, localizations);
+        break;
+      case Menu.invite:
+        if (widget.deeplink == null) return;
+
+        await showShareDialog(
+          text: localizations.joinMyPredictionRoomUsingThisLink,
+          uri: Uri.parse(widget.deeplink!),
+        );
+        break;
+      case Menu.deleteRoom:
+        messageDialog(
+          context: context,
+          title: "Eliminar sala",
+          content:
+              "¿Estás seguro de que deseas eliminar esta sala? Esta acción no se puede deshacer.",
+          onConfirmed: () {
+            context.read<RoomBloc>().add(DeleteRoomEvent(widget.roomId));
+          },
+        );
+        break;
+      case Menu.leaveRoom:
+        messageDialog(
+          context: context,
+          title: localizations.leaveRoom,
+          content: localizations.leaveRoomConfirmation,
+          onConfirmed: () {
+            context.read<RoomBloc>().add(LeaveRoomEvent(widget.roomId));
+          },
+        );
+        break;
+    }
+  }
+
+  Future<dynamic> _rankingUser(
+    BuildContext context,
+    AppLocalizations localizations,
+  ) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -134,7 +212,7 @@ class _RoomPageState extends State<RoomPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Close'),
+              child: Text(localizations.cancelButton),
             ),
           ],
         );
@@ -142,7 +220,9 @@ class _RoomPageState extends State<RoomPage> {
     );
   }
 
-  BlocConsumer<RoomBloc, RoomState> floatingAcctionButton() {
+  BlocConsumer<RoomBloc, RoomState> floatingActionButton(
+    AppLocalizations localizations,
+  ) {
     return BlocConsumer<RoomBloc, RoomState>(
       listener: (context, state) {
         if (state is RoomHasData && state.errorMessage != null) {
@@ -158,11 +238,10 @@ class _RoomPageState extends State<RoomPage> {
       },
       builder: (context, state) {
         if (state is RoomHasData) {
-          print('hasChanges: ${state.hasChanges}, isSaving: ${state.isSaving}');
           return FloatingActionButton.extended(
             onPressed: (!state.hasChanges || state.isSaving)
                 ? null
-                : () => context.read<RoomBloc>().add(SavePredictions()),
+                : () => _savePredictions(context, localizations),
             icon: const Icon(Icons.save),
             label: state.isSaving
                 ? const SizedBox(
@@ -170,10 +249,21 @@ class _RoomPageState extends State<RoomPage> {
                     height: 18,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : const Text('Save'),
+                : Text(localizations.saveText),
           );
         }
         return const SizedBox();
+      },
+    );
+  }
+
+  void _savePredictions(BuildContext context, AppLocalizations localizations) {
+    messageDialog(
+      context: context,
+      title: localizations.confirmSaveTitle,
+      content: localizations.confirmSaveContent,
+      onConfirmed: () {
+        context.read<RoomBloc>().add(SavePredictionsEvent());
       },
     );
   }

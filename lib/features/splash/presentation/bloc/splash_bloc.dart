@@ -1,45 +1,46 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 
-import 'package:porrapp_frontend/core/util/util.dart';
-import 'package:porrapp_frontend/features/auth/domain/model/model.dart';
-import 'package:porrapp_frontend/features/splash/domain/usecases/usecases.dart';
-import 'package:porrapp_frontend/features/splash/presentation/bloc/bloc.dart';
+import 'package:porrapp_frontend/features/auth/domain/usecases/usecases.dart';
+
+part 'splash_event.dart';
+part 'splash_state.dart';
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
   static const String tag = "SplashBloc";
 
-  final SplashUsecases isLoggedInUseCase;
+  final AuthUseCases authUseCases;
 
-  SplashBloc(this.isLoggedInUseCase) : super(SplashState()) {
-    on<SplashIsLoggedInEvent>(_onSplashIsLoggedInEvent);
+  SplashBloc(this.authUseCases) : super(SplashInitial()) {
+    on<LoadSplashEvent>(_onLoadSplashEvent);
   }
 
-  void _onSplashIsLoggedInEvent(
-    SplashIsLoggedInEvent event,
+  void _onLoadSplashEvent(
+    LoadSplashEvent event,
     Emitter<SplashState> emit,
   ) async {
-    try {
-      FlutterLogs.logInfo(
-        tag,
-        "_onSplashIsLoggedInEvent",
-        "SplashIsLoggedInEvent triggered",
-      );
-      emit(state.copyWith(isLoading: true));
-      Resource<AuthModel> isLoggedIn = await isLoggedInUseCase.isLoggedIn.run();
-      FlutterLogs.logInfo(
-        tag,
-        "_onSplashIsLoggedInEvent",
-        "SplashBloc: isLoggedIn: $isLoggedIn and type: ${isLoggedIn is Success}",
-      );
-      emit(state.copyWith(isLoggedIn: isLoggedIn is Success, isLoading: false));
-    } catch (e) {
-      FlutterLogs.logError(
-        tag,
-        "_onSplashIsLoggedInEvent",
-        "Error in _onSplashIsLoggedInEvent: $e",
-      );
-      emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
-    }
+    FlutterLogs.logInfo(tag, "_onLoadSplashEvent", "LoadSplashEvent triggered");
+    emit(SplashLoading());
+
+    final resource = await authUseCases.login.run();
+    resource.fold(
+      (failure) {
+        FlutterLogs.logInfo(
+          tag,
+          "_onLoadSplashEvent",
+          "Token invalid or not found, navigating to LoginPage",
+        );
+        emit(SplashError(failure.message));
+      },
+      (user) {
+        FlutterLogs.logInfo(
+          tag,
+          "_onLoadSplashEvent",
+          "Token valid for user ${user.name}, navigating to RoomsPage",
+        );
+        emit(SplashLoaded());
+      },
+    );
   }
 }

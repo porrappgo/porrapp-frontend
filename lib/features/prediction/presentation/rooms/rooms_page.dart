@@ -1,22 +1,40 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:porrapp_frontend/core/components/components.dart';
-import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:porrapp_frontend/core/components/components.dart';
+import 'package:porrapp_frontend/core/util/util.dart';
+import 'package:porrapp_frontend/features/auth/presentation/login_page.dart';
+import 'package:porrapp_frontend/features/competitions/domain/models/models.dart';
 import 'package:porrapp_frontend/features/prediction/domain/models/models.dart';
+import 'package:porrapp_frontend/features/prediction/presentation/room/room_page.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/bloc/rooms_bloc.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/components/card_room.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/components/new_room_dialog.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/components/rooms_no_yet.dart';
+import 'package:porrapp_frontend/features/settings/presentation/setting_page.dart';
 import 'package:porrapp_frontend/l10n/app_localizations.dart';
 
-class RoomsPage extends StatelessWidget {
+class RoomsPage extends StatefulWidget {
+  static const String tag = 'RoomsPage';
   static const String routeName = 'rooms';
 
   final String? codeRoom;
 
   const RoomsPage({super.key, this.codeRoom});
+
+  @override
+  State<RoomsPage> createState() => _RoomsPageState();
+}
+
+class _RoomsPageState extends State<RoomsPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<RoomsBloc>().add(const LoadRoomsEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +43,20 @@ class RoomsPage extends StatelessWidget {
 
     return BlocListener<RoomsBloc, RoomsState>(
       listener: (context, state) async {
+        FlutterLogs.logInfo(
+          RoomsPage.tag,
+          'listener',
+          'RoomsState changed to: ${state.runtimeType}',
+        );
+
         if (state is RoomsError) {
+          Fluttertoast.showToast(
+            msg: state.message,
+            toastLength: Toast.LENGTH_LONG,
+          );
+        }
+
+        if (state is LogoutError) {
           Fluttertoast.showToast(
             msg: state.message,
             toastLength: Toast.LENGTH_LONG,
@@ -42,40 +73,58 @@ class RoomsPage extends StatelessWidget {
         }
 
         if (state is RoomsHasData) {
-          if (codeRoom == null || codeRoom!.isNotEmpty) return;
+          if (widget.codeRoom == null || widget.codeRoom!.isEmpty) return;
           await _displayCreateRoomDialog(
             context,
             state,
             roomsBloc,
-            roomCode: codeRoom,
+            roomCode: widget.codeRoom,
           );
+        }
+
+        if (state is LogoutSuccess) {
+          Fluttertoast.showToast(
+            msg: "Logged out successfully",
+            toastLength: Toast.LENGTH_LONG,
+          );
+          roomsBloc.add(const ResetRoomsEvent());
+          context.go('/${LoginPage.routeName}');
         }
       },
       child: BlocBuilder<RoomsBloc, RoomsState>(
         builder: (context, state) {
+          FlutterLogs.logInfo(
+            RoomsPage.tag,
+            'build',
+            'Current RoomsState: ${state.runtimeType}',
+          );
+
           // Display loading indicator while rooms are being loaded
-          if (state is RoomsLoading) {
+          if (state is RoomsLoading || state is LogoutLoading) {
             return const CircularLoadingPage();
-          }
-          // Display error message if there was an error loading rooms
-          else if (state is RoomsError) {
-            Fluttertoast.showToast(
-              msg: state.message,
-              toastLength: Toast.LENGTH_LONG,
-            );
           }
           // Display list of rooms if successfully loaded
           else if (state is RoomsHasData) {
             final rooms = state.rooms;
 
             return Scaffold(
-              appBar: AppBar(title: Text('PorrApp ${codeRoom ?? ''}')),
+              appBar: AppBar(
+                title: Text('PorrApp ${widget.codeRoom ?? ''}'),
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.settings),
+                    onPressed: () {
+                      context.push('/${SettingPage.routeName}');
+                    },
+                  ),
+                ],
+              ),
               body: Stack(
                 children: [
                   if (rooms.isEmpty)
                     const RoomsNoYet()
                   else
-                    _roomsList(rooms, state.competitions),
+                    _roomsList(rooms, state.competitions, roomsBloc),
                 ],
               ),
               floatingActionButton: FloatingActionButton(
@@ -108,12 +157,29 @@ Future<void> _displayCreateRoomDialog(
 
   if (result == null) return;
 
-  roomsBloc.add(CreateRoomEvent(result.name, result.competition.id));
+  if (result is String) {
+    // Joining a room using a code
+    FlutterLogs.logInfo(
+      RoomsPage.tag,
+      '_displayCreateRoomDialog',
+      'Joining room with code: $result',
+    );
+    roomsBloc.add(JoinRoomEvent(result));
+  } else if (result is CreateRoomData) {
+    // Creating a new room
+    FlutterLogs.logInfo(
+      RoomsPage.tag,
+      '_displayCreateRoomDialog',
+      'Creating room with name: ${result.name} and competition ID: ${result.competition.id}',
+    );
+    roomsBloc.add(CreateRoomEvent(result.name, result.competition.id));
+  }
 }
 
 ListView _roomsList(
   List<RoomUserModel> rooms,
   List<CompetitionModel> competitions,
+  RoomsBloc roomsBloc,
 ) {
   return ListView.builder(
     itemCount: rooms.length,
@@ -122,7 +188,21 @@ ListView _roomsList(
       final competition = competitions.firstWhere(
         (comp) => comp.id == roomUser.room.competition,
       );
-      return CardRoom(roomUser: roomUser, competition: competition);
+      return CardRoom(
+        roomUser: roomUser,
+        competition: competition,
+        onTap: () async {
+          final result = await context.push<RoomsStatus>(
+            '/${RoomPage.routeName}',
+            extra: roomUser.room,
+          );
+
+          // After returning from RoomPage, check if the room was deleted.
+          if (result == RoomsStatus.update) {
+            roomsBloc.add(const LoadRoomsEvent());
+          }
+        },
+      );
     },
   );
 }

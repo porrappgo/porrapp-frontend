@@ -65,5 +65,81 @@
     "dontHaveAccountRegister": "¿No tienes una cuenta? Regístrate",
     "@dontHaveAccountRegister": {
         "description": "Texto para el enlace de registro en la pantalla de inicio de sesión"
+    },
+    "loginButton": "Iniciar sesión",
+    "@loginButton": {
+        "description": "Texto para el botón de iniciar sesión en la pantalla de inicio de sesión"
+    },
+    "nameLabel": "Nombre",
+    "@nameLabel": {
+        "description": "Etiqueta para el campo de entrada del nombre en la pantalla de registro"
+    },
+    "nameHint": "Introduce tu nombre",
+    "@nameHint": {
+        "description": "Texto de ayuda para el campo de entrada del nombre en la pantalla de registro"
+    },
+    "confirmPasswordLabel": "Confirmar contraseña",
+    "@confirmPasswordLabel": {
+        "description": "Etiqueta para el campo de entrada de confirmación de contraseña en la pantalla de registro"
+    },
+    "confirmPasswordHint": "Introduce tu contraseña de nuevo",
+    "@confirmPasswordHint": {
+        "description": "Texto de ayuda para el campo de entrada de confirmación de contraseña en la pantalla de registro"
+    },
+    "registerButton": "Registrarse",
+    "@registerButton": {
+        "description": "Texto para el botón de registrarse en la pantalla de registro"
+    },
+    "alreadyHaveAccountLogin": "¿Ya tienes una cuenta? Inicia sesión",
+    "@alreadyHaveAccountLogin": {
+        "description": "Texto para el enlace de inicio de sesión en la pantalla de registro"
+    },
+    "roomCode": "Código de la sala",
+    "@roomCode": {
+        "description": "Etiqueta para el campo de entrada del código de la sala en el diálogo para unirse a una sala."
+    },
+    "enterRoomCode": "Introduce el código de la sala",
+    "@enterRoomCode": {
+        "description": "Texto de ayuda para el campo de entrada del código de la sala en el diálogo para unirse a una sala."
+    },
+    "fieldIsRequired": "El campo es obligatorio",
+    "@fieldIsRequired": {
+        "description": "Mensaje de validación cuando un campo obligatorio no se ha rellenado"
+    },
+    "insideInRoom": "Entrar en la sala",
+    "@insideInRoom": {
+        "description": "Texto para el botón de entrar en la sala en el diálogo para unirse a una sala."
+    },
+    "confirmSaveTitle": "Confirmar guardado",
+    "@confirmSaveTitle": {
+        "description": "Título del diálogo para confirmar el guardado de predicciones."
+    },
+    "confirmSaveContent": "¿Estás seguro de que quieres guardar tus predicciones? \n\n Una vez guardadas, no podrás modificarlas.",
+    "@confirmSaveContent": {
+        "description": "Contenido del diálogo para confirmar el guardado de predicciones."
+    },
+    "confirmButton": "Confirmar",
+    "@confirmButton": {
+        "description": "Texto para el botón de confirmar en diálogos de confirmación."
+    },
+    "cancelButton": "Cancelar",
+    "@cancelButton": {
+        "description": "Texto para el botón de cancelar en diálogos de confirmación."
+    },
+    "saveText": "Guardar",
+    "@saveText": {
+        "description": "Texto para el botón de guardar."
+    },
+    "joinMyPredictionRoomUsingThisLink": "Únete a mi sala de predicciones usando este enlace:",
+    "@joinMyPredictionRoomUsingThisLink": {
+        "description": "Texto para compartir el enlace de la sala de predicciones."
+    },
+    "leaveRoom": "Salir de la sala",
+    "@leaveRoom": {
+        "description": "Texto para el botón de salir de la sala en la página de la sala de predicciones."
+    },
+    "leaveRoomConfirmation": "¿Estás seguro de que quieres salir de la sala? Perderás acceso a tus predicciones en esta sala.",
+    "@leaveRoomConfirmation": {
+        "description": "Mensaje de confirmación al salir de una sala de predicciones."
     }
 }

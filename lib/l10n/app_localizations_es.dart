@@ -57,4 +57,64 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get dontHaveAccountRegister => '¿No tienes una cuenta? Regístrate';
+
+  @override
+  String get loginButton => 'Iniciar sesión';
+
+  @override
+  String get nameLabel => 'Nombre';
+
+  @override
+  String get nameHint => 'Introduce tu nombre';
+
+  @override
+  String get confirmPasswordLabel => 'Confirmar contraseña';
+
+  @override
+  String get confirmPasswordHint => 'Introduce tu contraseña de nuevo';
+
+  @override
+  String get registerButton => 'Registrarse';
+
+  @override
+  String get alreadyHaveAccountLogin => '¿Ya tienes una cuenta? Inicia sesión';
+
+  @override
+  String get roomCode => 'Código de la sala';
+
+  @override
+  String get enterRoomCode => 'Introduce el código de la sala';
+
+  @override
+  String get fieldIsRequired => 'El campo es obligatorio';
+
+  @override
+  String get insideInRoom => 'Entrar en la sala';
+
+  @override
+  String get confirmSaveTitle => 'Confirmar guardado';
+
+  @override
+  String get confirmSaveContent =>
+      '¿Estás seguro de que quieres guardar tus predicciones? \n\n Una vez guardadas, no podrás modificarlas.';
+
+  @override
+  String get confirmButton => 'Confirmar';
+
+  @override
+  String get cancelButton => 'Cancelar';
+
+  @override
+  String get saveText => 'Guardar';
+
+  @override
+  String get joinMyPredictionRoomUsingThisLink =>
+      'Únete a mi sala de predicciones usando este enlace:';
+
+  @override
+  String get leaveRoom => 'Salir de la sala';
+
+  @override
+  String get leaveRoomConfirmation =>
+      '¿Estás seguro de que quieres salir de la sala? Perderás acceso a tus predicciones en esta sala.';
 }
