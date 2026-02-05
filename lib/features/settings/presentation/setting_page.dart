@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:porrapp_frontend/core/util/util.dart';
@@ -32,23 +33,35 @@ class SettingPage extends StatelessWidget {
         body: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            // SectionTitle('General'),
-            // SettingsCard(
-            //   children: [
-            //     SettingsTile(
-            //       icon: Icons.thumb_up_alt_outlined,
-            //       title: 'Leave feedback',
-            //       subtitle: 'Let us know how you like the app!',
-            //     ),
-            //     SettingsTile(icon: Icons.delete_outline, title: 'Clear cache'),
-            //     SettingsTile(
-            //       icon: Icons.help_outline,
-            //       title: 'FAQ',
-            //       trailing: Icons.chevron_right,
-            //     ),
-            //   ],
-            // ),
-            // SizedBox(height: 24),
+            SectionTitle('General'),
+            SettingsCard(
+              children: [
+                SettingsTile(
+                  icon: Icons.email_outlined,
+                  title: 'Comments or suggestions',
+                  onTap: () async {
+                    final Email email = Email(
+                      subject: 'Feedback for PorrApp',
+                      recipients: ['porrappgo@gmail.com'],
+                    );
+
+                    await FlutterEmailSender.send(email);
+                  },
+                ),
+                // SettingsTile(
+                //   icon: Icons.thumb_up_alt_outlined,
+                //   title: 'Leave feedback',
+                //   subtitle: 'Let us know how you like the app!',
+                // ),
+                // SettingsTile(icon: Icons.delete_outline, title: 'Clear cache'),
+                // SettingsTile(
+                //   icon: Icons.help_outline,
+                //   title: 'FAQ',
+                //   trailing: Icons.chevron_right,
+                // ),
+              ],
+            ),
+            SizedBox(height: 24),
             const SectionTitle('General'),
             const SettingsCard(
               children: [
