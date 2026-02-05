@@ -6,3 +6,5 @@ sealed class SettingEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class LogoutAppEvent extends SettingEvent {}
