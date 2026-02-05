@@ -14,6 +14,7 @@ import 'package:porrapp_frontend/features/prediction/presentation/rooms/bloc/roo
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/components/card_room.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/components/new_room_dialog.dart';
 import 'package:porrapp_frontend/features/prediction/presentation/rooms/components/rooms_no_yet.dart';
+import 'package:porrapp_frontend/features/settings/presentation/setting_page.dart';
 import 'package:porrapp_frontend/l10n/app_localizations.dart';
 
 class RoomsPage extends StatefulWidget {
@@ -111,9 +112,9 @@ class _RoomsPageState extends State<RoomsPage> {
                 title: Text('PorrApp ${widget.codeRoom ?? ''}'),
                 actions: [
                   IconButton(
-                    icon: const Icon(Icons.logout),
+                    icon: const Icon(Icons.settings),
                     onPressed: () {
-                      roomsBloc.add(LogoutFromAppEvent());
+                      context.push('/${SettingPage.routeName}');
                     },
                   ),
                 ],
